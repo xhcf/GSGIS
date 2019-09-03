@@ -1,0 +1,14 @@
+#village_cell_info_win .village_desk{
+    background: url(../image/top_bg_xzc.png) no-repeat center top #007BA9;
+    color: #fff;
+    font-size: 24px;
+    width: 100%;
+    height: 56px;
+    padding-top: 5px;
+    line-height: 34px;
+    text-align: left;
+    padding-left: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: none;
+}

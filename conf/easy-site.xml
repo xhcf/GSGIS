@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<propertys>
+		<property>
+			<name>easy.configuration.version</name>
+			<value>1.8</value>
+			<description>EASY框架配置文件版本号</description>
+		</property>
+	</propertys>
+	
+	<propertys>
+		<property>
+			<name>easy.debug</name>
+			<value>true</value>
+			<description>EASY框架是否调试模式</description>
+		</property>
+	</propertys>
+		 
+	<mappings>
+	    <mapping resource="sqlmap/oracle/frame/log.xml"/>
+		<mapping resource="sqlmap/oracle/frame/collect.xml"/>
+		<mapping resource="sqlmap/oracle/frame/menuManager.xml"/>
+		<mapping resource="sqlmap/oracle/frame/roleManager.xml"/>
+		<mapping resource="sqlmap/oracle/frame/menuind.xml"/>
+		<mapping resource="sqlmap/oracle/frame/indicator.xml"/>
+		<mapping resource="sqlmap/oracle/frame/download.xml"/>
+		<mapping resource="sqlmap/oracle/frame/account.xml"/>
+		<mapping resource="sqlmap/oracle/frame/framenotice.xml"/>
+		<mapping resource="sqlmap/oracle/frame/framerole.xml"/>
+		<mapping resource="sqlmap/oracle/frame/findPwd.xml"/>
+		<mapping resource="sqlmap/oracle/frame/homesql.xml"/>
+		<mapping resource="sqlmap/oracle/frame/subsystem.xml"/>
+		<mapping resource="sqlmap/oracle/frame/userext.xml"/>
+		<mapping resource="sqlmap/oracle/frame/user.xml"/>
+		<mapping resource="sqlmap/oracle/frame/excelTemplate.xml"/>
+
+		<!-- <mapping resource="sqlmap/mysql/frame/log.xml"/>
+		<mapping resource="sqlmap/mysql/frame/collect.xml"/>
+		<mapping resource="sqlmap/mysql/frame/menuManager.xml"/>
+		<mapping resource="sqlmap/mysql/frame/roleManager.xml"/>
+		<mapping resource="sqlmap/mysql/frame/menuind.xml"/>
+		<mapping resource="sqlmap/mysql/frame/indicator.xml"/>
+		<mapping resource="sqlmap/mysql/frame/download.xml"/>
+		<mapping resource="sqlmap/mysql/frame/account.xml"/>
+		<mapping resource="sqlmap/mysql/frame/framenotice.xml"/>
+		<mapping resource="sqlmap/mysql/frame/framerole.xml"/>
+		<mapping resource="sqlmap/mysql/frame/findPwd.xml"/>
+		<mapping resource="sqlmap/mysql/frame/homesql.xml"/>
+		<mapping resource="sqlmap/mysql/frame/subsystem.xml"/>
+		<mapping resource="sqlmap/mysql/frame/userext.xml"/>
+		<mapping resource="sqlmap/mysql/frame/user.xml"/> -->
+		
+		<!-- <mapping resource="sqlmap/db2/frame/log.xml"/>
+		<mapping resource="sqlmap/db2/frame/collect.xml"/>
+		<mapping resource="sqlmap/db2/frame/menuManager.xml"/>
+		<mapping resource="sqlmap/db2/frame/roleManager.xml"/>
+		<mapping resource="sqlmap/db2/frame/menuind.xml"/>
+		<mapping resource="sqlmap/db2/frame/indicator.xml"/>
+		<mapping resource="sqlmap/db2/frame/download.xml"/>
+		<mapping resource="sqlmap/db2/frame/account.xml"/>
+		<mapping resource="sqlmap/db2/frame/framenotice.xml"/>
+		<mapping resource="sqlmap/db2/frame/framerole.xml"/>
+		<mapping resource="sqlmap/db2/frame/findPwd.xml"/>
+		<mapping resource="sqlmap/db2/frame/homesql.xml"/>
+		<mapping resource="sqlmap/db2/frame/subsystem.xml"/>
+		<mapping resource="sqlmap/db2/frame/userext.xml"/>
+		<mapping resource="sqlmap/db2/frame/user.xml"/> -->
+		
+		<!-- <mapping resource="sqlmap/postgre/frame/log.xml"/>
+		<mapping resource="sqlmap/postgre/frame/collect.xml"/>
+		<mapping resource="sqlmap/postgre/frame/menuManager.xml"/>
+		<mapping resource="sqlmap/postgre/frame/roleManager.xml"/>
+		<mapping resource="sqlmap/postgre/frame/menuind.xml"/>
+		<mapping resource="sqlmap/postgre/frame/indicator.xml"/>
+		<mapping resource="sqlmap/postgre/frame/download.xml"/>
+		<mapping resource="sqlmap/postgre/frame/account.xml"/>
+		<mapping resource="sqlmap/postgre/frame/framenotice.xml"/>
+		<mapping resource="sqlmap/postgre/frame/framerole.xml"/>
+		<mapping resource="sqlmap/postgre/frame/findPwd.xml"/>
+		<mapping resource="sqlmap/postgre/frame/homesql.xml"/>
+		<mapping resource="sqlmap/postgre/frame/subsystem.xml"/>
+		<mapping resource="sqlmap/postgre/frame/userext.xml"/>
+		<mapping resource="sqlmap/postgre/frame/user.xml"/> -->
+			
+	</mappings>
+	
+</configuration>

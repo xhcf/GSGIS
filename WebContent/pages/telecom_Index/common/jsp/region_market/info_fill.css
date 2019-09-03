@@ -1,0 +1,36 @@
+body {margin:0px; padding:0px;background:#F6F6F6;}
+a {text-decoration:none;}
+.fl {float:left;}
+.fr {float:right;}
+.wrapper {width:98%;margin:0px auto;overflow:hidden;color:#666;}
+
+.total_tit {margin:0px auto;width:360px;height:40px;line-height:40px;background:url('images/tit_bg.png') no-repeat;text-align:center;padding:0px;font-size:20px;color:#fff;}
+.record_tit {width:10%;height:34px;line-height:34px;background:#3b94c0;border-radius:5px 5px 0px 0px;padding-left:41px;color:#fff;
+   background-repeat:no-repeat;background-position:18px center;font-weight: bold;font-family:"微软雅黑";font-size: 14px;
+}/*199ed8*/
+.record_tit.ico1 {background-image:url('images/u389.png');background-size:17px;}
+.record_tit.ico2 {background-image:url('images/u391.png');background-size:17px;}
+.record_tit.ico3 {background-image:url('images/u393.png');background-size:17px;}
+.record_tit.ico4 {background-image:url('images/u395.png');background-size:17px;}
+.record_tit.ico5 {background-image:url('images/u397.png');background-size:17px;}
+.record_tit.ico6 {background-image:url('images/u399.png');background-size:17px;}
+.record_tit.ico7 {background-image:url('images/u401.png');background-size:17px;}
+.record_tit.ico8 {background-image:url('images/u403.png');background-size:17px;}
+.record_tit_layout {width:100%;padding:12px 15px;border:solid 1px #d9dbdc;border-top:solid 2px #3b94c0;background:#fff;box-sizing:border-box;margin-bottom:10px;}/*199ed8*/
+.record_tab {width:100%;border:solid 1px #dadada;border-collapse:collapse;}
+.record_tab th,.record_tab td {border:solid 1px #dadada;height:38px;line-height:38px;border-collapse:collapse;font-weight:normal;font-size:12px;}
+.record_tab th {width:10%;max-width:150px;background:#f5f7f9;text-align:left;padding-left:3%;}/*ebf5fd*/
+.record_tab td {padding-left:1%;}
+.record_tab td span {padding-left:3%;}
+.record_tab td select{height:26px;line-height:26px;width:90%;border:solid 1px #dadada;border-radius:3px;color:#666;}
+.record_tab td input[type="text"] {width:90%;height:26px;line-height:26px;border:solid 1px #dadada;border-radius:3px;color:#666;}
+.record_tab td textarea {width:98%;line-height:22px;border:solid 1px #dadada;border-radius:3px;color:#666;height:50px;vertical-align:top;}
+.record_tab .area_th {width:13%;height:70px;}
+.record_tab .area_th2 {width:13%;height:38px;}
+.record_tab td input.wth2 {width:95%;}
+.record_tab td textarea.wth2 {width:95%;}
+.button_layout {width:96%;margin:15px auto;text-align:center;}
+.button_layout button {width:70px;height:30px;background:#3b94c0;border:none;color:#fff;border-radius:3px;margin:0px 10px}/*199ed8*/
+
+
+.small_row_height th,.small_row_height td {height:30px;line-height: 30px;}

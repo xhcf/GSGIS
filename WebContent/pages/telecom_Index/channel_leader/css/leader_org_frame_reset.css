@@ -1,0 +1,35 @@
+/* Ðü¸¡¿òÑùÊ½ */
+.tips_table_wrapper1{
+    padding: 0 20px 8px;
+}
+.tips_table_wrapper1 table{
+    color: #fff;
+}
+.tips_table_wrapper1 table td{
+    font-size: 12px;
+}
+.tips_table_wrapper1 table tr:nth-child(1){
+    border-bottom: 1px solid rgba(0,0,0,.8);
+    text-align:center;
+}
+.tips_table_wrapper1 table tr td:nth-child(1){
+    text-align: justify;
+    text-align-last: justify;
+    width: 55px;
+}
+.tips_table_wrapper1 table tr td:nth-child(2),
+.tips_table_wrapper1 table tr td:nth-child(3),
+.tips_table_wrapper1 table tr td:nth-child(4),
+.tips_table_wrapper1 table tr td:nth-child(5)
+{
+    padding-left: 8px;
+    text-align:right;
+}
+.tips_table_wrapper1 table tr:nth-child(1) td:nth-child(1){
+    text-align: center;
+    text-align-last: center;
+    font-weight: bold;
+    color: #a5d2f9;
+    font-size: 14px;
+    white-space: nowrap;
+}

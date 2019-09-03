@@ -1,0 +1,496 @@
+
+.tab{
+    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    border-bottom: 1px solid #3d4ec6;
+}
+li{
+    display: inline-block;
+    color: #fff;
+    font-size: 14px;
+    position: relative;
+}
+.line{
+    display: inline-block;
+    width: 1px;
+    height: 20px;
+    background-color:#00a8ff ;
+    position: absolute;
+    top:5px;
+    left: 35px;
+
+}
+.active{
+    color:#00a8ff ;
+    font-weight: bold;
+}
+
+input {
+    line-height: 20px!important;
+    height: 20px!important;
+    border: none;
+}
+/*发展排名表格*/
+/*.datagrid-htable td{border:none;}*/
+.datagrid-header, .datagrid-td-rownumber{ background: none;}
+.datagrid-header td.datagrid-header-over{background: none;cursor: pointer;border: none}
+.datagrid-htable{background:  #02004f;border: 1px solid #0d3d88}
+.datagrid-body td, .datagrid-footer td {
+    border-top: 1px solid #0d3d88;
+}
+.datagrid-header td, .datagrid-body td, .datagrid-footer td {
+    border-width: 1px 0px 1px 1px;
+    border-style: solid;
+    border-color: #0d3d88;
+    margin: 0;
+    padding: 0;}
+/*.datagrid-header{height:38px !important; line-height: 38px;border: none}*/
+.datagrid-body td, .datagrid-footer td{border-top:none;}
+.datagrid-btable, .datagrid-ftable{border:none;background-color: none;margin-bottom: 10px;border-right: 1px solid #0d3d88}
+.datagrid-row{height:24px !important;border-right: 1px solid #0d3d88;}
+.datagrid-cell-rownumber {color: #fff;}
+.datagrid-header .datagrid-cell span{color: #00deff;}
+.datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber{font-size:12px;}
+.datagrid-pager .pagination {display:none;}
+.datagrid-htable td {
+    border: 1px solid #0d3d88;
+    cursor: default;
+}
+div.datagrid-cell.datagrid-cell-c2-GRID_NAME{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-ROWNUM{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-FIN_INCOME{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-MOBILE_MON_CUM_NEW{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-BRD_MON_CUM_NEW{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-ITV_MON_NEW_INSTALL_SERV{
+    margin-top: -5px;
+}
+.datagrid-row-selected {
+    background: transparent;
+}
+
+/*屏幕高度最大为1080px*/
+@media screen and (max-height: 1080px) {
+    .target_wrap {
+        height: 26% !important;
+        border-bottom: 1px solid #3d4ec6;
+        padding: 10px 10px;
+    }
+    .target_list dt {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd200;
+        margin: 21px 0;
+    }
+    .target_wrap_a{
+        width:100%;
+        border:none;
+        height:32% !important;
+        position: relative;
+        padding: 10px 10px;
+
+    }
+
+    .target_dev{
+        height:30% !important;
+        border-bottom: 1px solid #3d4ec6;
+
+    }
+    .wrap_a {border-left: 3px solid #ffd305;
+        color: #ffd305;
+        padding-left: 8px;
+        font-weight: bold;
+        margin-bottom: 1rem !important;
+        font-size: 15px;
+        margin: 5px 5px;
+    }
+
+
+    .figure{
+        width: 480px;
+        height:94%;
+        margin: 0px auto;
+    }
+
+    .deve_ta{
+        display: inline-block;
+        border: 1px solid #073b8a;
+        background-color: #052768;
+        width: 28%;
+        height: 70px;
+        position: relative;
+        float: left;
+        margin-right: 10px;
+        margin-left: 20px;
+    }
+    .deve_tb{
+        display: inline-block;
+        border:1px solid #073b8a;
+        background-color: transparent;
+        width: 64%;
+        height: 70px;
+        float: left;
+    }
+    .devep{
+        width: 100%;margin-top: 18px;height: 70px;
+    }
+    .tave{
+        border-right: 1px dotted #6a89b9;
+        padding: 12px 0;
+        width: 30%;
+        text-align: center;
+        display: inline-block;
+        font-size: 12px;
+        color: #fff;
+    }
+    .tava{
+        display: inline-block;width: 78%;text-align: center;
+        position: absolute;
+        left: 40px;
+        top: 16px;
+    }
+    .tavae{
+        width: 100%;color: #fcd001;font-size: 30px;margin-bottom: 5px;
+    }
+    .quota{
+        font-size: 12px;
+        color: #fff;
+        display: block;
+        border: none;
+        margin-left: 18px;
+        margin-top: 10px;
+        position: relative;
+    }
+    .content_table{
+        color: #fff;
+        text-align: center;
+    }
+    .content_table tr{
+        height: 46px;
+        line-height: 46px;
+    }
+    .content_table td{
+        border:1px solid #0d3d88;
+        font-size: 13px;
+    }
+    .content_table th{
+        border:1px solid #0d3d88;
+        font-size: 16px;
+        color: #00deff;
+        background-color: #02004f;
+    }
+    /*  .datagrid-header {
+          height: 56px !important;
+          line-height: 56px;}*/
+}
+/*屏幕高度最大为768px*/
+@media screen and (max-height: 768px) {
+    .clearfix {
+        overflow: hidden;
+        _zoom: 1;
+        clear: both;
+        margin-top: 0px;
+        height: 100%;
+    }
+    .target_wrap{
+        height:24% !important;
+        border-bottom: 1px solid #3d4ec6;
+    }
+
+    .target_dev{
+        height:32% !important;
+        border-bottom: 1px solid #3d4ec6;
+    }
+    .target_wrap_a{
+        width:100%;
+        border:none;
+        height:34% !important;
+        position: relative
+    }
+    .wrap_a {border-left: 3px solid #ffd305;
+        color: #ffd305;
+        padding-left: 8px;
+        font-weight: bold;
+        margin-bottom: 5px !important;
+        font-size: 15px;
+        margin: 5px 5px;
+    }
+    .target_tab li{
+        margin-top: 8px
+    }
+
+    .figure{
+        width: 360px;
+        height:90%;
+        margin: 0 auto;
+    }
+
+    .deve_ta{
+        display: inline-block;
+        border: 1px solid #073b8a;
+        background-color: #052768;
+        width: 28%;
+        height: 56px;
+        position: relative;
+        float: left;
+        margin-right: 5px;
+        margin-left: 15px;
+    }
+    .deve_tb{
+        display: inline-block;
+        border:1px solid #073b8a;
+        background-color: transparent;
+        width: 64%;
+        height: 56px;
+        float: left;
+    }
+    .devep{
+        width: 100%;margin-top: 12px;height: 56px;
+    }
+    .tave{
+        border-right: 1px dotted #6a89b9;    padding: 5px 0;width: 30%;text-align: center;display: inline-block;font-size: 12px;color: #fff;
+    }
+    .tava{
+        display: inline-block;width: 78%;text-align: center;
+        position: absolute;
+        left: 30px;
+        top: 8px;
+    }
+    .tavae{
+        width: 100%;color: #fcd001;font-size: 18px;margin-bottom: 2px;
+    }
+    .quota{
+        font-size: 12px;
+        color: #fff;
+        display: block;
+        border: none;
+        margin-left: 8px;
+        margin-top: 5px;
+        position: relative;
+    }
+    .datagrid-cell {
+        padding: 6px 10px;
+        height: auto;
+        font-size: 12px;
+    }
+    .datagrid-row {
+        height: 18px !important;
+        line-height: 18px;
+        border-right: 1px solid #0d3d88;
+    }
+    .content_table{
+        color: #fff;
+        text-align: center;
+    }
+    .content_table tr{
+        height: 34px;
+        line-height: 34px;
+    }
+    .content_table td{
+        border:1px solid #0d3d88;
+        font-size: 12px;
+    }
+    .content_table th{
+        border:1px solid #0d3d88;
+        color: #00deff;
+        background-color: #02004f;
+        font-size: 14px;
+    }
+    /*.datagrid-header {
+        height: 38px !important;
+        line-height: 38px;}*/
+}
+/*屏幕高度最大为600px*/
+@media screen and (max-height: 600px) {
+    .clearfix {
+        overflow: hidden;
+        _zoom: 1;
+        clear: both;
+        margin-top: 0px;
+    }
+    .target_wrap{
+        height:23% !important;
+        border-bottom: 1px solid #3d4ec6;
+        padding: 10px 10px;
+    }
+    .target_wrap_a{
+        width:100%;
+        border:none;
+        height:32% !important;
+        position: relative
+    }
+    .target_dev{
+        height:30% !important;
+        border-bottom: 1px solid #3d4ec6;
+    }
+
+    .wrap_a {border-left: 3px solid #ffd305;
+        color: #ffd305;
+        padding-left: 8px;
+        font-weight: bold;
+        margin-bottom: 1rem !important;
+        font-size: 15px;
+        margin: 0;
+    }
+
+    .target_tab li{
+        margin-top: 5px
+    }
+    .target_list li {
+        float: left;
+        width: 33.33%;
+        border-right: 1px dashed #34337f;
+        text-align: center;
+        height: 99%;}
+    .figure{
+        width:340px;
+        height:90%;
+        margin-top: -4px
+    }
+
+    .deve_ta{
+        display: inline-block;
+        border: 1px solid #073b8a;
+        background-color: #052768;
+        width: 30%;
+        height: 50px;
+        position: relative;
+        float: left;
+        margin-right: 5px;
+        margin-left: 10px;
+    }
+    .deve_tb{
+        display: inline-block;
+        border:1px solid #073b8a;
+        background-color: transparent;
+        width: 64%;
+        height: 50px;
+        float: left;
+    }
+    .devep{
+        width: 100%;margin-top: 5px;height: 50px;
+    }
+    .tave{
+        border-right: 1px dotted #6a89b9;padding: 3px;width: 30%;text-align: center;display: inline-block;font-size: 12px;color: #fff;
+    }
+    .tava{
+        display: inline-block;width: 78%;text-align: center;
+        position: absolute;
+        left: 28px;
+        top: 4px;
+    }
+    .tavae{
+        width: 100%;color: #fcd001;font-size: 18px;margin-bottom: 0px;
+    }
+    .quota{
+        font-size: 12px;
+        color: #fff;
+        display: block;
+        border: none;
+        margin-left: 8px;
+        margin-top: 2px;
+        position: relative;
+    }
+
+    .content_table{
+        color: #fff;
+        text-align: center;
+    }
+    .content_table tr{
+        height: 30px;
+        line-height: 30px;
+    }
+    .content_table td{
+        border:1px solid #0d3d88;
+        font-size: 12px;
+    }
+    .content_table th{
+        border:1px solid #0d3d88;
+        font-size: 14px;
+        color: #00deff;
+        background-color: #02004f;
+    }
+
+}
+
+
+
+/*--------适配1920x1080分辨率-------*/
+@media screen and (min-height: 750px) {
+    /*.datagrid-row{height:28px !important;border-right: 1px solid #0d3d88;}*/
+    .target_wrap h3{margin-bottom: 1rem !important; font-size: 16px;}
+    .wrap_a {border-left: 3px solid #ffd305;
+        color: #ffd305;
+        padding-left: 8px;
+        font-weight: bold;
+        margin-bottom: 1rem !important; font-size: 16px;}
+    .target_wrap:last-child {
+        padding: 1.2rem 0.4rem 0.2rem;}
+    .datagrid-cell-rownumber{padding: 10px 6px; height:auto;}
+    .target_list p.channel_title {padding: 2px 20px;  font-size: 15px;}
+    .point_rank_tab th {padding:10px 0;}
+    .point_rank_tab td{padding:4px 0;}
+    .target_list{padding-top:20px;}
+}
+.date_container {position:absolute;z-index:99999;right:65%;padding:0 12px;}
+.date {right:65%;padding:0 12px;color:#fff;height:28px;line-height:28px;}
+.date span {color:#ffd200;}
+.panel {
+    overflow: hidden;
+    text-align: left;
+    margin: 0;
+    /*border: 0;*/
+    position: absolute;
+    -moz-border-radius: 0 0 0 0;
+    -webkit-border-radius: 0 0 0 0;
+    border-radius: 0 0 0 0;
+    top: 30;}
+
+::-webkit-scrollbar {
+    width:10px;
+    border-radius: 2px 2px 2px 2px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+    border-radius: 4px;
+    background: rgba(206, 206, 206, 0.22);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    background: rgb(119, 119, 119);
+    -webkit-box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background:rgba(11,26,165,1);
+}
+
+::-moz-scrollbar {
+    width:10px;
+}
+/* 滚动槽 */
+::-moz-scrollbar-track {
+    -moz-box-shadow:inset 0 0 6px rgba(0,0,0,0.3);
+    background: rgb(206, 206, 206);
+}
+/* 滚动条滑块 */
+::-moz-scrollbar-thumb {
+    background: rgb(206, 206, 206);
+    -moz-box-shadow:inset 0 0 6px rgba(0,0,0,0.5);
+}
+::-moz-scrollbar-thumb:window-inactive {
+    background: rgb(206, 206, 206);
+}
+

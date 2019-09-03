@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Using FeatureTable</title>
+  <link rel="stylesheet" href="//js.arcgis.com/3.14/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" href="//js.arcgis.com/3.14/esri/css/esri.css">
+  <script src="//js.arcgis.com/3.14/"></script>
+
+  <style>
+    html, body, #map{
+      width:100%;
+      height:100%;
+      margin:0;
+      padding:0;
+    }
+  </style>
+
+  <script>
+    var map;
+
+    require([
+      "esri/IdentityManager",
+      "esri/layers/FeatureLayer",
+      "esri/dijit/FeatureTable",
+      "esri/geometry/webMercatorUtils",
+      "esri/map",
+      "dojo/dom-construct",
+      "dojo/dom",
+      "dojo/parser",
+      "dojo/ready",
+      "dojo/on",
+      "dojo/_base/lang",
+      "dijit/registry",
+      "dijit/form/Button",
+      "dijit/layout/ContentPane",
+      "dijit/layout/BorderContainer",
+      "dijit/form/TextBox"
+    ], function (
+      IdentityManager, FeatureLayer, FeatureTable, webMercatorUtils, Map,
+      domConstruct, dom, parser, ready, on,lang,
+      registry, Button, ContentPane, BorderContainer, TextBox
+    ) {
+
+      parser.parse();
+
+      ready(function(){
+
+        var myFeatureLayer;
+        var map = new Map("map",{
+          basemap: "dark-gray"
+        });
+
+        map.on("load", loadTable);
+
+        var myButton = new Button({
+          label: "Load",
+          onClick: loadTable
+        }, "loadButton").startup();
+
+
+        function loadTable(){
+
+          // Create the feature layer
+          myFeatureLayer = new FeatureLayer("http://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/Warren_College_Trees/FeatureServer/0", {
+            mode: FeatureLayer.MODE_ONDEMAND,
+            outFields:  ["Collected","Crew","Status","Spp_Code","Cmn_Name","Sci_Name","Street","Native"],
+            visible: true,
+            id: "fLayer"
+          });
+
+          on(myFeatureLayer, "load", function(evt){
+            console.log("Layer loaded");
+            var extent = myFeatureLayer.fullExtent;
+            if (webMercatorUtils.canProject(extent, map)) {
+              map.setExtent( webMercatorUtils.project(extent, map) );
+            }
+          });
+
+          if(registry.byId("myTableNode")){
+            registry.byId("myTableNode").destroy();
+            domConstruct.create("div", {id: "myTableNode"}, dom.byId("bot"));
+            console.log("re-creating table");
+          }
+
+          // Add the feature layer to the map
+          var oldLayer = map.getLayer("fLayer");
+          if(oldLayer){
+            map.removeLayer(oldLayer);
+          }
+          map.addLayer(myFeatureLayer);
+
+          myTable = new FeatureTable({
+            "featureLayer" : myFeatureLayer,
+            //"dateOptions": {
+            //  "timeEnabled" : true,
+            //  "timePattern" : "HH:mm:ss",
+            //  "datePattern" : "YYYY-MM-DD"
+            //},
+            "hiddenFields": ["FID","C_Seq","Street"],  // field that end-user can show, but is hidden on startup
+            "map" : map
+          }, 'myTableNode');
+
+          // load event (must be before startup)
+          on(myTable, "load", function(evt){
+            console.log("The load event - ", evt);
+          });
+
+          myTable.startup();
+
+          on(myTable, "dgrid-refresh-complete", function(evt){
+            console.log("The dgrid-refresh-complete event - ", evt);
+          });
+
+          on(myTable, "dgrid-select", function(evt){
+            console.log("The dgrid-select event - ", evt);
+          });
+
+          on(myTable, "dgrid-deselect", function(evt){
+            console.log("The dgrid-deselect event - ", evt);
+          });
+
+        }
+      });
+    });
+  </script>
+</head>
+
+<body class="claro esri">
+  <div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'" style="width:100%; height:100%;">
+    <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center', splitter:true" style="height:50%">
+      <div id="map"></div>
+    </div>
+    <div id="bot" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'bottom', splitter:true" style="height:50%">
+      <div id="myTableNode"></div>
+    </div>
+  </div>
+</body>
+
+</html>

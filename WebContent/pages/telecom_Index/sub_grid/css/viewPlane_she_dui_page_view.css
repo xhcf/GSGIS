@@ -1,0 +1,211 @@
+.village_name_new {
+    width: auto;
+    margin: 8px auto 6px auto;
+    text-align: center;
+    font-size: 16px;
+    color: #1a59c0;
+    display: block;
+    font-weight: bold;
+    height: 24px;
+}
+.product_type.village_new_searchbar.build_bar {
+    margin: 0 20px;
+    width: 95%;
+}
+@media screen and (max-width: 1345px){
+    .build_bar {
+        padding: 5px 10px 2px 10px;
+    }
+}
+.build_bar {
+    background-color: #e9f1fc;
+}
+.village_new_searchbar {
+    width: 100%;
+    overflow: hidden;
+}
+.village_new_base .deve_ta {
+    height: 92%;
+    padding-top: 3%;
+}
+.tab_box .deve_ta, .tab_box .deve_tb {
+    border: 1px solid #ccc;
+    height: 60px;
+}
+.village_new_base .deve_ta {
+    text-align: center;
+    width: 13%;
+    padding-top: 15px;
+    margin-bottom: 10px;
+    color: white;
+    background-color: #FF9214;
+    font-weight: bold;
+}
+.deve_ta {
+    display: inline-block;
+    border: 1px solid #ccc;
+    width: 28%;
+    height: 60px;
+    position: relative;
+    float: left;
+    margin-right: 5px;
+    margin-left: 7px;
+}
+@media screen and (max-height: 1080px) {
+    .deve_ta {
+        display: inline-block;
+        border: 1px solid #ccc;
+        /* background-color: #052768; */
+        width: 28%;
+        height: 52px;
+        position: relative;
+        float: left;
+        margin-right: 5px;
+        margin-left: 15px;
+    }
+}
+.village_new_base .deve_tb {
+    height: 92%;
+    padding-top: 1%;
+}
+.tab_box .deve_ta, .tab_box .deve_tb {
+    border: 1px solid #ccc;
+    height: 60px;
+}
+.village_new_base .deve_tb {
+    text-align: left;
+    width: 83.4%;
+    margin-bottom: 16px;
+    height: 60px;
+    margin-left: 0%;
+    padding-top: 14px;
+}
+@media screen and (max-width: 1376px){
+    .deve_tb {
+
+    }
+}
+@media screen and (max-height: 1080px) {
+    .deve_tb {
+        display: inline-block;
+        border: 1px solid #ccc;
+        background-color: transparent;
+        width: 64%;
+        height: 52px;
+        float: left;
+    }
+}
+@media screen and (max-width: 1376px) {
+    .deve_tb td {
+        height: 26px !important;
+        line-height: 26px;
+    }
+}
+@media screen and (max-height: 600px){
+    td {
+        font-size: 12px;
+        line-height: 28px;
+        height: 28px;
+    }
+}
+
+@media screen and (max-height: 768px){
+    td {
+        font-size: 13px;
+        height: 28px;
+        line-height: 28px;
+    }
+}
+
+@media screen and (max-height: 1080px){
+    td {
+        font-size: 14px;
+        line-height: 28px;
+        height: 28px;
+    }
+}
+body{background-color:#fff;}
+
+.wrap_a {margin:0px 5px 0px 5px;}
+#info_edit .wrap_a {margin:0px 5px 0px 10px;}
+.yin {height:auto;}
+.base {padding:0px 15px;}
+
+.combo-panel{z-index:99999}
+.product_type.village_new_searchbar.build_bar{margin:0 0px 0px 13px;width:95%;}
+#cell_num {font-size:12px;line-height:14px;margin-top:8px;margin-left:20px;}
+#yx_num {font-size:12px;line-height:14px;margin-top:8px;margin-left:20px;}
+.village_new_base .deve_ta {height:92%;padding-top:3%;}
+.village_new_base .deve_tb {height:92%;padding-top:1%;}
+
+
+
+@media screen and (min-width:1120px) and  (max-width:1345px){
+    .village_new_base .deve_ta {margin-left: 0px;height:75%;margin-bottom:8px;margin-top:3px;padding-top:36px;font-size:16px;}
+    .village_new_base .deve_tb {height:75%;margin-bottom:8px;margin-top:3px;width:85.8%;padding-top:1.5%;font-size:16px;}
+
+}
+@media screen and  (min-width:940px) and (max-width:958px){
+    .village_new_base .deve_ta {margin-left: 0px;height:78px;margin-bottom:8px;margin-top:2px;padding-top:26px;}
+    .village_new_base .deve_tb {height:78px;margin-bottom:8px;margin-top:2px;width:85.8%;padding-top:26px;}
+
+
+}
+@media screen and (max-height:500px) {
+    .village_new_base .deve_ta {margin-left: 0px;height:62px;margin-bottom:3px;margin-top:2px;padding-top:24px;}
+    .village_new_base .deve_tb {height:62px;margin-bottom:3px;margin-top:2px;width:84%;padding-top:0;}
+    .village_new_base .deve_tb:first-child {padding-top:10px!important;background: #f00;}
+    .village_new_base.shedui .deve_tb:nth-of-type(2) {padding-top:5px!important;}
+    .village_new_base.shedui .deve_tb:nth-of-type(4) {padding-top:15px!important;}
+    .village_new_base.shedui .deve_tb:nth-of-type(6) {padding-top:15px!important;}
+    .village_new_base.shedui .deve_tb:nth-of-type(8) {padding-top:5px!important;}
+    .village_new_base.shedui .deve_tb:nth-of-type(10) {padding-top:15px!important;}
+
+
+
+
+
+
+
+}
+.yingxiaochangjing_table tr{border-top: 1px dotted #a7a7a7;}
+.yingxiaochangjing_table tr:first-child{border-top:none }
+.active {background: none;}
+
+.manufactuer_mobile,.manufactuer_unicom,.manufactuer_sarft,.manufactuer_others{
+    background-color:#FF0000!important;
+}
+/*.other_ico{background-image:url('image/other_ico.png')}
+.none_ico{background-image:url('image/none_ico.png')}*/
+#collect_new_table_content, collect_new_table_content1 {
+    height: 253px;
+}
+
+.head_table tr td:nth-child(5) {width:100px!important;}
+
+#collect_new_table_content, collect_new_table_content1 {
+    height: 70%;
+}
+ul.build_detail {width:100%;}
+#ly_detail_tab tr th:first-child {width:5%;}
+#ly_detail_tab tr th:nth-child(2) {width:7%;}
+#ly_detail_tab tr th:nth-child(3) {width:11%;}
+#ly_detail_tab tr th:nth-child(4) {width:13%;}
+#ly_detail_tab tr th:nth-child(5) {width:15%;}
+#ly_detail_tab tr th:nth-child(6) {width:15%;}
+#ly_detail_tab tr th:nth-child(7) {width:15%;}
+#ly_detail_tab tr th:nth-child(8) {width:10%;}
+#ly_detail_tab tr th:nth-child(9) {width:9%;}
+
+#collect_new_bulid_info_list tr td:first-child {width:5%;}
+#collect_new_bulid_info_list tr td:nth-child(2) {width:7%;}
+#collect_new_bulid_info_list tr td:nth-child(3) {width:11%;}
+#collect_new_bulid_info_list tr td:nth-child(4) {width:13%;}
+#collect_new_bulid_info_list tr td:nth-child(5) {width:15%;}
+#collect_new_bulid_info_list tr td:nth-child(6) {width:15%;}
+#collect_new_bulid_info_list tr td:nth-child(7) {width:15%;}
+#collect_new_bulid_info_list tr td:nth-child(8) {width:10%;}
+#collect_new_bulid_info_list tr td:nth-child(9) {width:9%;}
+.red_font {color:red;}
+
+.she_dui_view_win.sheDuiHalfWin {left:10%;}

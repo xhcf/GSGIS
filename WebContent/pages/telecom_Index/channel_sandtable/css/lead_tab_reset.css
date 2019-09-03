@@ -1,0 +1,45 @@
+/*2018.9.17样式*/
+.search_head span {
+    background:none;
+    text-align:right;
+}
+.area_select_bq a.selected,.line_select_bq a.selected{
+    color:#FFCC33;
+}
+#village_count span{
+    color:#44E4FC;
+}
+.sub_box {background:#011157;}
+.table1 th{
+    border:none;
+}
+/*数据列表表头*/
+#table_head thead tr th{
+    border:1px solid #333399;
+    border-bottom-color:transparent;
+    background:none;
+}
+/*数据列表表体*/
+.table1 td {border-color:#333366;}
+/*表格中要突出的字*/
+.text-important {color:#00FFFF!important;}
+.text-important-a {color:#4CB9F9!important;}
+/*本页标题*/
+.sub_box .big_table_title {height:28px;}
+.sub_box .big_table_title h4 {font-size:20px;}
+/*记录数*/
+.rows_num {height:32px;line-height:32px;}
+/*下拉框*/
+.trans_condition {background:none;border:1px solid #3E4997;}
+/*easycombox下拉框*/
+.textbox {border:1px solid #3E4997;height:25px;}
+.search a {height:25px!important;}
+/*表头内边框填补*/
+.border_fix {border-bottom-color:#333399!important;}
+/*按钮样式*/
+.zj_submit {
+    color: #fff;
+    border: none;
+    background: #086db7;
+    width: 65px;
+}

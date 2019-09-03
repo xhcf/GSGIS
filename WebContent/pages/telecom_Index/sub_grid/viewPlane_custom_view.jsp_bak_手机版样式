@@ -1,0 +1,626 @@
+<%@ page import="java.net.URLDecoder" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="e" uri="http://www.bonc.com.cn/easy/taglib/e"%>
+<%@ taglib prefix="c" uri="http://www.bonc.com.cn/easy/taglib/c"%>
+<e:q4o var="last_month">
+    select min(const_value) val from SYS_CONST_TABLE where const_name = 'calendar.curdate' and data_type = 'mon' and model_id = '5'
+</e:q4o>
+<e:q4l var="use_in_add6_list">
+    select cust_id USE_CUST_ID from (SELECT DISTINCT cust_id FROM EDW.TB_MKT_INFO@GSEDW A where address_id='${param.segment_id}' and cust_id is not null GROUP BY cust_id) where rownum <=5
+</e:q4l>
+<e:q4o var="initTime">
+    SELECT to_char(add_months(SYSDATE,-1),'yyyymm') val FROM dual
+</e:q4o>
+<!DOCTYPE>
+<html>
+    <head>
+        <c:resources type="easyui,app" style="b" />
+        <e:script value="/resources/layer/layer.js"/>
+        <link href='<e:url value="/resources/themes/common/css/reset.css?version=1.2"/>' rel="stylesheet" type="text/css"
+              media="all"/>
+        <title>客户视图</title>
+        <style>
+            .layui-layer{background-color:transparent!important;border:0px!important;}
+            .head_div{width:100%;height:40px;line-height: 40px;}
+            .blue_bar{height: 35px;line-height: 35px;background: #0066FF;color: #fff;padding-left:5px;}
+            .tab_head{
+                height:40px;
+                background: #00B0F0;
+                padding-left:25px;
+            }
+            .active{
+                color:#FFCC00!important;
+            }
+            .tab_head span{
+                color: #fff;
+                width: 70px;
+                line-height: 40px;
+                background: #00B0F0;
+                vertical-align: middle;
+                display: inline-block;
+                cursor:pointer;
+            }
+            .tab_content{display:none;padding:5px 25px;}
+            /*#cust_name,#cust_phone{float:left;width:45%;font-size:20px;font-weight: bold;}
+            #cust_name{text-align: right;padding-right:10px;}
+            #cust_phone{text-align:left;}
+            #cust_name_phone {width:100%;font-size:20px;font-weight:bold;text-align:center;}*/
+            #address_desc{text-align: center;vertical-align:middle;font-size:16px;height:30px;line-height:30px;font-weight: bold;}
+            .cust_acct_day_div{
+                width: 100px;
+                height:30px;
+                position: absolute;
+                right: 27px;
+                top: 42px;
+            }
+            #cust_acct_day{width:100px;}
+            .bold_font{font-weight: bold;}
+            .base_info_tab{width:500px;height:350px;border-left:1px solid #ccc;border-top:1px solid #ccc;}
+            .base_info_tab tbody tr{height:25px;}
+            .base_info_tab td {width:25%;border-right:1px solid #ccc;border-bottom:1px solid #ccc;padding-left:5px;}
+            .main_offer_head{
+                width: 100%;
+                height:20px;
+                font-size: 18px;
+            }
+            #main_offer_tab_div{
+                width:100%;
+                max-height:300px;
+                overflow-y: scroll;
+                padding-top:15px;
+            }
+            #main_offer_tab{
+                width:100%;
+            }
+            .list_order{
+                width: 20px;
+                height:20px;
+                text-align: center;
+                vertical-align: middle;
+                background: #FF6600;
+                border-radius: 50%;
+                color:#fff;
+                float:left;
+            }
+            .list_row{
+                width:90%;
+                display:inline-block;
+                margin:3px;
+            }
+            .list_row span{
+                margin-right:15px;
+            }
+            .row_pad_left{padding-left: 25px;}
+            .title_row{
+                float:left;
+                padding-left: 5px;
+            }
+            .title_row span{
+                margin-right:15px;
+            }
+            .main_offer_date{
+                text-align: right;
+            }
+            .main_offer_date span{
+                margin:0 5px;
+            }
+            .info_summary{
+                background: #EDF3FF;
+                color:red;
+                height:30px;
+                line-height:30px;
+                vertical-align: middle;
+                padding-left:10px;
+            }
+            #produce_info_list,#incoming_info_list {
+                max-height:300px;
+                overflow-y: scroll;
+            }
+            .align_right{
+                text-align: right;
+            }
+            .align_left{
+                text-align: left;
+            }
+            .color_blue{
+                color:#5E9FFF;
+            }
+            .small_column{
+                width:120px;
+            }
+            .big_auto_column{
+                width:80%;
+            }
+            .full_width{
+                width:100%;
+            }
+            .small_font{
+                font-size:12px;
+            }
+            .big_font{
+                font-size:14px;
+            }
+            .incoming_item{
+                padding-left:20px;
+            }
+        </style>
+        <script>
+            var cust_id = '${use_in_add6_list.list[0].USE_CUST_ID}';
+            var acct_month = '${initTime.VAL}';
+
+            $(function(){
+                //日期控件 年月化 begin
+                var db = $('#cust_acct_day');
+                db.datebox({
+                    onShowPanel: function () {//显示日趋选择对象后再触发弹出月份层的事件，初始化时没有生成月份层
+                        span.trigger('click'); //触发click事件弹出月份层
+                        //fix 1.3.x不选择日期点击其他地方隐藏在弹出日期框显示日期面板
+                        if (p.find('div.calendar-menu').is(':hidden')) p.find('div.calendar-menu').show();
+                        if (!tds) setTimeout(function () {//延时触发获取月份对象，因为上面的事件触发和对象生成有时间间隔
+                            tds = p.find('div.calendar-menu-month-inner td');
+                            tds.click(function (e) {
+                                e.stopPropagation(); //禁止冒泡执行easyui给月份绑定的事件
+                                var year = /\d{4}/.exec(span.html())[0]//得到年份
+                                        , month = parseInt($(this).attr('abbr'), 10); //月份，这里不需要+1
+                                db.datebox('hidePanel')//隐藏日期对象
+                                        .datebox('setValue', year + '-' + (month < 10 ? "0" + month : month)); //设置日期的值
+                            });
+                        }, 0);
+                        yearIpt.unbind();//解绑年份输入框中任何事件
+                    },
+                    parser: function (s) {
+                        if (!s) return new Date();
+                        var arr = s.split('-');
+                        return new Date(parseInt(arr[0], 10), parseInt(arr[1], 10) - 1, 1);
+                    },
+                    formatter: function (d) {
+                        return d.getFullYear() + '-' + ((d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1));
+                        /*getMonth返回的是0开始的，忘记了。。已修正*/
+                    },
+                    onChange : function(date){
+                        acct_month = date.substr(0,4)+date.substr(5);
+                        //console.log(acct_month);
+                        $(".tab_head > span").eq(3).click();
+                    }
+                });
+                var p = db.datebox('panel'), //日期选择对象
+                        tds = false, //日期选择对象中月份
+                        aToday = p.find('a.datebox-current'),
+                        yearIpt = p.find('input.calendar-menu-year'),//年份输入框
+                //显示月份层的触发控件
+                        span = aToday.length ? p.find('div.calendar-title span') ://1.3.x版本
+                                p.find('span.calendar-text'); //1.4.x版本
+                if (aToday.length) {//1.3.x版本，取消Today按钮的click事件，重新绑定新事件设置日期框为今天，防止弹出日期选择面板
+
+                    aToday.unbind('click').click(function () {
+                        var now = new Date();
+                        db.datebox('hidePanel').datebox('setValue', now.getFullYear() + '-' + ((now.getMonth() + 1) < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1)));
+                    });
+                } else {
+                    var year = acct_month.substring(0, 4);
+                    var mm = acct_month.substring(4, 6);
+                    db.datebox('hidePanel').datebox('setValue', year + '-' + mm);
+                }
+
+                //日期控件 年月化 end
+
+                //客户切换
+                initUseList();
+
+                //默认信息标签内容添加
+                //tab_content_load(0,cust_id);
+
+                //标签切换
+
+                $(".tab_content").eq(0).show();
+                $(".tab_head > span").eq(0).addClass("active");
+                $(".tab_head > span").each(function(){
+                    $(this).click(function() {
+                        $(this).addClass("active").siblings().removeClass("active");
+                        var index = $(".tab_head > span").index(this);
+                        $(".tab_content").hide();
+                        $(".tab_content").eq(index).show();
+
+                        //点击标签切换的响应事件
+                        if(index==0){
+                            clearProductList();
+                        }else if(index==1){//套餐信息
+                            /*$("#main_offer_tab").empty();
+
+                            var row = "<tr>";
+                            row += "<td width='50'>"+"1"+"</td>";
+                            row += "<td width='150'>"+"套餐xxx"+"</td>";
+                            row += "<td width='100'>"+"2018-05-31"+"</td>";
+                            row += "<td width='100'>"+"2018-06-10"+"</td>";
+                            row += "</tr>";
+                            $("#main_offer_tab").append(row);*/
+
+                            $("#main_offer_tab_div").empty();
+                        }else if(index==2){//产品信息
+                            $("#produce_info_list").empty();
+                        }else if(index==3){//收入信息
+                            $("#incoming_info_list").empty();
+                        }
+                        tab_content_load(index,cust_id);
+                    });
+                });
+            });
+
+            function initUseList(){
+                var use_list = ${e:java2json(use_in_add6_list.list)};
+                if(use_list.length>1){
+                    var use_list_str = "";
+                    for(var i = 0,l = use_list.length;i<l;i++){
+                        var item = use_list[i];
+                        use_list_str += "<a class='user_switch' href='javascript:void(0);' onclick='showProductList("+item.USE_CUST_ID+",this)'>客户"+(i+1)+"</a>";
+                    }
+                    $("#customview_user_switch_list").append(use_list_str);
+                    $(".custom_switch").eq(0).addClass("user_switch_selected");
+                }else{
+                    //客户只有一个的时候
+                    //$(".bar_title").eq(0).width("60");
+                    //$(".bar_title").eq(0).text("客户信息");
+                    $("#customview_user_switch_list").parent(".blue_bar").hide();
+                }
+            }
+
+            function clearProductList(){
+                $("#cust_name").empty();
+                $("#cust_phone").empty();
+                $("#age").empty();
+                $("#sex").empty();
+                $("#main_offer_name").empty();
+                $("#finish_date").empty();
+                $("#inet_month").empty();
+                $("#produce_constuct").empty();
+                $("#cust_manager_name").empty();
+                $("#cust_manager_phone").empty();
+                $("#lev4_id").empty();
+                $("#lev5_id").empty();
+                $("#lev6_id").empty();
+                $("#address_desc").empty();
+            }
+
+            function showProductList(use_cust_id,target){
+                cust_id = use_cust_id;
+                clearProductList();
+                $(target).addClass("user_switch_selected").siblings().removeClass("user_switch_selected");
+                $(".tab_head > span").eq(0).click();
+            }
+
+            var url = "<e:url value='/pages/telecom_Index/common/sql/viewPlane_custom_action.jsp' />";
+            function tab_content_load(index,cust_id){
+                //基本信息
+                var layer_index = layer.load(1, {
+                    shade: [0.1,'#fff'] //0.1透明度的白色背景
+                });
+                try{
+                    if(index==0){//基本信息
+                        $.post(url,{"eaction":"baseInfo","addr4":'${param.segment_id}','cust_id':cust_id},function(data){
+                            layer.close(layer_index);
+                            var d = $.parseJSON(data);
+                            if(d.length){
+                                var d0 = d[0];
+                                $("#cust_name").text(d0.CUST_NAME);
+                                $("#cust_phone").text(d0.USER_CONTACT_NBR);
+                                //$("#cust_name_phone").text(d0.CUST_NAME+d0.USER_CONTACT_NBR);
+                                $("#address_desc").text(d0.ADDRESS_DESC);
+
+                                $("#age").text(d0.AGE);
+                                $("#sex").text(d0.SEX);
+                                $("#main_offer_name").text(d0.PROD_OFFER_NAME);
+                                $("#finish_date").text(d0.FINISH_DATE);
+                                $("#inet_month").text(d0.INET_MONTH);
+                                $("#cust_manager_name").text(d0.CUST_MANAGER_NAME);
+                                $("#cust_manager_phone").text(d0.CUST_PHONE);
+
+                                $.post(url,{"eaction":"baseInfo_org_name","lev4_id":d0.LEV4_ID,"lev5_id":d0.LEV5_ID,"lev6_id":d0.LEV6_ID},function(data){
+                                    var d_org = $.parseJSON(data);
+                                    if(d_org.length){
+                                        if(d_org.TYPE == 1)
+                                            $("#lev4_id").text(d_org.NAME);
+                                        if(d_org.TYPE == 2)
+                                            $("#lev5_id").text(d_org.NAME);
+                                        if(d_org.TYPE == 3)
+                                            $("#lev6_id").text(d_org.NAME);
+                                    }else{
+                                        $("#lev4_id").text("");
+                                        $("#lev5_id").text("");
+                                        $("#lev6_id").text("");
+                                    }
+                                });
+
+                                var phone= 0,tv= 0,broad=0;
+                                for(var i = 0,l = d.length;i<l;i++){
+                                    var item = d[i];
+                                    if(item.PRODUCT_CD=='900000001'){//手机
+                                        phone++;
+                                    }else if(item.PRODUCT_CD=='100004466'){//电视
+                                        tv++;
+                                    }else if(item.PRODUCT_CD=='100000045' || item.PRODUCT_CD=='100000047'){//宽带
+                                        broad++;
+                                    }
+                                }
+                                $("#produce_constuct").text("手机"+phone+"  电视"+tv+"  宽带"+broad);
+                            }else{
+                                //未查到记录
+                                layer.msg("未查到客户信息");
+                            }
+                        });
+                    }else if(index==1){//套餐信息
+                        $.post(url,{"eaction":"mainOffer","addr4":'${param.segment_id}','cust_id':cust_id},function(data){
+                            layer.close(layer_index);
+                            var d = $.parseJSON(data);
+                            if(d.length){
+                                for(var i = 0,l = d.length;i<l;i++){
+                                    var item = d[i];
+                                    var row = "<div>";
+                                    row += "<div class='list_row'><div class='list_order'>"+(i+1)+"</div><div class='title_row bold_font'>"+ item.PROD_OFFER_NAME+"</div></div>";
+                                    row += "<div class='list_row small_font align_right'><span>生效时间"+ item.EFF_DATE+"</span><span>失效时间"+ item.EXP_DATE+"</span></div>";
+                                    row += "</div>";
+                                    $("#main_offer_tab_div").append(row);
+                                }
+                            }else{
+                                //未查到记录
+                                layer.msg("未查到客户信息");
+                            }
+                        });
+                    }else if(index==2){//产品信息
+                        $.post(url,{"eaction":"products_summary","addr4":'${param.segment_id}','cust_id':cust_id},function(data){
+                            var d = $.parseJSON(data);
+                            if(d.length){
+                                $("#pro_sum_flow").text(d[0].FLOW);
+                                $("#pro_sum_dura").text(d[0].VOICE_DURA);
+                            }else{
+                                $("#pro_sum_flow").text("0");
+                                $("#pro_sum_dura").text("0");
+                            }
+                        });
+                        $.post(url,{"eaction":"products","addr4":'${param.segment_id}','cust_id':cust_id},function(data){
+                            layer.close(layer_index);
+                            var d = $.parseJSON(data);
+                            if(d.length){
+                                for(var i = 0,l = d.length;i<l;i++){
+                                    var item = d[i];
+                                    var row = "<div>";
+                                    if(item.PRODUCT_TYPE=='手机'){
+                                        row += "<div class='list_row'><div class='list_order'>"+(i+1)+"</div><div class='title_row'><span class='bold_font'>手机</span><span class='bold_font'>"+item.ACC_NBR+"</span><span>"+item.MT+"</span></div></div>";
+                                        row += "<div class='list_row row_pad_left small_font'><span>流量</span><span>本月使用"+item.FLOW+"</span><span>上月使用"+item.LAST_FLOW+"</span></div>";
+                                        row += "<div class='list_row row_pad_left small_font'><span>语音</span><span>本月使用"+item.VOICE_DURA+"分钟</span><span>上月使用"+item.LAST_VOICE_DURA+"分钟</span></div>";
+                                    }else if(item.PRODUCT_TYPE=='电视'){
+                                        row += "<div class='list_row'><div class='list_order'>"+(i+1)+"</div><div class='title_row'><span class='bold_font'>电视</span><span class='bold_font'>"+item.ACC_NBR+"</span></div></div>";
+                                        row += "<div class='list_row row_pad_left small_font'><span>本月使用"+item.TV_DURA+"小时</span><span>上月使用"+item.TV_LAST_DURA+"小时</span></div>";
+                                    }else if(item.PRODUCT_TYPE=='宽带'){
+                                        row += "<div class='list_row'><div class='list_order'>"+(i+1)+"</div><div class='title_row'><span class='bold_font'>宽带</span><span class='bold_font'>"+item.ACC_NBR+"</span></div></div>";
+                                        row += "<div class='list_row row_pad_left small_font'><span>接入方式：</span><span>"+item.EPON_TYPE+"</span></div>";
+                                        row += "<div class='list_row row_pad_left small_font'><span>本月使用"+item.BROAD_FLOW+"</span><span>上月使用"+item.BROAD_LAST_FLOW+"</span></div>";
+                                    }
+
+                                    row += "</div>";
+                                    $("#produce_info_list").append(row);
+                                }
+                            }else{
+                                //未查到记录
+                                layer.msg("未查到产品信息");
+                            }
+                        });
+                    }else if(index==3){//收入信息
+                        /*$.post(url,{"eaction":"incoming","addr4":'${param.segment_id}'},function(data){
+                            var d = $.parseJSON(data);
+                             for(var i = 0,l = 5;i<l;i++){
+                                 var row = "<div>";
+                                 row += "<table class='full_width'>";
+                                 row += "<tr>";
+                                 row += "<td><div class='list_order'>"+(i+1)+"</div></td>";
+                                 row += "<td class='align_left bold_font big_auto_column big_font'>"+"全能流量王套餐-169元"+"</td>";
+                                 row += "<td class='align_right color_blue small_column'>"+"合计：182.00"+"</td>";
+                                 row += "</tr>"
+
+                                 row += "<tr>";
+                                 row += "<td></td>";
+                                 row += "<td colspan='2' class='align_left big_auto_column'>"+"套餐月基本费"+"</td>";
+                                 row += "</tr>";
+
+                                 row += "<tr>";
+                                 row += "<td></td>";
+                                 row += "<td class='align_left big_auto_column'>"+"-&nbsp;天翼乐享4G"+"</td>";
+                                 row += "<td class='align_right small_column'>"+"3.00"+"</td>";
+                                 row += "</tr>";
+
+                                 row += "</div>";
+                                 $("#info_content").append(row);
+                             }
+                        });*/
+                        /*$.post(url,{"eaction":"incoming_item_summary","addr4":'${param.segment_id}','cust_id':cust_id},function(data){
+                            layer.close(layer_index);
+                            var d = $.parseJSON(data);
+                            for(var i = 0,l = d.length;i<l;i++){
+                                var row = "<div>";
+                                row += "<table class='full_width'>";
+                                row += "<tr>";
+                                row += "<td><div class='list_order'>"+(i+1)+"</div></td>";
+                                row += "<td class='align_left bold_font big_auto_column big_font'>"+d[i].PROD_OFFER_NAME+"</td>";
+                                row += "<td class='align_right color_blue small_column'>"+"合计："+d[i].CHARGE_TOTAL+"</td>";
+                                row += "</tr>"
+
+                                row += "<tr>";
+                                row += "<td></td>";
+                                row += "<td colspan='2' class='align_left big_auto_column'>"+"套餐月基本费"+"</td>";
+                                row += "</tr>";
+
+                                row += "<tr>";
+                                row += "<td></td>";
+                                row += "<td class='align_left big_auto_column'>"+"-&nbsp;天翼乐享4G"+"</td>";
+                                row += "<td class='align_right small_column'>"+"3.00"+"</td>";
+                                row += "</tr>";
+
+                                row += "</table>";
+                                row += "</div>";
+                                $("#incoming_info_list").append(row);
+                            }
+                        });*/
+                        /*$.post(url,{"eaction":"incoming_summary","addr4":'${param.segment_id}','cust_id':cust_id},function(data){
+                            var d = $.parseJSON(data);
+                            if(d.length){
+                                $("#incoming_total").text(d[0].CHARGE_TOTAL);
+                                $("#incoming_arup").text("");
+                            }else{
+                                $("#incoming_total").text(0);
+                                $("#incoming_arup").text(0);
+                            }
+                        });*/
+                        $.post(url,{"eaction":"incoming","addr4":'${param.segment_id}','cust_id':cust_id,'acct_month':acct_month},function(data){
+                            layer.close(layer_index);
+                            var d = $.parseJSON(data);
+                            if(d.length){
+                                /*
+                                 1	 	 	                        1	592
+                                 2	09357522649	 	                2	336
+                                 3	09357522649	商务领航套餐月使用费	3	336
+                                 4	09357522649	宽带使用费LOCAL	    3	0
+                                 5	yckdxpch	 	                2	256
+                                 6	yckdxpch	宽带使用费LOCAL	    3	0
+                                 7	yckdxpch	宽带数据流量费	    3	0
+                                 8	yckdxpch	商务领航套餐月使用费	3	256
+
+                                 */
+                                var main_offer_ord = 1;
+                                for(var i = 0,l = d.length;i<l;i++){
+                                    if(d[i].ORD==1){
+                                        $("#incoming_total").text(d[i].CHARGE_TOTAL);
+                                        $("#incoming_arup").text("");
+                                        continue;
+                                    }
+                                    var row = "";
+                                    if(d[i].ORD==2){
+                                        row = "<div>";
+                                        row += "<table class='full_width'>";
+                                        row += "<tr>";
+                                        row += "<td><div class='list_order'>"+(main_offer_ord)+"</div></td>";
+                                        main_offer_ord++;
+                                        row += "<td class='align_left bold_font big_auto_column big_font'>"+d[i].ACC_NBR+"</td>";
+                                        //row += "<td class='align_right color_blue small_column'>"+"合计："+d[i].CHARGE_TOTAL+"</td>";
+                                        row += "<td class='align_right color_blue small_column'></td>";
+                                        row += "</tr>"
+                                    }else if(d[i].ORD==3){
+                                        /*row += "<tr>";
+                                         row += "<td></td>";
+                                         row += "<td colspan='2' class='align_left big_auto_column'>"+"套餐月基本费"+"</td>";
+                                         row += "</tr>";*/
+                                        row = "<div class='incoming_item'>";
+                                        row += "<table class='full_width'>";
+                                        row += "<tr>";
+                                        row += "<td></td>";
+                                        row += "<td class='align_left big_auto_column'>"+d[i].ACCT_ITEM_TYPE_NAME+"</td>";
+                                        row += "<td class='align_right small_column'>"+d[i].CHARGE_TOTAL+"</td>";
+                                        row += "</tr>";
+                                    }
+                                    row += "</table>";
+                                    row += "</div>";
+                                    $("#incoming_info_list").append(row);
+                                }
+                            }else{
+                                $("#incoming_total").text(0);
+                                $("#incoming_arup").text(0);
+                            }
+                        });
+                    }
+                }catch(e){
+                    layer.close(layer_index);
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <div class="head_div">
+            <!--<div id="cust_name_phone"></div>-->
+            <div id="address_desc"></div>
+            <!--<div id="cust_name"></div>
+            <div id="cust_phone"></div>-->
+        </div>
+        <div class="blue_bar">
+            <div class="bar_title_select" id="customview_user_switch_list"></div>
+        </div>
+        <div class="tab_head">
+            <span>基本信息</span><span>套餐信息</span><span>产品信息</span><span>收入信息</span>
+        </div>
+
+        <!-- 基本信息 -->
+        <div class="tab_content">
+            <table class="base_info_tab" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="bold_font">客户名称</td>
+                    <td id="cust_name"></td>
+                    <td class="bold_font">年龄</td>
+                    <td id="age"></td>
+                </tr>
+                <tr>
+                    <td class="bold_font">联系电话</td>
+                    <td id="cust_phone"></td>
+                    <td class="bold_font">性别</td>
+                    <td id="sex"></td>
+                </tr>
+                <tr>
+                    <td class="bold_font">套餐名称</td>
+                    <td colspan="3" id="main_offer_name"></td>
+                </tr>
+                <tr>
+                    <td class="bold_font">入网日期</td>
+                    <td id="finish_date"></td>
+                    <td class="bold_font">在网时长</td>
+                    <td id="inet_month"></td>
+                </tr>
+                <tr>
+                    <td class="bold_font">产品构成</td>
+                    <td colspan="3" id="produce_constuct"></td>
+                </tr>
+                <tr>
+                    <td class="bold_font">客户经理</td>
+                    <td id="cust_manager_name"></td>
+                    <td class="bold_font">经理联系电话</td>
+                    <td id="cust_manager_phone"></td>
+                </tr>
+                <tr>
+                    <td class="bold_font">支局名称</td>
+                    <td id="lev4_id"></td>
+                    <td class="bold_font">网格名称</td>
+                    <td id="lev5_id"></td>
+                </tr>
+                <tr>
+                    <td class="bold_font">小区名称</td>
+                    <td colspan="3" id="lev6_id"></td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- 套餐信息 -->
+        <div class="tab_content">
+            <%--<table class="main_offer_head">
+                <tr>
+                    <td width="50">序号</td>
+                    <td width="150">套餐名称</td>
+                    <td width="100">生效时间</td>
+                    <td width="100">失效时间</td>
+                </tr>
+            </table>
+            <div class="main_offer_tab_div">
+                <table id="main_offer_tab"></table>
+            </div>--%>
+            <div id="main_offer_tab_div"></div>
+        </div>
+
+        <!-- 产品信息 -->
+        <div class="tab_content">
+            <div class="info_summary">手机总流量<span id="pro_sum_flow"></span>G 手机总通话时长<span id="pro_sum_dura"></span>分钟</div>
+            <div id="produce_info_list"></div>
+        </div>
+
+        <!-- 收入信息 -->
+        <div class="tab_content">
+            <div class="cust_acct_day_div"><input id="cust_acct_day" type="text" value="${initTime.VAL}" /></div>
+            <div class="info_summary">本期费用合计<span id="incoming_total"></span>元 ARUP值<span id="incoming_arup"></span>元</div>
+            <div id="incoming_info_list">
+            </div>
+        </div>
+    </body>
+</html>

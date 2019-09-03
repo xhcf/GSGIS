@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>应急信息服务系统-甘肃-终端管理</title>
+
+		<link rel="stylesheet" href="css/emergencystyle.css" />
+		<script src="js/echarts.js"></script>
+		<script src="js/bmap.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js" ></script>
+		<style>
+			.tab_menu li:nth-child(1) {
+				background:url(img/icon-listone.png) no-repeat 12%  center;
+				background-size: 8%;
+			}
+			.tab_menu li:nth-child(2) {
+				background:url(img/icon-listtwo.png) no-repeat 12%  center;
+				background-size: 8%;
+			}
+			.popup-create{
+				width: 100%;
+				height: 100%;
+				position: absolute;
+				top: 0px;
+				left: 0px;
+				background-color: white;
+				z-index: 3;
+				font-size: 1.4rem;
+				display: none;
+			}
+			.create-table{
+				width: 60%;
+				height: 60%;
+				margin:5% auto 0% auto;
+			}
+			.popup-create-input{
+				width: 60%;
+				height: 40%;
+				border: 1px solid #666666;
+				border-radius: 4px;
+				padding-left: 8px;
+			}
+			.creatword{
+				width: 25%;
+				text-align: right;
+			}
+			.creat-input{
+				width: 75%;
+				text-align: left;
+				padding-left:3%;
+			}
+			.btn-box{
+				width: 40%;
+				height: 30px;
+				margin-top: 1%;
+				margin-left:40%;
+			}
+			.btn-cancel,.btn-save{
+				width: 80px;
+				height: 30px;
+				font-size: 1.4rem;
+	            background-color:#1890FF;
+	            border: none;
+	            color: white;
+	            border-radius:4px;
+	            margin-left: 5%;
+			}
+			.title{
+				color:#fff;
+				font-size:17px;
+				text-align:center;
+				font-weight:bold;
+				padding-top:8px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+		    <!--顶部导航-->
+			<div class="nav">
+				<div class="logo"></div>
+				<b class="bigtitle">人员位置信息服务</b>
+				<div class="navbox">
+					<a href="index.html">人流分布</a>
+					<a href="analysis.html">应急指挥</a>
+					<a href="Terminal monitoring.html" >终端监控</a>
+					<a href="Report center.html">报表中心</a>
+					<a href="#" class="selected">终端管理</a>
+
+					<a href="#">系统管理</a>
+				</div>
+			</div>
+			<!--左导航切换-->
+			<div id="tab_2">
+				<ul class="tab_menu">
+			    	<li class="selected2" style="margin-top:10%;">终端信息列表</li>
+			        <li>定位权限名录</li>
+			    </ul>
+			    <div class="tab_box_2">
+
+			    	<!--终端信息列表内容-->
+			    	<div style="position: relative;">
+						<div class="title">位置轨迹查询</div>
+			    	   <div class="buttonbox">
+			    	         <button class="create">+新建</button>
+			    	   </div>
+			    	   <!--新建弹出框样式-->
+			    	   <div class="popup-create">
+			    	   	  <table class="create-table">
+			    	   	  	<tr>
+			    	   	  		<td class="creatword" >终端名称</td>
+			    	   	  		<td class="creat-input" >
+			    	   	  			<input class="popup-create-input" placeholder="请输入终端名称" />
+			    	   	  		</td>
+			    	   	  	</tr>
+			    	   	  	<tr>
+			    	   	  		<td class="creatword">终端号码</td>
+			    	   	  		<td class="creat-input">
+			    	   	  			<input class="popup-create-input" placeholder="请输入终端号码" />
+			    	   	  		</td>
+			    	   	  	</tr>
+			    	   	  	<tr>
+			    	   	  		<td class="creatword">姓名</td>
+			    	   	  		<td class="creat-input">
+			    	   	  			<input class="popup-create-input" placeholder="请输入姓名" />
+			    	   	  		</td>
+			    	   	  	</tr>
+			    	   	  	<tr>
+			    	   	  		<td class="creatword">部门</td>
+			    	   	  		<td class="creat-input">
+			    	   	  			<input class="popup-create-input" placeholder="请输入部门" />
+			    	   	  		</td>
+			    	   	  	</tr>
+			    	   	  	<tr>
+			    	   	  		<td class="creatword">岗位</td>
+			    	   	  		<td class="creat-input">
+			    	   	  			<input class="popup-create-input" placeholder="请输入岗位" />
+			    	   	  		</td>
+			    	   	  	</tr>
+			    	   	  </table>
+			    	   	  <div class="btn-box">
+				    	   	  <button class="btn-save">保存</button>
+				    	   	  <button class="btn-cancel">取消</button>
+			    	   	  </div>
+			    	   </div>
+			    	   <table class="terminal-information-table" cellpadding="0" cellspacing="0">
+			    	      <thead>
+			    	      	<tr>
+			    	      		<td>序号</td>
+			    	      		<td>终端名称</td>
+			    	      		<td>终端号码</td>
+			    	      		<td>创建时间</td>
+			    	      		<td>部门</td>
+			    	      		<td>岗位</td>
+			    	      		<td>操作 </td>
+			    	      	</tr>
+			    	      </thead>
+			    	      <tbody>
+			    	      	<tr>
+			    	      		<td>1</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>2</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>3</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>4</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>5</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>6</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>7</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>8</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>9</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>10</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      </tbody>
+			    	   </table>
+			    	   <div class="pagination">
+			    	   	    <span class="pagenum" >共  <b>400</b> 条记录 第 <b>1</b> / <b>80</b> 页</span>
+							<div class="paginationbox" >
+								<div><</div>  <div class="choose-btn">1</div>  <div>2</div>  <div>3</div>  <div>4</div>  <div>5</div>
+								<div>6</div>  <div>7</div>  <div>8</div>  <div>9</div>  <div>></div>
+								<select class="pagination-select" >
+									<option>10条/页</option>
+									<option>20条/页</option>
+									<option>30条/页</option>
+							    </select>
+							    <span style="margin-left: 20px;">跳至</span>
+							    <input class="yeshu" />
+							    <span>页</span>
+					        </div>
+			    	   </div>
+			    	</div>
+			        <div class="hide">
+						<div class="title">位置轨迹查询</div>
+			        	<!--终端信息列表内容-->
+			    	   <table class="terminal-information-table" cellpadding="0" cellspacing="0">
+			    	      <thead>
+			    	      	<tr>
+			    	      		<td>序号</td>
+			    	      		<td>终端名称</td>
+			    	      		<td>终端号码</td>
+			    	      		<td>创建时间</td>
+			    	      		<td>部门</td>
+			    	      		<td>岗位</td>
+			    	      		<td>操作 </td>
+			    	      	</tr>
+			    	      </thead>
+			    	      <tbody>
+			    	      	<tr>
+			    	      		<td>1</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>2</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>3</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>4</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>5</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>6</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>7</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>8</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>9</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>10</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>2019-04-8  11:30:33</td>
+			    	      		<td>研发部</td>
+			    	      		<td>开发人员</td>
+			    	      		<td>
+			    	      		   <a href="#" class="btn-edit">编辑</a>
+			    	      		   <a href="#" class="btn-delete">删除</a>
+			    	      		</td>
+			    	      	</tr>
+			    	      </tbody>
+			    	   </table>
+			    	   <div class="pagination">
+			    	   	    <span class="pagenum" >共  <b>400</b> 条记录 第 <b>1</b> / <b>80</b> 页</span>
+							<div class="paginationbox" >
+								<div><</div>  <div class="choose-btn">1</div>  <div>2</div>  <div>3</div>  <div>4</div>  <div>5</div>
+								<div>6</div>  <div>7</div>  <div>8</div>  <div>9</div>  <div>></div>
+								<select class="pagination-select" >
+									<option>10条/页</option>
+									<option>20条/页</option>
+									<option>30条/页</option>
+							    </select>
+							    <span style="margin-left: 20px;">跳至</span>
+							    <input class="yeshu" />
+							    <span>页</span>
+					        </div>
+			    	   </div>
+			        </div>
+			    </div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		    //做导航一级切换
+			$(document).ready(function(){
+				var $tab_li = $('#tab_2 ul li');
+				$tab_li.click(function(){
+					$(this).addClass('selected2').siblings().removeClass('selected2');
+					var index = $tab_li.index(this);
+					$('div.tab_box_2 > div').eq(index).show().siblings().hide();
+					$(".title").text($(this).text());
+				});
+			});
+			//新建弹窗框点击事件
+			$(function  () {
+				$(".create").click(function(){
+					$(".popup-create").show();
+				});
+				$(".btn-cancel").click(function  () {
+					$(".popup-create").hide();
+				  });
+				});
+		</script>
+	</body>
+</html>

@@ -1,0 +1,333 @@
+<%--
+  Created by IntelliJ IDEA.
+  User: xuezhang
+  Date: 17/6/21
+  Time: 下午6:38
+  To change this template use File | Settings | File Templates.
+--%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ taglib prefix="e" uri="http://www.bonc.com.cn/easy/taglib/e" %>
+<%@ taglib prefix="c" uri="http://www.bonc.com.cn/easy/taglib/c" %>
+<%@ taglib prefix="a" tagdir="/WEB-INF/tags/app"%>
+<e:q4o var="yesterday">
+	select min(const_value) val from SYS_CONST_TABLE where const_name = 'calendar.curdate' and data_type = 'day' and model_id = '3'
+</e:q4o>
+<e:q4l var="scene_list">
+	select t.scenes_type_cd id,t.scenes_type_desc text from gis_data.TB_DIC_GIS_SCENES_TYPE t	order by t.priority asc
+</e:q4l>
+<e:q4o var="village_info">
+	select village_name from gis_data.TB_GIS_VILLAGE_EDIT_INFO t where village_id = '${param.village_id}'
+</e:q4o>
+<html>
+<head>
+	<title>营销视图</title>
+	<meta charset="utf-8">
+	<meta name="author" content="jasmine"><!-- 定义作者-->
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<link href='<e:url value="/arcgis_js/esri/css/esri.css"/>' rel="stylesheet" type="text/css"/>
+
+	<link href='<e:url value="/resources/themes/common/css/reset.css"/>' rel="stylesheet" type="text/css" media="all"/>
+	<link href='<e:url value="/resources/component/easyui/themes/default/easyui.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<e:url value="/resources/component/easyui/icon.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<e:url value="/resources/css/main.css"/>' rel="stylesheet" type="text/css"/>
+	<link href='<e:url value="/pages/telecom_Index/sub_grid/css/viewPlane_build_view.css?version=1.3"/>' rel="stylesheet"
+		  type="text/css" media="all"/>
+	<link href='<e:url value="/pages/telecom_Index/sub_grid/css/viewPlane_area_dev_colorflow.css?version=1.1"/>' rel="stylesheet"
+		  type="text/css" media="all"/>
+	<script type="text/javascript"
+			src='<e:url value="/resources/component/echarts_new/echarts/js/jquery-1.7.2.min.js"/>'></script>
+	<script type="text/javascript"
+			src='<e:url value="/resources/component/echarts_new/build/dist/echarts-all.js"/>'></script>
+	<e:script value="/resources/layer/layer.js"/>
+	<script type="text/javascript" src='<e:url value="/arcgis_js/init.js"/>'></script>
+	<script src='<e:url value="/pages/telecom_Index/common/js/js_constant.js"/>' charset="utf-8"></script>
+	<script type="text/javascript" src='<e:url value="/resources/component/easyui/jquery.easyui.min.js"/>'></script>
+	<style type="text/css">
+		body{background-color:#fff;}
+		.wrap_a {margin:8px 5px 0px 5px;}
+		.yin {height:auto;}
+		.base {padding:0px 5px;}
+		.yx_changjing_type{cursor:pointer;}
+		.selected {background-color:#025aac;color:#fff;}
+		.selected1 {color:#025aac!important;}
+	</style>
+
+	<style type="text/css">
+		.table_yw .manufacture span {cursor: pointer;}
+		
+		.titlea{
+			background: #073b8a;
+	    color: #fff;
+	    font-size: 14px;
+	    width: 100%;
+	    height: 34px;
+	    line-height: 34px;
+	    text-align: left;
+	    padding-left: 20px;
+		}
+		#build_title{
+			background: #073b8a;
+	    color: #fff;
+	    font-size: 14px;
+	    width: 100%;
+	    height: 34px;
+	    line-height: 34px;
+	    text-align: left;
+	    font-weight:bold;
+		}
+		#yx_num {margin-top:8px;width:100%;text-align:left;color:#333;margin-left:5px;}
+	</style>
+	<script type="text/javascript">
+		var url4Query = '<e:url value="/pages/telecom_Index/common/sql/tabData.jsp"/>';
+		var semg_id = '${param.segm_id}';
+		var yx_id = '${param.yx_id}';
+		var village_id = '${param.village_id}';
+		var village_name = '${village_info.VILLAGE_NAME}';
+		var scene_type = "0";
+		
+		var to_cell_view = function(add6,prod_inst_id,flag){
+			$("#cell_view_container").show();
+			$("#cell_view_container > iframe").attr("src","viewPlane_cell_view_details.jsp?add6="+add6+"&prod_inst_id="+prod_inst_id+"&flag="+flag);
+		}
+		
+		var closeCellViewIFrame = function(flag){
+			$("#cell_view_container").hide();
+			$("#cell_view_container > iframe").empty();
+			if(flag==1)
+				fun1(semg_id,scene_type);
+		}
+		
+		//加载表格
+		function fun1(fouraddr, scene_type) {
+			$.parser.parse('#content_table_yx_list_un');
+			$.parser.parse('#content_table_yx_list_done');
+			var yx_changjing_type = 0;
+			if (scene_type != undefined)
+				yx_changjing_type = scene_type;//attr("value");
+			//var segmname = $("#fouraddress").find("option:selected").text();
+			var queryParam = {
+					"eaction": "yx_detail_query_list_six",
+					"segmid": fouraddr,
+					"type": yx_changjing_type,
+					"v_id":village_id,
+					"yx_id":yx_id
+			};
+			//查询未执行列表
+			freshBuildYxList(queryParam);
+			//queryParam.did_flag = 1;
+			//查询已执行列表
+			//freshBuildYxList(queryParam);
+		}
+		function freshBuildYxList(queryParam){
+			$.ajax({
+				type: "post",
+				url: url4Query,
+				data: queryParam,
+				async: false,
+				dataType: "json",
+				success: function (data) {
+
+					var tb = ""
+					if(queryParam.did_flag==undefined){//未执行
+						tb = document.getElementById('content_table_yx_list_un');
+						//$(".tab_menu1 span").eq(0).text("未执行("+data.length+")");
+						$("#yx_num span").text(data.length);
+					}
+					else{
+						tb = document.getElementById('content_table_yx_list_done');
+						//$(".tab_menu1 span").eq(1).text("已执行("+data.length+")");
+					}
+					var rowNum = tb.rows.length;
+					for (var i = 0; i < rowNum; i++) {
+						tb.deleteRow(i);
+						rowNum = rowNum - 1;
+						i = i - 1;
+					}
+
+					for (var j = 0,k = data.length;j<k; j++) {
+						var obj = data[j];
+
+						var temp = "";
+						temp += "<tr>";
+						temp += "<td width=\"5%\" style=\"text-align:center;\">"+(j+1)+"</td>";
+						temp += "<td width=\"11.9%\">";
+						temp += "<a href=\"javascript:void(0)\" class=\"execution\"  onclick=\"to_cell_view('" + obj.ADDRESS_ID + "','" + obj.PROD_INST_ID + "','info')\">"+obj.SEGM_NAME_2+"</a>";
+						temp += "</td>";
+						temp += " <td width=\"21.9%\" style=\"text-align:center;\">";
+						temp += "<span class=\"yx_phone_num\">"+obj.ACC_NBR+"</span><br/>"+obj.CONTRACT_PERSON+"</td>";
+						temp += "<td width=\"54%\">"+loadSuggest(obj.CONN_STR,j)+"</td>";
+					if(obj.DID_FLAG!=null)
+							temp += "<td id='"+ obj.PROD_INST_ID+"'>已执行</td>";
+						else
+							temp += " <td id='" + obj.PROD_INST_ID + "'><a href=\"javascript:void(0)\" class=\"execution\"  onclick=\"to_cell_view('" + obj.ADDRESS_ID + "','" + obj.PROD_INST_ID + "','exe')\">执行</a></td>";
+						temp += "</tr>";
+
+						$(tb).append(temp);
+					}
+					//$.parser.parse('#content_table_yx_list');
+				}
+			});	
+		}
+		
+		function loadSuggest(sug,id1) {
+		
+			//sug的结果最多有三个值 ，可能是：0个值=空；1个值=aa<C>aa1111<A>；2个值=aa<C>aa1111<A>bb<C>bb2222<A>；3个值=aa<C>aa1111<A>bb<C>bb2222<A><cc><C>cc3333<A>
+			
+			//sug = '价值提升营销加副卡策略<C>目标用户： 单产品无主副卡存量用户、无协议、终端在网时长>24个月、ARPU值50~80元。营销策略：预存790元=890元分摊话费(24个月实际消费的42%返还)+赠送市场价890元的华为8813Q手机一部，但需加开副卡，两卡共享89元。<A>适合套餐提档乐享3G上网版V4.0-89元<C>bbbbb<A>适合推荐手机报<C>ccccccccccccc<A>系统-推荐终端升级营销<C>目标用户：用户终端使用一年以上且当前无有效合约；<A>';
+			var arry = sug.split("<a>");
+			var n = arry.length;
+			$('#view_suggest_number').html(n-1);//给营销推荐个数赋值
+			var html = '';
+			//<li><em>2</em> <strong><a href="#this">适合套餐提档乐享3G上网版V4.0-89元</a></strong>目标用户：单产品无主副卡存量用户、无协议。终端在网时长>24个月、ARPU值50~80元</li>
+			for(var i=0;i<n-1;i++){
+				var sub = arry[i].split("<c>");
+				var idx = i+1;
+				if(i==0){
+					html += '<li><em>'+idx+'</em><a style="font-weight:bold;" href="javascript:suggestDetail('+idx+','+n+','+id1+');">'+sub[0]+'</a><p id="view_suggest_p_'+id1+idx+'" style="display:block;">&nbsp;&nbsp;&nbsp;&nbsp;'+sub[1]+'</p>';
+				}else{
+					html += '<li><em>'+idx+'</em><a style="font-weight:bold;" href="javascript:suggestDetail('+idx+','+n+','+id1+');">'+sub[0]+'</a><p id="view_suggest_p_'+id1+idx+'" style="display:none;">&nbsp;&nbsp;&nbsp;&nbsp;'+sub[1]+'</p>';
+				}
+			}
+			return html;
+		}
+		function suggestDetail(v,n,id1) {
+			$('#view_suggest_p_'+id1+v).toggle();
+			for(var i=1;i<n;i++){
+				if(i!=v){
+					$('#view_suggest_p_'+id1+i).hide();
+				}
+			}
+		}
+		
+		$(document).ready(function () {
+			$('#cell_view_container').draggable({ handle: $('#detail_more_draggable')});
+			
+			var scene_list = '${e:java2json(scene_list.list)}';
+			var scene_container = $(".village_select > c");
+			scene_container.empty();
+			scene_container.append("<input type=\"radio\" name=\"scene_type\" value=\"0\" checked=\"checked\" >全部");
+			if(scene_list!=null && scene_list!="")
+				scene_list = $.parseJSON(scene_list);
+			for(var i = 0,l = scene_list.length;i<l;i++){
+				var scene_item = scene_list[i];
+				var item_str = "<input type=\"radio\" name=\"scene_type\" value=\""+scene_item.ID+"\" style=\"margin-left:15px;\" />"+scene_item.TEXT;
+				scene_container.append(item_str);
+			}
+
+			$("input[name='scene_type']").live("click",(function(){
+				scene_type = $(this).val();
+				fun1(semg_id,scene_type);
+			}));
+			
+			var query_param = {"eaction": "yx_detail_query_list_four"};
+
+			if(yx_id!=""){
+				query_param.yx_id = yx_id;
+			}else if(village_id!=""){
+				query_param.village_id = village_id;
+			}else{
+				//楼宇营销
+				query_param.segm_id = semg_id;
+			}
+
+			$.ajax({
+				type: "post",
+				url: url4Query,
+				data: query_param,
+				async: false,
+				dataType: "json",
+				success: function (data) {
+					var arr = new Array();
+					/*if(semg_id==0)
+						arr.push({text:'全部',value:'0',"selected":true});
+					else
+						arr.push({text:'全部',value:'0'});*/
+					for (var i = 0; i < data.length; i++) {
+						var obj = data[i];
+						var obj_temp = "";
+						if(obj.A1==semg_id){
+							$("#village_view_title").text(obj.A2);
+							obj_temp = {text:obj.A2,value:obj.A1,"selected":true};
+						}else{
+							obj_temp = {text:obj.A2,value:obj.A1};
+						}
+						//if($("#village_view_title").text()=="")
+						//	$("#village_view_title").text(village_name);
+							
+						arr.push(obj_temp);
+					}
+					$("#fouraddress").combobox({
+						data:arr,
+						onSelect:function(){
+							semg_id = $("#fouraddress").combobox("getValue");
+							fun1(semg_id,scene_type);
+							//if($("#fouraddress").combobox("getValue")==0)
+							//	$("#village_view_title").text(village_name);
+							//else
+							$("#village_view_title").text($("#fouraddress").combobox("getText"));
+						},
+						filter: function(q, row){
+							var opts = $(this).combobox('options');
+							return row[opts.textField].indexOf(q) > -1;
+						}
+					});
+				}
+			});
+				
+			fun1(semg_id,scene_type);
+			
+			var $div_li =$(".tab_menu span");
+			$div_li.click(function(){
+				$(this).addClass("selected")            //当前<li>元素高亮
+						.siblings().removeClass("selected");  //去掉其它同辈<li>元素的高亮
+				var index =  $div_li.index(this);  // 获取当前点击的<li>元素 在 全部li元素中的索引。
+				$("div.tab_box > div")   	//选取子节点。不选取子节点的话，会引起错误。如果里面还有div
+						.eq(index).show()   //显示 <li>元素对应的<div>元素
+						.siblings().hide(); //隐藏其它几个同辈的<div>元素
+			})
+		});
+	</script>
+</head>
+<body>
+<div class="tab_box" style="position:reletive;width:96%;margin:0px auto;">
+  <span id="village_view_title" class="village_name_new"></span>
+  
+  <span class="search_neck">查询条件</span>
+  <div class="village_select build_bar">
+  	营销场景：&nbsp;<c></c>
+  	<br/>四级地址： 
+  	<select id="fouraddress"  name="fouraddress" style="width:320px;"></span></select>
+  </div>
+  
+  <div id="yx_num" class="count_num">记录数：<span></span></div>
+  <!--<h3 class="wrap_a tab_menu1" style="border-left:none;"><span style="cursor:pointer;" class="selected1">未执行</span> | <span style="cursor:pointer;">已执行</span></h3>-->
+  <div style="padding-right:18px;margin-top:0px;">
+    <table class="village_tab detail">
+    <thead>
+      <tr>
+      	<th width="5%">序号</th>
+        <th width="12%">房号</th>
+        <th width="22%">号码</th>
+        <th width="54%">营销推荐</th>
+        <th>操作</th>
+       </tr>
+    </thead>
+    </table>
+  </div>
+  
+	<div class="tab_box1">
+		<div class="mark_tab_layout">
+		  <table class="village_tab detail" id="content_table_yx_list_un">
+		  </table>	
+		</div>
+  </div>
+</div>
+
+<!-- 跳到执行、执行历史、资料维护的页面-->
+<div class="build_info_win info_edit_win" id="cell_view_container" style="display:none;">
+	<div class="titlea"><div id="detail_more_draggable" style='text-align:left;width:90%;display: inline-block'>营销执行</div><div  class="titlec" onclick="$('#cell_view_container').hide()"></div></div>
+	<iframe width="100%" height="100%"></iframe>
+</div>
+</body>
+</html>

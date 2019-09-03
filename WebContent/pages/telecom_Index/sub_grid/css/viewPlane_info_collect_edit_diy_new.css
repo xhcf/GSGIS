@@ -1,0 +1,116 @@
+.sub_name_other{
+    line-height: 30px;
+    height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 15px;
+    font-weight: bold;
+}
+.new_collect_wrapper{
+    padding: 10px 15px 0px 15px;
+}
+.new_collect_wrapper1{
+    padding: 5px 15px;
+}
+.messages{
+    margin-bottom: 5px;
+}
+.messages header{
+    color: #4f8ccc;
+    line-height: 28px;
+    height: 28px;
+    font-weight: bold;
+    padding-left: 8px;
+    position: relative;
+}
+.messages header:before{
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 3px;
+    height: 70%;
+    top: 15%;
+    background: #4f8ccc;
+}
+.messages ul li{
+    line-height: 28px;
+    height: 28px;
+    padding-left: 8px;
+}
+.border_message{
+    margin-bottom: 0px;
+    padding-bottom: 0px;
+    border-bottom: 0px solid #ccc;
+}
+.business{
+    display: flex;
+    margin-left: 8px;
+}
+.messages_title{
+    width: 42px;
+    height: 28px;
+    line-height: 28px;
+    font-weight: bold;
+    margin:6px 0px;
+}
+.business .must_messages{
+    height: 56px;
+    flex: 1;
+    margin:2px 0px 6px 5px;
+}
+.business ul li{
+    padding-left: 0;
+}
+.must_messages li span{
+    padding-left: 10px;
+    /*color: red;*/
+    font-size: 12px;
+}
+.messages_oneline{
+    height: 28px;
+}
+.messages_oneline li{
+    float: left;
+}
+.messages_oneline li:first-child{
+    margin-right: 20px;
+}
+.messages input[type="text"], .messages select{
+    height: 24px!important;
+    line-height: 24px!important;
+}
+.button_wrapper{
+    text-align: center;
+}
+.button_wrapper button:first-child{
+   /* margin-right: 50px;
+    margin-right:15px;*/
+    margin-right:6px;
+}
+.button_click{
+    padding: 3px 10px;
+    background: #1069c9;
+    -webkit-border-radius:3px;
+    -moz-border-radius:3px;
+    border-radius: 3px;
+    border:none;
+    outline: none;
+    color: #fff;
+}
+
+/*home_view*/
+.home_view {with:98%;}
+.home_view table {width:100%;}/*margin-top:5px;*/
+.home_view table th {text-align: center;height:30px;line-height:30px;font-size:14px!important;border-bottom: solid 1px #d1d1d1;}
+.home_view table td {line-height: 30px;font-size:14px!important;color:#000;border-bottom: 1px solid #eee;}
+.home_view table td span {color:#073b8a;}
+/*.home_view table tr:nth-child(2) td {padding-top:5px;}
+.home_view table tr:last-child td {padding-bottom:5px;}*/
+/*.home_view table td:first-child {padding-left:10px;}*/
+.table_line table td {border-bottom: solid 1px #d1d1d1;}
+body {}
+
+
+#info_collect_tab_content {position: relative;}
+.new_collect_wrapper {position: relative;}
+.button_wrapper {position:absolute;right:20px;top:5px!important;}

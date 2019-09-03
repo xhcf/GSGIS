@@ -1,0 +1,10 @@
+.buss_ico span{display:block;margin:auto;}
+.dx_ico,.yd_ico,.lt_ico,.gd_ico,.other_ico,.none_ico{width:25px;height:25px;background-repeat:no-repeat;background-size:100% 100%;display:block;}
+.dx_ico{background-image:url('../image/dx_ico.png')}
+.yd_ico{background-image:url('../image/yd_ico_red.png')}
+.lt_ico{background-image:url('../image/lt_ico.png')}
+.gd_ico{background-image:url('../image/gd_ico_red.png')}
+
+.bold_blue {font-weight:bold;color:#2E40E7;}
+.num_blue {color:#328ECE;}
+.buss_red {color:#ff0000;}

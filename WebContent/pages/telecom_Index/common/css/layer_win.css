@@ -1,0 +1,243 @@
+/* 收集弹出框 */
+.win_white {
+    /*border:1px solid #0066ff;*/
+    border:1px solid #073b8a;
+    width:860px!important;
+    height:500px!important;
+    top:37px;
+    left:55px;
+}
+.win_white .layui-layer-title{
+    border:none;
+    /*background: #0066FF;*/
+    background: #1069c9;
+    font-size: 20px;
+    line-height: 35px;
+    height: 35px;
+    cursor: move;
+    padding-left: 20px;
+    color:#fff;
+    font-weight: bold;
+}
+.win_white .layui-layer-setwin{
+    top:10px;
+    right:15px;
+}
+.win_white.win_full_screen .layui-layer-setwin{
+    top:45px;
+    right:15px;
+}
+.win_white .layui-layer-content{
+    background: #ffffff;
+}
+.win_white .close_table{
+    top: 12px;
+}
+.win_white .close_table a{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+}
+
+.win_blue {
+    /*border:1px solid #0066ff;*/
+    border:1px solid #073b8a;
+}
+/* 小区画像，对标 */
+.win_blue .layui-layer-title{
+    border:none;
+    /*background: #0066FF;*/
+    background: #073b8a;
+    font-size: 20px;
+    line-height: 36px;
+    height: 36px;
+    cursor: move;
+    padding-left: 20px;
+    color:#fff;
+    font-weight: bold;
+    text-align: center;
+}
+.win_blue .layui-layer-setwin{
+    top:15px;
+    right:15px;
+}
+.win_blue .layui-layer-content{
+    background: #020A54!important;
+}
+.win_blue .close_table{
+    top: 12px;
+}
+.win_blue .close_table a{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+}
+
+/*新客户视图*/
+.cus_view .cus_view_wrapper {width:800px;height:500px;border:solid 1px #E4E4E4;border-radius:5px;}
+.cus_view .cus_view_wrapper .cus_view_header .cus_view_header_tag {width:25%;margin:0px auto;text-align:center;border-top: 35px solid #f2f2f2;border-left: 28px solid #0736B1;border-right:28px solid #0736B1;}
+.cus_view .cus_view_wrapper .cus_view_header .text {color:#414f69;position:absolute;height:36px;line-height:36px;top:0px;left:45%;width:10%;text-align:center;font-weight:bold;}
+.cus_view .cus_view_wrapper .cus_view_header {width:100%;height:27%;background:#0736B1;border-radius:5px 5px 0px 0px;overflow:hidden;position:relative;}
+.cus_view .cus_view_wrapper .cus_view_header table {width:70%;height:72px;font-size:16px;color:#fff;margin:6px auto 0px auto;}
+.cus_view .cus_view_wrapper .cus_view_header table .border_bot {border-bottom:solid 1px #c8ddff;}
+
+
+.cus_view .layui-layer-title {background: none;position: absolute;
+    z-index: 19901018;width:100%;}
+.cus_view .layui-layer-setwin {z-index: 19901019;position: absolute;background:none;display: block;}
+iframe {border:none;}
+.layui-layer.layui-layer-page.cus_view.layer-anim {  background: #fff;border:1px solid #2070dc;;}
+.layui-layer.layui-layer-page.cus_view.layer-anim .layui-layer-content {height:100%!important;}
+.layui-layer.layui-layer-page.cus_view.layer-anim .layui-layer-title {border-bottom:none!important;}
+.layui-layer.layui-layer-page.cus_view.win_normal_screen {width:860px;height:485px;display: block;}
+
+/*小区画像*/
+.village_paint .layui-layer-title {background: none;position: absolute;z-index: 19901018;width:100%;padding-top:7px;font-size:14px;}
+.village_paint .layui-layer-setwin {z-index: 19901019;position: absolute;background:none;display: block;}
+iframe {border:none;}
+.layui-layer.layui-layer-page.village_paint.layer-anim {  background: #fff;border:1px solid #2070dc;;}
+.layui-layer.layui-layer-page.village_paint.layer-anim .layui-layer-content {height:100%!important;}
+.layui-layer.layui-layer-page.village_paint.layer-anim .layui-layer-title {border-bottom:none!important;}
+.layui-layer.layui-layer-page.village_paint.win_normal_screen {width:860px;height:485px;display: block;}
+.layui-layer.layui-layer-content{}
+.village_paint_ico {
+    background-image: url('../images/village_view/village_ico1.png');
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    background-size: 15px 15px;
+    line-height: 15px;
+    vertical-align:middle;
+}
+
+/*未用楼宇 layer 样式*/
+.unused_build_div .layui-layer-title {font-size:14px;height:40px;line-height: 40px;}
+.unused_build_div .layui-layer-setwin {top:8px;}
+
+/*小区营销 弹窗 营销清单*/
+.yx_list_pop_win {border-radius:8px;border:1px solid #1479c0;}
+.yx_list_pop_win .layui-layer-title {top:7px;border-radius: 2px 2px 0 0;background-color:#1069c9;}
+.yx_list_pop_win .layui-layer-setwin {top:7px!important;}
+.yx_list_pop_win .layui-layer-content {border-radius:0 0 8px 8px;}
+
+/*客户视图 通话历史*/
+.call_history .layui-layer-title{
+    border:none;
+    /*background: #0066FF;*/
+    background: #073b8a;
+    font-size: 20px;
+    line-height: 36px;
+    height: 36px;
+    cursor: move;
+    padding-left: 20px;
+    color:#fff;
+    font-weight: bold;
+    text-align: center;
+}
+.call_history .layui-layer-setwin{
+    top:10px;
+    right:15px;
+}
+.call_history .close_table{
+    top: 12px;
+}
+.call_history .close_table a{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+}
+
+/*电话外呼*/
+.call_out .layui-layer-title{
+    border:none;
+    /*background: #0066FF;*/
+    background: #073b8a;
+    font-size: 20px;
+    line-height: 36px;
+    height: 36px;
+    cursor: move;
+    padding-left: 20px;
+    color:#fff;
+    font-weight: bold;
+    text-align: center;
+}
+.call_history .layui-layer-setwin{
+    top:10px;
+    right:15px;
+}
+
+/*新版客户视图执行弹窗*/
+.exec_new2{
+}
+
+/*小区工作台 单宽用户*/
+.vill_dkd_div {border-radius:8px;border:1px solid #1479c0;}
+.vill_dkd_div .layui-layer-title {font-size:14px;height:40px;line-height: 40px;}
+.vill_dkd_div .layui-layer-setwin {top:8px;}
+.vill_dkd_div .layui-layer-content {border-radius:8px;}
+
+
+/*营销录入*/
+.market_view .layui-layer-title {background: none;z-index: 19901018;width:80%;border:none;padding:0px;}
+.market_view .layui-layer-setwin {z-index: 19901019;position: absolute;background:none;display: block;}
+.market_view .layui-layer-ico {background:url(../images/close.png) no-repeat;background-size: 16px 16px;}
+
+
+/* 收集弹出框 */
+.win_add4_repair {
+    /*border:1px solid #0066ff;*/
+    border:1px solid #073b8a;
+    top:37px;
+    left:55px;
+}
+.win_add4_repair .layui-layer-title{
+    border:none;
+    /*background: #0066FF;*/
+    background: #1069c9;
+    font-size: 14px;
+    line-height: 35px;
+    height: 35px;
+    cursor: move;
+    padding-left: 20px;
+    color:#fff;
+    font-weight: bold;
+}
+.win_add4_repair .layui-layer-setwin{
+    top:10px;
+    right:15px;
+}
+.win_add4_repair.win_full_screen .layui-layer-setwin{
+    top:45px;
+    right:15px;
+}
+.win_add4_repair .layui-layer-content{
+    background: #ffffff;
+}
+.win_add4_repair .close_table{
+    top: 12px;
+}
+.win_add4_repair .close_table a{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 18px;
+    width: 18px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+}

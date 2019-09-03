@@ -1,0 +1,262 @@
+div.tab_menu a  {cursor:pointer;display:inline-block;float:left;height:22px;line-height:22px;width:60px;border-radius:2px;text-align:center;color:#a7d9ff;text-decoration:none;}
+div.tab_menu a.selected {background-color:#025aac;color:#fff;}
+div.tab_box {clear:both;}
+input{
+    line-height: 22px!important;
+    height: 22px!important;
+
+    border-radius: none;
+    border:none;
+    padding: 0;
+    outline: none;
+}
+input[type="button"]::-moz-focus-inner{
+    border:none;padding:0;
+    margin-top: -8px;
+}
+/*发展排名表格*/
+/*.datagrid-htable td{border:none;}*/
+.datagrid-header, .datagrid-td-rownumber{ background: none;}
+.datagrid-header td.datagrid-header-over{background: none;cursor: pointer;border: none}
+.datagrid-htable{background:  #02004f;border: none}
+.datagrid-body td, .datagrid-footer td {
+    border: none;
+}
+.datagrid-header{height:30px !important; line-height: 30px;border: none}
+.datagrid-body td, .datagrid-footer td{border-top:1px solid #fff;}
+.datagrid-btable, .datagrid-ftable{border:none;background-color: none;margin-bottom: 10px}
+.datagrid-row{height:24px !important;}
+.datagrid-cell-rownumber {color: #fff;}
+.datagrid-header .datagrid-cell span{color: #00deff;}
+.datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber{font-size:12px;}
+.datagrid-pager .pagination {display:none;}
+.datagrid-htable td {
+    border: none;
+    cursor: default;
+}
+div.datagrid-cell.datagrid-cell-c2-GRID_NAME{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-ROWNUM{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-FIN_INCOME{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-MOBILE_MON_CUM_NEW{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-BRD_MON_CUM_NEW{
+    margin-top: -5px;
+}
+div.datagrid-cell.datagrid-cell-c2-ITV_MON_NEW_INSTALL_SERV{
+    margin-top: -5px;
+}
+
+/*屏幕高度最大为1080px*/
+@media screen and (max-height: 1080px) {
+    .target_wrap {
+        height: 26% !important;
+    }
+    .target_list dt {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd200;
+        margin: 21px 0;
+    }
+    .target_wrap_a{
+        width:100%;
+        border:none;
+        height:28% !important;
+        position: relative
+    }
+    .target_list dd {
+        font-size: 16px;
+        height: 1rem;
+        padding-left: 24px;
+        margin: 20px -2px;
+    }
+    .target_list dt {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd200;
+        margin: 31px 0;
+    }
+    .btn_c {
+        height: 30px;
+        width: 100%;
+        cursor: pointer;
+        position: absolute;
+        top: 30px;
+        z-index: 9999999;
+        text-align: center;
+        margin-top: -20px;
+    }
+    .figure{
+        width:100%;
+        height:94%;
+        margin-top: 20px
+    }
+}
+/*屏幕高度最大为768px*/
+@media screen and (max-height: 768px) {
+    .target_wrap{
+        height:26% !important
+    }
+    .target_wrap_a{
+        width:100%;
+        border:none;
+        height:24% !important;
+        position: relative
+    }
+    .target_list dd{
+        font-size: 12px;
+        height: 1.5rem;
+        padding-left: 4px;
+    }
+    .target_list dt {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd200;
+        margin: 21px 0;
+    }
+    .target_tab li{
+        margin-top: 8px
+    }
+    .btn_c {
+        height: 30px;
+        width: 100%;
+        cursor: pointer;
+        position: absolute;
+        top: 30px;
+        z-index: 9999999;
+        text-align: center;
+        margin-top: -22px;
+    }
+    .figure{
+        width:100%;
+        height:90%;
+        margin-top: 20px
+    }
+}
+/*屏幕高度最大为600px*/
+@media screen and (max-height: 600px) {
+    .clearfix {
+        overflow: hidden;
+        _zoom: 1;
+        clear: both;
+        margin-top: 2px;
+    }
+    .target_wrap{
+        height:26% !important
+    }
+    .target_wrap_a{
+        width:100%;
+        border:none;
+        height:20% !important;
+        position: relative
+    }
+    .target_list dd {
+        font-size: 11px;
+        height: 1rem;
+        padding-left: 4px;
+        margin: 4px -2px;
+    }
+    .target_list dt {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #ffd200;
+        margin: 11px 0;
+    }
+    .target_tab li{
+        margin-top: 5px
+    }
+    .target_list li {
+        float: left;
+        width: 33.33%;
+        border-right: 1px dashed #34337f;
+        text-align: center;
+        height: 99%;}
+    .figure{
+        width:100%;
+        height:90%;
+        margin-top: 20px
+    }
+    .btn_c {
+        height: 30px;
+        width: 100%;
+        cursor: pointer;
+        position: absolute;
+        top: 26px;
+        left: 20;
+        z-index: 9999999;
+        text-align: center;
+        margin-top: -22px;
+    }
+
+}
+
+
+
+/*--------适配1920x1080分辨率-------*/
+@media screen and (min-height: 750px) {
+    .datagrid-row{height:28px !important;}
+    .datagrid-header{height:36px !important; line-height: 36px;}
+    .target_wrap h3{margin-bottom: 1rem !important; font-size: 16px;}
+    .target_wrap:last-child {
+        padding: 1.2rem 0.4rem 0.2rem;}
+
+    .datagrid-cell{padding: 10px 6px;height:auto;}
+    .datagrid-cell-rownumber{padding: 10px 6px; height:auto;}
+    .target_list p.channel_title {padding: 2px 20px;  font-size: 15px;}
+    .point_rank_tab th {padding:10px 0;}
+    .point_rank_tab td{padding:4px 0;}
+    .target_list{padding-top:20px;}
+}
+.date_container {position:absolute;z-index:99999;right:65%;padding:0 12px;}
+.date {right:65%;padding:0 12px;color:#fff;height:28px;line-height:28px;}
+.date span {color:#ffd200;}
+.panel {
+    overflow: hidden;
+    text-align: left;
+    margin: 0;
+    /*border: 0;*/
+    position: absolute;
+    -moz-border-radius: 0 0 0 0;
+    -webkit-border-radius: 0 0 0 0;
+    border-radius: 0 0 0 0;
+    top: 30;}
+
+::-webkit-scrollbar {
+    width:6px;
+}
+/* 滚动槽 */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow:inset006pxrgba(0,0,0,0.3);
+    background:rgba(1,12,113,1);
+}
+/* 滚动条滑块 */
+::-webkit-scrollbar-thumb {
+    background:rgba(6,19,140,1);
+    -webkit-box-shadow:inset006pxrgba(0,0,0,0.5);
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background:rgba(11,26,165,1);
+}
+
+::-moz-scrollbar {
+    width:6px;
+}
+/* 滚动槽 */
+::-moz-scrollbar-track {
+    -moz-box-shadow:inset006pxrgba(0,0,0,0.3);
+    background:rgba(1,12,113,1);
+}
+/* 滚动条滑块 */
+::-moz-scrollbar-thumb {
+    background:rgba(6,19,140,1);
+    -moz-box-shadow:inset006pxrgba(0,0,0,0.5);
+}
+::-moz-scrollbar-thumb:window-inactive {
+    background:rgba(11,26,165,1);
+}

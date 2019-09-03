@@ -1,0 +1,7 @@
+.topListUser { height:34px; position:relative; padding:3px 0; background:#f6f6f6;}
+.topListUser dl { overflow:hidden; height:100%; padding-left:14px;}
+.topListUser dl dt { font-weight:normal; padding:2px 5px 0 1em; width: 60px;}
+.topListUser dl dd { font-weight:normal;   width: 170px;}
+.topListUser dl dt, .topListUser dl dd { float:left;}
+.topListUser p { position:absolute; right:5px; top:3px;}
+.topListUser p a { color:#000; margin:0 1px;}

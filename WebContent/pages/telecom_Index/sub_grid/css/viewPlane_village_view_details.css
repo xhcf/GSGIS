@@ -1,0 +1,51 @@
+
+@media screen and (min-width:1320px){
+    .tabs_suvery ul {width:72%!important;margin:20px 15% 0px auto!important;}
+}
+/*2018-12-10 大屏工作台兼容性*/
+@media screen and (min-width:1500px)  {
+    .resident_wrapper select, .collect_new_choice select {height:30px!important;line-height:30px!important;font-size:14px!important;}
+}
+
+/*2018-12-10 大屏工作台兼容性*/
+@media screen and (min-height:710px)  {
+    .village_view_win .village_info_win {}
+    .village_view_win .village_desk {height:80px;background-size: auto 100%;line-height:50px;}
+    .village_view_win .desk_menu {height:60px;padding-top:18px;font-size:18px;padding-left:36px!important;}
+    .village_view_win .desk_orange_bar {height:58px!important;line-height:58px!important;font-size:18px;padding-left:45px;}
+    .village_view_win #village_view_latn, .village_view_win #village_view_bureau, .village_view_win #village_view_sub, .village_view_win #village_view_grid {font-size:16px!important;}
+    .village_view_win .sub_summary_tabs {width:92%;margin-top:31px!important;}
+    .village_view_win #village_info_win_body {height:92%!important;}
+    .village_view_win .sub_summary_tabs_title {line-height:78px!important;font-size:22px!important;}
+    .village_view_win .village_summary_percent {height:86px!important;}
+    .village_view_win .village_summary_percent_num {font-size:28px!important;line-height:56px!important;}
+    .village_view_win .sub_summary_tabs.tabs_suvery ul {width:80%!important;margin:20px 15% 0px auto!important;}
+    .village_view_win .index_desc {font-size:16px;}
+    .village_view_win .sub_summary_index_content li {line-height:28px!important;font-size:16px!important;}
+    .village_view_win .desk_tag{right:40px;top:12px;}
+    .village_view_win .desk_tag span {height:30px;line-height: 30px;font-size:16px;}
+    .village_view_win .village_desk{font-size:28px;}
+    .village_view_win .bulid_village_btn button{width:78px;height:28px;line-height: 28px;font-size: 16px;}
+    .village_view_win .bulid_village_btn.village_edit {margin-right:40px!important;}
+    .village_view_win .desk_orange_bar.inside_data {font-size:16px;}
+    .village_view_win .village_new_searchbar div {font-size:14px;}
+    .village_view_win .village_new_searchbar div {height:30px;line-height:30px;}
+    .village_view_win .resident_wrapper select, .village_view_win .collect_new_choice select {height:30px!important;line-height:30px!important;}
+    .village_view_win .content_table th {height:36px!important;line-height:36px!important;font-size:14px!important;}
+    .village_view_win .collect_contain_choice {margin-top:15px;font-size:14px!important;margin-top:10px;margin-bottom:10px;}
+    .village_view_win .collect_new_choice{margin-top:10px;}
+    .village_view_win .radio.tab_accuracy_head.tab_accuracy_other.desk_sub_menu {margin-top:15px;margin-bottom:10px;font-size:16px;}
+    .village_view_win table.content_table td, table.content_table td a {line-height: 36px!important;font-size: 14px!important;}
+    .village_view_win .count_num.desk_orange_bar.inside_data {font-size:16px!important;}
+    .village_view_win .resident_wrapper input[type="text"], .village_view_win .collect_new_choice input[type="text"] {height:30px!important;line-height:30px!important;font-size:14px!important;}
+    .village_view_win .head_table tr th {line-height: 36px!important;font-size:14px!important;height:36px!important;}
+    .village_view_win .yx_tab_switch {height:36px!important;line-height:36px!important;font-size:14px!important;}
+    .village_view_win .village_new_searchbar #select_tab1 ,.village_view_win .village_new_searchbar #select_tab1 inpit,.village_view_win .village_new_searchbar #select_tab1 td{height:30px!important;line-height: 30px!important;font-size:14px!important;}
+    .village_view_win .village_new_searchbar #select_tab1{margin-top:15px;margin-bottom:10px;clear:both;overflow: hidden;}
+    .village_view_win .village_new_searchbar .yx_tab_switch {height:36px!important;overflow: hidden;}
+    .village_view_win .village_new_searchbar #select_tab1 td {padding-top:10px;}
+    .village_view_win .village_new_searchbar #select_tab1 select {height:30px!important;line-height: 30px!important;font-size:14px!important;}
+}
+@media screen and (min-width:1320px){
+    .village_view_win .sub_summary_tabs.tabs_suvery ul {width:72%!important;margin:20px 15% 0px auto!important;}
+}

@@ -1,0 +1,9 @@
+/*弹窗标题背景色*/
+.titleb{
+    background:#1a85ad;
+}
+#detail_more {
+    width:800px;
+    height:475px;
+    background-color:#fff;
+}

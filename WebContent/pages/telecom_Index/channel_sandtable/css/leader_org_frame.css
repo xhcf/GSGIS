@@ -1,0 +1,313 @@
+.mainleft{
+    width: 70%;
+    float: left;
+    height: 100%;
+}
+.frmTitle{
+    width: 29%;
+    float: left;
+    height: 100%;
+}
+#indexContainer{
+    height: 100%;
+}
+/* 右侧收缩按钮 */
+.switch_right_index{
+    float: left;
+    width: 1%;
+    height: 100%;
+    background: url("../images/right.png")no-repeat center/16px;
+}
+.switch_right_index.showList{
+    background: url("../images/left.png")no-repeat center/16px;
+}
+/* 左侧导航栏 */
+.leader_tools{
+    position:absolute;
+    top: 12px;
+    left: -10px;
+    text-align:center;
+    width: 145px;
+    z-index:999;
+}
+.leader_tools ul li{
+    background: #000a7c;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    width: 145px;
+    height: 40px;
+    margin-bottom: 5px;
+    cursor: hand;
+    position: relative;
+}
+.leader_tools ul li span{
+    display: inline-block;
+    height: 16px;
+    width: 16px;
+    position: absolute;
+    left: 20px;
+    top: 12px;
+}
+.leader_tools li a{
+    position: absolute;
+    top: 10px;
+    left: 45px;
+    text-decoration: none;
+    color: #fff;
+}
+.leader_tools li.active{
+    background: #009ad7;
+}
+.leader_tools li:hover{
+    background: #009ad7;
+}
+.leader_tools li a:hover{
+    text-decoration: none;
+}
+#nav_index_broad_home_percent span{
+    background: url("../images/shichang.png")no-repeat center/contain;
+}
+#nav_index_fb_cover span{
+    background: url("../images/kuandai.png") no-repeat center/contain;
+}
+#nav_index_fb_real_percent span{
+    background: url("../images/ziyuan.png") no-repeat center/contain;
+}
+#nav_index_dispatch_yx span{
+    background: url("../images/liushi.png") no-repeat center/contain;
+}
+#nav_Index_collect span{
+    background: url("../images/message.png") no-repeat center/contain;
+}
+#nav_Index_protection span{
+    background: url("../images/weixi.png") no-repeat center/contain;
+}
+#nav_index_village_detail span{
+    background: url("../images/qingdan.png") no-repeat center/contain;
+}
+#nav_index_sch_ent span{
+    background: url("../images/enterprise_empty_ico.png") no-repeat center/contain;
+    height: 19px;
+    width: 19px;
+}
+#nav_index_village_page span{
+    background: url("../images/village.png") no-repeat center/contain;
+}
+#nav_index_channel_count_summary span{
+    background: url("../images/fetj.png") no-repeat center/contain;
+}
+
+#nav_index_channel_add span{
+    background: url("../images/c_add.png") no-repeat center/contain;
+}
+
+#nav_index_channel_source span{
+    background: url("../images/c_source.png") no-repeat center/contain;
+}
+
+/* 右侧表格 */
+.datagrid .datagrid-pager.pagination{
+	display:none;
+}
+/*.leader_tables_title{
+    height: 30px;
+    line-height: 30px;
+    vertical-align: middle;
+    padding-left: 15px;
+    color: #fff;
+    position: relative;
+}
+.leader_tables_title:before{
+    content: "";
+    width: 2px;
+    height: 14px;
+    position: absolute;
+    left:0;
+    top: 8px;
+    background: #0186da;
+}
+.leader_tables_title .more_messages{
+    float: right;
+    padding-right: 10px;
+    cursor: pointer;
+    text-decoration: underline;
+}*/
+.alpha_cont{
+    width: 100%;
+    height: 94%;
+}
+.index_table{
+    width: 100%;
+    cursor:pointer;
+    position:absolute;
+    top:0px;
+    left: 0px;
+    height: 700px;
+}
+.alpha_cont .datagrid-header,
+.alpha_cont .datagrid-body{
+    border: 1px solid #3737ea;
+    overflow-x: hidden;
+    padding-right:14px;
+}
+.alpha_cont .datagrid-header,
+.alpha_cont .datagrid-htable{
+    background: #0b0a8a;
+    border-bottom: none;
+}
+.alpha_cont .datagrid-header td.datagrid-header-over{
+    background: #0b0a8a;
+    transition: none;
+    border: none;
+}
+.alpha_cont .datagrid-row-checked,
+.alpha_cont .datagrid-row-selected{
+    transition: none;
+    background: transparent;
+}
+.alpha_cont .panel-body{
+    background: transparent;
+}
+.alpha_cont .datagrid-btable, .alpha_cont .datagrid-ftable {
+    border-collapse: collapse;
+}
+.alpha_cont .datagrid-htable td {
+    border: none;
+    color: #fff;
+    cursor: default;
+}
+.alpha_cont .datagrid-btable,
+.alpha_cont .datagrid-ftable{
+    background-color: transparent;
+}
+.alpha_cont .datagrid-header td, .alpha_cont .datagrid-body td,
+.alpha_cont .datagrid-footer td {
+    border: none;
+    margin: 0;
+    padding: 0;
+    color: #fff;
+}
+.alpha_cont .datagrid-row-over{
+    background: #042f98 !important;
+}
+/* 支局选择列表 */
+.region_switch_group{
+    position:absolute;
+    right:20px;/*地址栏和层级切换互换位置，打开时层级切换靠右。关闭时配合leader_org_frame页面reposMapPosition方法*/
+    top:10px;
+}
+.region_switch_group ul li{
+    float: left;
+    height: 26px;
+    line-height: 26px;
+    vertical-align: middle;
+    color: #000;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius:5px;
+    padding: 0 15px;
+    background: #fff;
+    margin-right: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.region_switch_group ul li.active{
+    background: #009ad8;
+    color: #fff;
+}
+/* 悬浮框样式 */
+.tips_table_wrapper{
+    padding: 0 20px 8px;
+}
+.tips_table_wrapper table{
+    color: #fff;
+}
+.tips_table_wrapper table td{
+    font-size: 12px;
+}
+.tips_table_wrapper table tr:nth-child(1){
+    border-bottom: 1px solid rgba(0,0,0,.8);
+}
+.tips_table_wrapper table tr td:nth-child(1){
+    text-align: justify;
+    text-align-last: justify;
+    width: 90px;
+}
+.tips_table_wrapper table tr td:nth-child(2){
+    padding-left: 5px;
+}
+.tips_table_wrapper table tr:nth-child(1) td:nth-child(1){
+    text-align: center;
+    text-align-last: center;
+    font-weight: bold;
+    color: #a5d2f9;
+    font-size: 14px;
+    white-space: nowrap;
+}
+/* 大表格容器 */
+#list_mode_view{
+    /*display:none;*/
+    position:fixed;
+    width:100%;
+    height:99%;
+    top: 0;
+    left: 100%;
+    background-color: #030C57;
+    /*background: url("../../../../resources/themes/blue/images/total_bg.jpg") no-repeat center/cover;*/
+}
+/* 大屏样式 */
+@media screen and (min-height: 800px) {
+    .leader_tables_title{
+        height: 50px;
+        line-height: 50px;
+        padding-left: 20px;
+        font-size: 16px;
+    }
+    .leader_tables_title:before{
+        width: 4px;
+        top: 15px;
+        height: 20px;
+    }
+    .alpha_cont .datagrid-header td, .alpha_cont .datagrid-body td,
+    .alpha_cont .datagrid-footer td{
+        height: 47px;
+    }
+    .region_switch_group{
+        top: 15px;
+    }
+    .region_switch_group ul li{
+        line-height: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    /* 悬浮框 */
+    .tips_class{
+        padding-bottom: 12px;
+    }
+    .tips_class header{
+        font-size: 16px;
+        line-height: 36px;
+        height: 36px;
+        margin-bottom: 10px;
+    }
+    .tips_class span{
+        padding: 0 20px;
+    }
+}
+.search_entrance{display:none;width:100%!important;;}
+.search_name {float:left!important;width:80%!important;margin-left:14px;color:#fff;}
+#search_btn {
+    float:right;
+    border: none;
+    background-color: #1479c0;
+    color: #fff;
+    border-radius: 3px;
+    font-size: 13px;
+    padding: 0px 13px;
+    margin-left: 5px;
+    height: 28px!important;
+    line-height: 28px!important;
+    cursor:pointer;
+}
+a{text-decoration:underline;}

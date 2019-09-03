@@ -1,0 +1,157 @@
+/* С����� */
+.content_table_wrapper{
+    margin:0 auto;
+    width: 100%;
+    overflow-y: scroll;
+}
+#left_bottom_float_window_title{
+    text-align: left;
+    padding: 0 10px;
+    line-height: 34px;
+    color: #fff;
+    font-weight: bold;
+    background: #073b8a;
+}
+#left_bottom_float_window_summay{
+    padding-left:7px;
+    background: #fff;
+    line-height: 28px;
+}
+#left_bottom_float_window table.build_detail_in{
+    border: 0;
+}
+#left_bottom_float_window table.build_detail_in th,
+#left_bottom_float_window table thead th{
+    background-color: #e8e8e8;
+    color: #777;
+    font-weight: normal;
+    border: 1px solid #c9c9ca;
+}
+#left_bottom_float_window #left_bottom_tab_div{
+    overflow-y: scroll;
+}
+.village_close_lb{
+    background: url(../images/close.png) no-repeat right center/16px;
+    float: right;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    margin-top: 6px;
+    margin-right: 0;
+    cursor: pointer;
+}
+.left_bottom_float_window_content{
+    width:auto;
+}
+#left_bottom_float_window table td{
+    padding: 0 5px;
+    border: solid 1px #ddd;
+}
+#left_bottom_float_window table th{
+    padding:5px 5px;
+}
+#village_info_list.build_detail_in tr td:nth-child(2),
+#left_bottom_float_window .build_detail_in a
+{
+    text-align: center;
+    color: #025b9a;
+    text-decoration:underline;
+}
+#left_bottom_float_window table tr{
+    border: 0;
+}
+.left_bottom_xq_head{
+    background: #fff;
+    padding-right: 14px;
+}
+/* Ӫ����� */
+#yingxiao_tabs_head{
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+    color: #000;
+    display: flex;
+}
+#yingxiao_tabs_head span{
+    display: block;
+    line-height: 30px;
+    vertical-align: middle;
+    text-align: center;
+    position: relative;
+    flex: 1;
+}
+#yingxiao_tabs_head span:hover, #yingxiao_tabs_head .active{
+    color: #1e7abe;
+}
+#yingxiao_tabs_head .active:after{
+    content: '';
+    position: absolute;
+    bottom: 1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: #1e7abe;
+}
+.yingxiao_tabs_page{
+    height: 215px;
+    background: #fff;
+}
+.yingxiao_tabs_page_head{
+    background: #fff;
+    padding: 0 5px;
+    line-height: 28px;
+    vertical-align: middle;
+    font-weight: bold;
+    height: 30px;
+}
+.yingxiao_tabs_page_body table{
+    width: 100%;
+    text-align: center;
+}
+@media screen and (max-height: 1080px) {
+    .content_table_wrapper{
+        max-height: 435px;
+    }
+    .left_bottom_float_window_content_ying{
+        width: 500px;
+    }
+    .yingxiao_tabs_page{
+        height: 269px;
+    }
+}
+@media screen and (max-height: 768px) {
+    .content_table_wrapper{
+        max-height: 290px;
+    }
+    .left_bottom_float_window_content_ying{
+        width: 500px;
+        height: 300px;
+    }
+    #left_bottom_float_window {
+        max-height: 380px;
+    }
+}
+.shrink_btn3{
+    cursor: pointer;
+    background: #fff url(../images/shrink_btn3.png) no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    position: absolute;
+    bottom: 0;
+    left: 37;
+    z-index: 99999;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #5959fb;
+    display:none;
+}
+#yingxiao_tabs_head span{
+    font-weight: bold;
+}
+.yingxiao_tabs_page_head_clickable .tracert_active{
+		color:#1e7abe;
+		cursor:pointer;
+}
+.yingxiao_tabs_page_head_clickable .tracert_default{
+		color:#000;
+		cursor:pointer;
+}

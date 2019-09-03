@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>FeatureTable without map</title>
+  <link rel="stylesheet" href="//js.arcgis.com/3.14/dijit/themes/claro/claro.css">
+  <link rel="stylesheet" href="//js.arcgis.com/3.14/esri/css/esri.css">
+  <script src="//js.arcgis.com/3.14/"></script>
+
+  <style>
+    html, body, #map{
+      width:100%;
+      height:100%;
+      margin:0;
+      padding:0;
+    }
+  </style>
+
+  <script>
+    var map;
+
+    require([
+      "esri/IdentityManager",
+      "esri/layers/FeatureLayer",
+      "esri/dijit/FeatureTable",
+      "dojo/dom-construct",
+      "dojo/dom",
+      "dojo/parser",
+      "dojo/ready",
+      "dojo/on",
+      "dojo/_base/lang",
+      "dijit/registry"
+    ], function (
+      IdentityManager, FeatureLayer, FeatureTable,
+      domConstruct, dom, parser, ready, on,lang,
+      registry
+    ) {
+
+      parser.parse();
+
+      ready(function(){
+
+          // Create the feature layer
+        var myFeatureLayer = new FeatureLayer("http://services.arcgis.com/V6ZHFr6zdgNZuVG0/arcgis/rest/services/california_census_blocks/FeatureServer/0", {
+          mode: FeatureLayer.MODE_ONDEMAND,
+          outFields:  ["NAME","GEOID","MTFCC","ALAND","AWATER"],
+          visible: true,
+          id: "fLayer"
+        });
+        myTable = new FeatureTable({
+          "featureLayer" : myFeatureLayer,
+          "hiddenFields": ["FID","C_Seq","Street"]  // field that end-user can show, but is hidden on startup
+        }, 'myTableNode');
+        myTable.startup();
+      });
+    });
+  </script>
+</head>
+
+<body class="claro esri">
+  <p>
+    <i>The FeatureTable dijit supports tables with lots of features, with the table growing as you scroll.</i>
+  </p>
+  <div id="myTableNode"></div>
+</body>
+
+</html>

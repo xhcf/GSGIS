@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.homesql">
+	<sql name="userDaysObj">
+		<![CDATA[
+			SELECT DATEDIFF(DATE_FORMAT(NOW(),'%Y%c%d%H%i%s'),T.UPDATE_DATE) DAYNUM FROM E_USER T WHERE T.USER_ID=#session.USER_ID#
+		]]>
+	</sql>
+	
+	<sql name="RootMenuList">
+		<![CDATA[
+			 SELECT RESOURCES_ID, RESOURCES_NAME, 
+				CASE URL WHEN '' THEN NULL ELSE URL END URL,
+				IFNULL(RESOURCE_STATE,'3') RESOURCE_STATE,RESOURCES_TYPE,IFNULL(CASE ATTACHMENT WHEN '' THEN NULL ELSE ATTACHMENT END,'/resources/themes/base/images/boncLayout/img/navIcons.png') ATTACHMENT 
+			  FROM e_menu t
+			 WHERE t.parent_id = '0'
+			   AND RESOURCES_ID IN
+			       (SELECT id
+			          FROM (SELECT b.MENU_ID ID
+			                  FROM E_USER_PERMISSION b
+			                 WHERE b.USER_ID = #session.USER_ID#
+			                   AND b.AUTH_READ = 1
+			                UNION ALL
+			                SELECT c.MENU_ID
+			                  FROM E_ROLE_PERMISSION c
+			                 WHERE c.ROLE_CODE IN
+			                       (SELECT ROLE_CODE
+			                          FROM E_USER_ROLE
+			                         WHERE USER_ID = #session.USER_ID#)
+			                   AND c.AUTH_READ = 1) tt)
+			 ORDER BY ORD
+		]]>
+	</sql>
+	<sql name="col_list">
+		<![CDATA[
+			select ID from E_USER_COLLECT U where U.user_id = #session.USER_ID#
+		]]>
+	</sql>
+	
+</mapping>

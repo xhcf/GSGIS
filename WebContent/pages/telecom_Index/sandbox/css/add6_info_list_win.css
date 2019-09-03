@@ -1,0 +1,132 @@
+#right_top_float_window,#right_top_float_window1 {
+    overflow:hidden;
+    position:absolute;
+    right:10px;
+    top:152px;
+    z-index:150;
+    background-color: #fff;
+    color:#fff;
+    border-radius: 4px;
+    border: 1px solid #1e7abe;
+    display:none;
+}
+#right_top_float_window{
+    width: 737px;
+}
+#count_num1{
+    font-size: 12px;
+    padding-left: 15px;
+    color: #000;
+}
+#add4_name,#add4_name1 {
+    line-height: 24px;
+    background-color: #1e7abe;
+    font-size: 12px;
+    font-weight: bold;
+    min-height:32px;
+    padding: 5px 30px 5px 14px;
+}
+#right_top_float_window table tr td,
+#right_top_float_window1 table tr td{
+    text-align: center;
+    font-size: 12px;
+}
+#right_top_float_window table th,
+#right_top_float_window1 table th{
+    height: 28px;
+    font-size: 12px;
+    line-height: 28px;
+    font-weight: bold;
+}
+.right_top_table_wrapper, .table_wrapper{
+    width: 100%;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+/*.right_top_table_wrapper table,*/
+/*.right_top_table_wrapper table,*/
+/*.table_wrapper table{*/
+    /*width: 100%;*/
+    /*/!*background: #fff;*!/*/
+/*}*/
+#right_top_float_window table tr,
+#right_top_float_window1 table tr{
+    border: 1px solid #d6dee4;
+}
+#right_top_float_window1 td table tr,#right_top_float_window td table tr{
+    border:none;
+}
+.right_top_table_wrapper table tr:nth-child(1){
+    border-top:0;
+}
+.add6_produce_list{
+    color: #025b9a;
+    font-weight: bold;
+    text-decoration: underline;
+    cursor: pointer;
+}
+#right_top_float_window .close_table,
+#right_top_float_window1 .close_table{
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 6px;
+    height: 18px;
+    width: 18px;
+    background: url(../../sub_grid/image/close.png) no-repeat center/10px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+}
+.table_before, .table_after{
+    position: relative;
+}
+.table_before:before{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    top: 0;
+    left: 0;
+    background: #d6dee4;
+}
+.table_after:after{
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 1px;
+    top: 0;
+    right: 0;
+    background: #d6dee4;
+}
+.dialog>div>table{
+    width:100%;
+}
+.dialog table tr{
+    border-bottom: 1px solid #d6dee4;
+}
+.dialog>div>table tr td{
+    line-height: 24px;
+    text-align: center;
+    font-size: 12px;
+}
+.dialog>div>table tr th{
+    font-weight: bold;
+    line-height: 28px;
+    font-size: 12px;
+}
+#count_num{
+    padding: 5px 0 5px 15px;
+    font-size: 12px;
+}
+/* 大屏下样式 */
+@media screen and (max-height: 1080px){
+    .right_top_table_wrapper{
+        max-height: 435px;
+    }
+}
+/* 小屏下样式 */
+@media screen and (max-height: 768px){
+    .right_top_table_wrapper{
+        max-height: 245px;
+    }
+}

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.userext">
+	<sql name="maxExtColumnNum">
+		<![CDATA[
+		SELECT concat('EXT',nvl(SUBSTR(max(COLUMN_NAME),4),0)+1) as "V_EXTCOLUME_NUM"  FROM E_USER_EXT_COLUMN_ATTR
+		]]>
+	</sql>
+	<sql name="list">
+		<![CDATA[
+			select attr_code,
+		       parent_code,
+		       attr_name,
+		       m.model_desc show_mode,
+		       code_table,
+		       code_key,
+		       code_parent_key,
+		       code_desc,
+		       code_ord,
+		       t.type_desc data_type,
+		       case when multi=0 then '否' else '是' end multi,
+		       attr_ord,
+		       case when is_null=0 then '否' else '是' end is_null,
+		       default_value,
+		       default_desc,
+		       ATTR_DESC,
+		       u.subsystem_id,
+		       sub.subsystem_name
+		  from e_user_attr_dim u inner join e_user_ext_model m
+		  on u.show_mode=m.model_code inner join e_user_extvalue_type t
+		  on u.data_type = t.type_code left join d_subsystem sub
+		  on u.subsystem_id = sub.subsystem_id
+		  where 1=1 
+		  {and attr_code like '%'|| #attr_code#||'%'}
+		  {and attr_name like '%' ||#attr_name#||'%'}
+		  {and data_type = #value_type#}
+		  {and show_mode = #model_type#}
+		  order by attr_ord
+		]]>
+	</sql>
+	
+	<sql name="edit">
+		<![CDATA[
+			update e_user_attr_dim
+			   set 
+			   	parent_code=#attr_father_code#,
+			       attr_name = #attr_name#,
+			       attr_desc = #attr_desc#,
+			       code_table = upper(#code_table#),
+			       code_key = upper(#code_key#),
+			       code_parent_key = upper(#code_parent_key#),
+			       code_desc = upper(#code_desc#),
+			       code_ord = upper(#code_ord#),
+			       data_type = #ext_value_type#,
+			       multi = #muni#,
+			       attr_ord = #ext_index#,
+			       is_null = #isNull#,
+			       default_value = #default_value#,
+			       default_desc = #default_desc#,
+			       subsystem_id = #subsystem_id#
+			 where attr_code=#attr_code#
+		]]>
+	</sql>
+	
+	<sql name="add">
+		<![CDATA[
+			insert into e_user_attr_dim
+			  (attr_code, parent_code, attr_name, attr_desc, show_mode, code_table, code_key, code_parent_key, code_desc, code_ord, data_type, multi, attr_ord, is_null, default_value, default_desc, subsystem_id)
+			values
+			  (#ext_code#, #attr_father_code#, #ext_name#,#ext_desc#, #ext_model#, upper(#code_table#), upper(#code_key#), upper(#code_parent_key#), upper(#code_desc#), upper(#code_ord#), #ext_value_type#, #muni#, #ext_index#, #isNull#, #default_value#, #default_desc#, #subsystem_id#);
+		    INSERT INTO E_USER_EXT_COLUMN_ATTR(ATTR_CODE,COLUMN_NAME) VALUES(#ext_code#,#maxExtColumnNum.V_EXTCOLUME_NUM#);
+		]]>
+	</sql>
+	
+	<sql name="getHasSelectSubSystems">
+	  SELECT T.SUBSYSTEM_ID AS "SUBSYSTEM_ID",T.SUBSYSTEM_NAME AS "SUBSYSTEM_NAME"
+			  FROM D_SUBSYSTEM T
+			 WHERE EXISTS (SELECT 1
+			          FROM E_USER_ATTR_SUBSYSTEM
+			         WHERE SUBSYSTEM_ID = T.SUBSYSTEM_ID
+			           AND ATTR_CODE = #attrCode#
+			        )
+			  { AND T.SUBSYSTEM_ID LIKE '%'||#id#||'%'}
+			  { AND T.SUBSYSTEM_NAME LIKE '%'||#name#||'%'}
+			  ORDER BY T.ORD
+	</sql>
+	
+	<sql name="getNeedSelectSubSystems">
+	 	SELECT T.SUBSYSTEM_ID as "SUBSYSTEM_ID",T.SUBSYSTEM_NAME as "SUBSYSTEM_NAME"
+			  FROM D_SUBSYSTEM T
+			 WHERE NOT EXISTS (SELECT 1
+			          FROM E_USER_ATTR_SUBSYSTEM
+			         WHERE SUBSYSTEM_ID = T.SUBSYSTEM_ID
+			           AND ATTR_CODE = #attrCode#
+			        )
+			  { AND T.SUBSYSTEM_ID LIKE '%'||#id#||'%'}
+			  { AND T.SUBSYSTEM_NAME LIKE '%'||#name#||'%'}
+			  ORDER BY T.ORD
+	</sql>
+</mapping>

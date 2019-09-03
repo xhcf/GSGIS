@@ -1,0 +1,9 @@
+.blue {color:#01469d;}
+.orange {color:#ee7008;}
+.red {color:#FF0000;}
+.green {color:#00ff00;}
+.clickable {
+    color: #4CB9F9 !important;
+    text-decoration: underline;
+    cursor: pointer;
+}

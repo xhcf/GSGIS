@@ -1,0 +1,31 @@
+/*.searches li:nth-child(1).active:before{
+    background: #be111e;
+}
+.searches li:nth-child(2).active:before{
+    background: #ff4800;
+}
+.searches li:nth-child(3).active:before{
+    background: #f9970b;
+}
+.searches li:nth-child(4).active:before{
+    background: #e1da17;
+}
+.searches li:nth-child(5).active:before{
+    background: #f600ff;
+}
+.searches li:nth-child(6).active:before{
+    background: #44d661;
+}*/
+
+.searches li:nth-child(1).active:before{
+    background: #42c877;
+}
+.searches li:nth-child(2).active:before{
+    background: #8ae9b0;
+}
+.searches li:nth-child(3).active:before{
+    background: #ff9c2b;
+}
+.searches li:nth-child(4).active:before{
+    background: #fcb666;
+}

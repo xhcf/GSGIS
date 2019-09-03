@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mapping namespace="frame.excelTemplate">
+    <sql name="down">
+        <![CDATA[
+            select segm_id_2, stand_name_2
+                from GIS_DATA.TB_GIS_ADDR_OTHER_ALL aa, sde.TB_GIS_MAP_SEGM_LATN_MON bb
+                where aa.segm_id = bb.segm_id
+                and bb.latn_id=#latn_id#
+                and bb.BUREAU_NO = #BUREAU_NO#
+                and bb.UNION_ORG_CODE = #UNION_ORG_CODE#
+                {and bb.GRID_UNION_ORG_CODE = #GRID_UNION_ORG_CODE#}
+                order by segm_id_2 asc
+                
+
+		]]>
+    </sql>
+    <sql name="delete">
+        <![CDATA[
+            DELETE FROM GIS_DATA.TB_GIS_ADDR_OTHER_ALL_imp WHERE SEGM_ID_2 =#a#
+
+		]]>
+    </sql>
+    <sql name="insert">
+        <![CDATA[
+            INSERT INTO GIS_DATA.TB_GIS_ADDR_OTHER_ALL_imp (
+                        segm_id_2,
+                        stand_name_2,
+                        CONTACT_PERSON,
+	                    CONTACT_NBR,
+                        kd_business,
+                        kd_xf,
+                        kd_dq_date,
+                        itv_business,
+                        itv_xf,
+                        itv_dq_date,
+                        note_txt,
+                        warn_date,
+                        COMMENTS,
+                        IMPORT_PERSON,
+                        IMPORT_TIME
+                    )
+             VALUES
+	         (#a#,#b#,#c#,#d#,#e#,#f#,to_date(#g#,'yyyy-mm-dd'),#h#,#i#,to_date(#j#,'yyyy-mm-dd'),#k#,to_date(#l#,'yyyy-mm-dd'),#m#,#import_person#,sysdate)
+
+		]]>
+    </sql>
+
+
+    <sql name="ind_delete">
+        <![CDATA[
+			%{
+				for( ind_id :delids) {
+					echo("delete from E_IND_EXP where ind_id="+ind_id+";");
+					echo("delete from E_IND_EXP_DETAILS where ind_id="+ind_id+";");
+					echo("delete from E_MENU_IND where ind_id="+ind_id+";");
+				}
+			 }  
+		]]>
+    </sql>
+
+
+
+
+
+
+    <sql name="ADDUSER">
+        <![CDATA[
+			%{
+				for(item:split(userIds, ',') ){
+					echo("insert into E_USER_ACCOUNT(account_code, user_id) values (#account_code#, "+item+");");
+				}
+			}
+		]]>
+    </sql>
+
+
+</mapping>

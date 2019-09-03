@@ -1,0 +1,87 @@
+/* ¾ºÕù */
+.left_bottom_jz table tr{
+    border-bottom: 1px solid #bbb;
+}
+#left_bottom_float_window_title{
+    text-align: left;
+    padding: 0 10px;
+    line-height: 28px;
+    color: #fff;
+    background: #073b8a;
+}
+.left_bottom_jz{
+    height: 80px;
+}
+#left_bottom_float_window .left_bottom_float_window_content table th{
+    background: rgb(237, 248, 255);
+    color: #000;
+}
+#left_bottom_float_window .left_bottom_notitle table tr th{
+    background: #cfecff;
+}
+#left_bottom_float_window table th{
+    padding: 5px;
+}
+#left_bottom_float_window #left_bottom_tab_div table td{
+    padding: 0 5px;
+}
+/* Ð¡Çø */
+.left_bottom_xq{
+    width: 450px;
+}
+.left_bottom_xq_head{
+    width:100%;
+    margin:0 auto;
+    padding-right:14px;
+    background: rgb(237, 248, 255);
+    border:1px solid #ddd;
+}
+#left_bottom_float_window .left_bottom_xq table td,
+#left_bottom_float_window .left_bottom_xq table th{
+    padding: 0;
+}
+#left_bottom_float_window_summay{
+    line-height: 28px;
+    background: #cfecff;
+}
+#left_bottom_float_window .build_detail_in a{
+    color: #025b9a;
+}
+#village_info_list.build_detail_in tr td:nth-child(2){
+    text-align: center;
+}
+@media screen and (max-height: 1000px){
+    .content_table_wrapper{
+        height: 435px;
+        overflow-y: scroll;
+    }
+    #left_bottom_float_window_title{
+        font-size: 16px;
+    }
+}
+@media screen and (max-height: 768px){
+    .content_table_wrapper{
+        height: 175px;
+        overflow-y: scroll;
+    }
+    #left_bottom_float_window{
+        max-height: fit-content;
+    }
+}
+.shrink_btn3{
+    cursor: pointer;
+    background: #fff url(../images/shrink_btn3.png) no-repeat;
+    background-size:100% 100%;
+    -moz-background-size:100% 100%;
+    position: absolute;
+    bottom: 0;
+    left: 37;
+    z-index: 99999;
+    width: 36px;
+    height: 36px;
+    border: 1px solid #5959fb;
+    display:none;
+}
+#yingxiao_tabs_head span{
+    font-weight: bold;
+}

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+<title>Image Service Vector Layer</title>
+<link rel="stylesheet" href="http://js.arcgis.com/3.14/dijit/themes/claro/claro.css">
+<link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css">
+<style>
+  html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;        
+  }
+  #map
+  {
+    border: solid 1px #888;
+    padding: 0;
+  }   
+  #status
+  {
+    background-color: #000;
+    color: #FFF;
+    border: solid 1px #FFF;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    padding: 3px;
+  }      
+  #header
+  {
+    height: 30px;
+    padding: 5px;
+    text-align: center;
+    vertical-align: middle;
+    -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+    box-shadow:inset 0px 1px 0px 0px #ffffff;
+    background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9));
+    background:-moz-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-webkit-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-o-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:-ms-linear-gradient(top, #f9f9f9 5%, #e9e9e9 100%);
+    background:linear-gradient(to bottom, #f9f9f9 5%, #e9e9e9 100%);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9',GradientType=0);
+    background-color:#f9f9f9;
+    -moz-border-radius:6px;
+    -webkit-border-radius:6px;
+    border-radius:5px;
+    border:1px solid #dcdcdc;
+    color:#666666;
+    font-family:arial;
+    font-size:1.8em;
+    font-weight:bold;      
+  }     
+</style>
+
+<script type="text/javascript" src="http://js.arcgis.com/3.14/"></script>      
+<script>
+  var map;
+  var vectorLayer;
+  require([
+    "esri/map", "esri/config", "esri/Color",
+    "esri/domUtils", "dojo/_base/url", "dojo/on",      
+    "esri/layers/ArcGISImageServiceVectorLayer", "esri/renderers/VectorFieldRenderer",  
+    "esri/geometry/Extent", "esri/SpatialReference",
+    "dijit/layout/BorderContainer", "dijit/layout/ContentPane",
+    "dojo/parser", "dojo/dom", "dojo/domReady!"
+  ], function(
+    Map, esriConfig, Color,
+    domUtils, Url, on, 
+    ArcGISImageServiceVectorLayer, VectorFieldRenderer, 
+    Extent, SpatialReference,
+    BorderContainer, ContentPane,
+    parser, dom)
+  {
+    parser.parse();
+
+    var url = "http://sampleserver6.arcgisonline.com/arcgis/rest/services/ScientificData/NDFD_wind/ImageServer";
+    var corsEnabledServers = esriConfig.defaults.io.corsEnabledServers;
+    corsEnabledServers.push(url);
+
+    var dataExtent = new Extent(-130, 20, -60, 52, new SpatialReference(4326));
+    map = new Map("map", {
+      basemap: "dark-gray",
+      extent: dataExtent
+    });
+
+    map.on("update-start", function () {
+      domUtils.show(dom.byId("status"));
+    });
+    map.on("update-end", function () {
+      domUtils.hide(dom.byId("status"));
+    });
+
+    vectorLayer = new ArcGISImageServiceVectorLayer(url, {
+      rendererStyle: VectorFieldRenderer.STYLE_CLASSIFIED_ARROW
+    });
+
+    var sizeInfoVar = {
+      type: "sizeInfo",
+      minSize: 3,
+      maxSize: 100,
+      minDataValue: 0.04,
+      maxDataValue: 32
+    };
+    var colorInfoVar = {    
+      stops: [
+          {
+            value: 0,
+            color: new Color([49,130,189])
+          }
+      ]
+    };
+
+    var renderer = new VectorFieldRenderer({
+      style: VectorFieldRenderer.STYLE_BEAUFORT_KN,
+      sizeInfo: sizeInfoVar,
+      colorInfo: colorInfoVar,
+      flowRepresentation: VectorFieldRenderer.FLOW_TO
+    });
+    vectorLayer.setRenderer(renderer);       
+
+    map.addLayer(vectorLayer);
+  });
+</script>
+</head>
+
+<body>
+<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline', gutters:false"
+    style="width: 100%; height: 100%; margin: 0;">     
+    <div id="map" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'"
+        style="height: 100%;">
+        <div id="status" style="position: absolute; right: 10px; bottom: 10px; z-index: 99;">
+            Loading...
+        </div>
+    </div>
+    <div id="header" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'top'">
+        Wind Speed and Direction in the United States
+    </div>
+</div>   
+</body>
+
+</html>

@@ -1,0 +1,47 @@
+/**
+ * Created by admin on 2017/3/27.
+ */
+function chartClickAction(parent_name){
+    chart.on('click', function (params){
+        $("#back").remove();
+        var cityFull = params.name;
+        var city = "";
+        if(city_name_speical.indexOf(cityFull)>-1)
+            city = cityFull.replace(/州/gi,'');
+        else
+            city = cityFull.replace(/市/gi,'');
+
+        var jsonNo = cityMap[cityFull];
+
+        if(jsonNo!=undefined){//从省级点，会获取到地市名称
+            var params = {};
+            params.city_name = cityFull;
+            params.flag = 3;
+            params.index_type = global_current_index_type;
+            global_parent_area_name = parent_name;
+            global_current_full_area_name = cityFull;
+            global_current_flag = 3;
+            doQuery(params);
+            click_path.html("当前路径："+province_name+">"+cityFull);
+            var cityFull =  params.name;
+            var path = '<e:url value="/pages/telecom_Index/viewPlane_city.jsp"/>?';
+            var name = encodeURI(cityFull);
+            parent.updatePosition("当前路径：全省>>"+cityFull);
+            window.location.href = path+'&city_name='+name;
+            window.returnValue=false;
+        }else{//地图已到下钻一层到区县，加载gis地图
+            toGis(cityFull,parent_name);
+            global_current_flag = 4;
+        }
+        if(jsonNo!=undefined){
+            global_current_area_name = city;
+            freshTab(global_current_area_name);
+            freshChart(global_current_area_name,global_current_index_type,getChartDivIndex(global_current_index_type));
+            freshRank(global_current_area_name);
+        }else{
+            //freshTab(cityFull);
+            //freshChart(cityFull,global_current_index_type,getChartDivIndex(global_current_index_type));
+            //freshRank(cityFull);
+        }
+    });
+}

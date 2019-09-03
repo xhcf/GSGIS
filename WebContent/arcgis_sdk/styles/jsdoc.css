@@ -1,0 +1,320 @@
+/* --------------------------------------------------
+     TABLE STYLES (all unique to JSDoc)
+-------------------------------------------------- */
+div#tablediv {
+  width: 100%;
+  /* Forces tables to have correct right margins and top spacing */
+  margin-top: -.4em;
+  background-color: #fafafa;
+  margin-top: 0.5em;
+  margin-bottom: 1.0em;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-left: 5px;
+  border-width: 1px 0px 1px 0px;
+  border-style: solid;
+  border-color: #d9d9d9;
+  font-size: 1.0em; }
+
+div.syntaxdetaildiv {
+  /*width: 95%; Forces tables to have correct right margins and top spacing */
+  border-width: 1px 1px 1px 1px;
+  border-style: solid;
+  border-color: #d9d9d9;
+  margin: 1.6em 0 1em 0;
+  background-color: #ffffff;
+  /*margin-right: .5em;*/
+  padding-top: 0.0em;
+  padding-bottom: 0.5em;
+  padding-left: 5px; }
+
+div.syntaxdetailname {
+  background: #c7c7c7;
+  background: -webkit-linear-gradient(top, #c7c7c7, #e1e1e1, #fafafa);
+  background: linear-gradient(to bottom, #c7c7c7, #e1e1e1, #fafafa);
+  border-bottom-color: #ddd;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  margin: 0 0 0 -0.4em;
+  padding: 0.2em 0.5em 0.2em 0.5em; }
+
+h4.syntaxdetailheadername code {
+  font-size: 0.9375em; }
+
+#nstext div h4.syntaxdetailheadername {
+  font-size: 1.0625em; }
+
+div.syntaxdetaildesc {
+  background-color: white;
+  padding: 0.5em 0.2em 0.5em 0.2em;
+  word-wrap: initial; }
+
+div.detailSample {
+  background-color: #fafafa;
+  padding-top: 0.0em;
+  /*padding-bottom: 0.2em;*/ }
+
+table.courierTABLE {
+  /*width: 100%;  Forces tables to have correct right margin */
+  margin-top: 1.0em;
+  margin-bottom: 1.0em;
+  width: 95%;
+  background-color: #fafafa; }
+
+td.courierTABLE {
+  border-color: #d9d9d9;
+  background-color: #bababa;
+  padding: 4px 6px;
+  text-align: left;
+  font-size: 10pt;
+  font-family: Monospace, Courier New, Courier;
+  color: #595959; }
+
+.courierfont {
+  font-size: 10pt;
+  font-family: Monospace, Courier New, Courier;
+  color: #595959; }
+
+.courierbold {
+  font-family: "Courier New";
+  font-size: 14pt;
+  font-weight: bold; }
+
+.couriernew {
+  font-family: "Courier New";
+  font-size: 10pt; }
+
+div.syntaxTABLE {
+  font-size: 100%;
+  background-color: #fafafa; }
+
+table.syntaxTABLE {
+  /*width: 95%;  Forces tables to have correct right margin */
+  margin-top: .1em;
+  margin-bottom: .3em;
+  border-color: #d9d9d9;
+  border-width: 1px 1px 0px 1px;
+  border-style: solid;
+  background-color: #fafafa;
+  font-size: 1.0em;
+  table-layout: fixed;
+  width: 99%; }
+
+td.syntaxTABLE {
+  border-color: #d9d9d9;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  background-color: #ededed;
+  padding: 4px 6px;
+  font-size: 100%;
+  /* cm commented out */
+  /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+  /*font-size: 1.2em;*/
+  color: #595959;
+  vertical-align: top; }
+@media screen and (min-width: 1025px) {
+  td.syntaxTABLE.event_object {
+    width: 30%; }
+  td.syntaxTABLE.return_type {
+    width: 30%; }
+  td.syntaxTABLE.summary {
+    width: 40%; }
+  td.syntaxTABLE.description {
+    width: 40%; } }
+@media screen and (min-width: 1281px) {
+  td.syntaxTABLE.event_object {
+    width: 25%; }
+  td.syntaxTABLE.return_type {
+    width: 25%; }
+  td.syntaxTABLE.summary {
+    width: 50%; }
+  td.syntaxTABLE.description {
+    width: 50%; } }
+@media screen and (min-width: 1601px) {
+  td.syntaxTABLE.event_object {
+    width: 20%; }
+  td.syntaxTABLE.return_type {
+    width: 20%; }
+  td.syntaxTABLE.summary {
+    width: 55%; }
+  td.syntaxTABLE.description {
+    width: 55%; } }
+
+.tableheader {
+  border-color: #d9d9d9;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  background: #8a299a;
+  background: -webkit-linear-gradient(top, #8a299a, #782486, #8a299a, #912ca2);
+  background: linear-gradient(to bottom, #8a299a, #782486, #8a299a, #912ca2);
+  padding: 4px 6px;
+  /*font-size: 70%; */
+  font-family: Verdana, Arial, Helvetica, sans-serif;
+  font-size: 1em;
+  color: #FFFFFF;
+  text-align: left; }
+@media screen and (min-width: 1025px) {
+  .tableheader.type {
+    width: 30%; }
+  .tableheader.event_object {
+    width: 30%; }
+  .tableheader.return_type {
+    width: 30%; }
+  .tableheader.summary {
+    width: 40%; }
+  .tableheader.description {
+    width: 40%; } }
+@media screen and (min-width: 1281px) {
+  .tableheader.type {
+    width: 25%; }
+  .tableheader.event_object {
+    width: 25%; }
+  .tableheader.return_type {
+    width: 25%; }
+  .tableheader.summary {
+    width: 50%; }
+  .tableheader.description {
+    width: 50%; } }
+@media screen and (min-width: 1601px) {
+  .tableheader.type {
+    width: 20%; }
+  .tableheader.event_object {
+    width: 20%; }
+  .tableheader.return_type {
+    width: 20%; }
+  .tableheader.summary {
+    width: 55%; }
+  .tableheader.description {
+    width: 55%; } }
+
+table.syntaxDetailTABLE {
+  /*Forces tables to have correct right margin */
+  width: 99%;
+  margin-top: .1em;
+  margin-bottom: .3em;
+  border-color: #d9d9d9;
+  border-width: 1px 1px 0px 1px;
+  border-style: solid; }
+
+td.syntaxDetailTABLE {
+  border-color: #d9d9d9;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  background-color: #ffffff;
+  padding: 4px 1px 4px 5px;
+  /*font-family: Verdana, Arial, Helvetica, sans-serif;*/
+  /*font-size: .78em;*/
+  /*color: #000066;*/
+  vertical-align: top;
+  word-wrap: initial; }
+@media screen and (min-width: 1025px) {
+  td.syntaxDetailTABLE.type {
+    width: 30%; }
+  td.syntaxDetailTABLE.required {
+    width: 30%; }
+  td.syntaxDetailTABLE.return_type {
+    width: 30%; }
+  td.syntaxDetailTABLE.summary {
+    width: 40%; }
+  td.syntaxDetailTABLE.description {
+    width: 40%; } }
+@media screen and (min-width: 1281px) {
+  td.syntaxDetailTABLE.type {
+    width: 25%; }
+  td.syntaxDetailTABLE.required {
+    width: 25%; }
+  td.syntaxDetailTABLE.return_type {
+    width: 25%; }
+  td.syntaxDetailTABLE.summary {
+    width: 50%; }
+  td.syntaxDetailTABLE.description {
+    width: 50%; } }
+@media screen and (min-width: 1601px) {
+  td.syntaxDetailTABLE.type {
+    width: 20%; }
+  td.syntaxDetailTABLE.required {
+    width: 20%; }
+  td.syntaxDetailTABLE.return_type {
+    width: 20%; }
+  td.syntaxDetailTABLE.summary {
+    width: 55%; }
+  td.syntaxDetailTABLE.description {
+    width: 55%; } }
+
+table tr:nth-child(even) td pre.prettyprint {
+  background-color: white; }
+
+td.syntaxDetailTABLE pre {
+  /*margin-left: -300px;*/
+  padding: 2px;
+  background: none repeat scroll 0 0 #fafafa; }
+
+th.syntaxDetailTABLE {
+  border-color: #d9d9d9;
+  border-width: 0px 0px 1px 0px;
+  border-style: solid;
+  background-color: #bababa;
+  padding: 4px 6px;
+  /* cm commented out */
+  /*font-size: 70%; */
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: .85em;
+  color: #595959; }
+
+/* --------------------------------------------------
+                     LIST STYLES
+-------------------------------------------------- */
+#nstext ol, #nstext ul {
+  margin: .5em 0em 0em 2em; }
+
+li {
+  margin-bottom: .5em; }
+
+#pageBanner {
+  border-bottom: #dcdcdc 1px solid;
+  color: #595959;
+  font-size: 130%;
+  margin: 0px 0pt 5px;
+  padding: 0 0 4px 0; }
+
+.sectionDivider {
+  background: #782486;
+  background: -webkit-linear-gradient(left, #782486, #FFFFFF);
+  background: linear-gradient(to right, #782486, #FFFFFF);
+  color: #FFFFFF;
+  /*FONT-WEIGHT: bold; */
+  font-size: 1.286em;
+  font-family: "Avenir LT W01 65 Medium", Arial, Helvetica, sans-serif;
+  padding-left: 10px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  margin-top: 40px;
+  margin-bottom: 3px; }
+
+#container {
+  MARGIN-BOTTOM: 15px;
+  WIDTH: 100%;
+  MARGIN-RIGHT: -255px; }
+
+#content {
+  PADDING-RIGHT: 10px;
+  PADDING-LEFT: 7px;
+  MARGIN-LEFT: 10px;
+  MARGIN-RIGHT: 20px; }
+
+.bannerLinks {
+  position: relative;
+  left: 10em; }
+
+.footnote {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-size: .8em;
+  margin-top: 20px; }
+
+#thumbnail {
+  width: 200px;
+  height: 150px;
+  padding-left: 5px;
+  padding-right: 10px; }

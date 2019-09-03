@@ -1,0 +1,14 @@
+.datagrid-htable{background-color: #DCEEFD;color: #264f75}
+.datagrid-htable td{color:#394765;border-color:#adc8de}
+.datagrid-header{ height: 34px!important;line-height:34px!important; }
+.datagrid-body{border-collapse: collapse}
+.datagrid-body td{border:1px solid #adc8de ;color:#264f75}
+.datagrid-row{background-color:#fbfdff;height: 25px}
+.datagrid-row-over{background-color: #68aee4!important;color:#fff!important;}
+.datagrid-btable{border-left:none;border-right:none;border-collapse: collapse}
+.datagrid-toolbar, .datagrid-pager {
+    color: #264f75;
+    background-color: #e9f4ff;
+    background: #e9f4ff;
+    border-color: #96bde1;
+}

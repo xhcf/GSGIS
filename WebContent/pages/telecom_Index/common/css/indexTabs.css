@@ -1,0 +1,13 @@
+.tab {width:100%;text-align:center;}
+.tab_menu{
+    width:180px;
+    margin:0px auto;
+    height:22px;
+    overflow:hidden;
+}
+.target_map{
+    height:100px;
+}
+div.tab_menu a  {cursor:pointer;display:inline-block;float:left;height:22px;line-height:22px;width:60px;border-radius:2px;text-align:center;color:#a7d9ff;text-decoration:none;}
+div.tab_menu a.selected {background-color:#025aac;color:#fff;}
+div.tab_box {clear:both;}

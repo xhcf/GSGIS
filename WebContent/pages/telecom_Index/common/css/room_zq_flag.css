@@ -1,0 +1,24 @@
+.zhengqi_flag{
+    width: 20px;
+    height: 20px;
+    font-weight: bold;
+    color: #f00;
+    margin-right: 5px;
+}
+
+/*住户视图*/
+.zq_room_flag{
+    z-index: 99;
+    position: absolute;
+    /* width: 36px; */
+    height: 18px;
+    border-radius: 0px 0px 5px 0px;
+    /* background-color: #0f2c92; */
+    top: 0px;
+    left: 2px;
+    text-align: center;
+    color: #f00;
+    font-weight: bold;
+    line-height: 16px;
+}
+.normal_room_flag{}

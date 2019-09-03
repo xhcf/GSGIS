@@ -1,0 +1,183 @@
+
+/* ---------------------------------- 鍩虹鐧诲綍 ---------------------------------- */
+
+/* bonc鐧诲綍 > 涓诲鍣� */
+#boncEntry input{ background:#fff!important;}
+
+/* bonc鐧诲綍 > 椤堕儴淇℃伅鏍� */
+#boncEntry .EntryHead{ background-color:#199ed8;}
+#boncEntry .EntryHead h1{ border-right-color:#96d4e3; background:url("images/boncLayout/bg/boncFrameLogo.png") 0 50% no-repeat; text-indent: -5000px;}
+#boncEntry .EntryHead h2{color:#fff;}
+#boncEntry .EntryCon{ background:#f8f8f8 url("images/boncLayout/bg/bgEntry.jpg") left 0 no-repeat;}
+
+/* bonc鐧诲綍 > 涓儴褰曞叆 */
+/*#boncEntry .EntryCon .EntryGroup:after{ content:url("images/boncLayout/bg/imgEntry.png");}!dis*/
+.boncLogin_check p{  color:#ff0000;}
+#boncEntry .EntryCon .EntryGroupLine{border-color:#919191;background-color:#fff;}
+#boncEntry .EntryCon .EntryGroupLine:hover{border-color:#199ed8; }
+#boncEntry .EntryCon .EntryGroupLine input{border:none !important;background-image:none !important;}
+#boncEntry .EntryCon .EntryGroupLine input:focus{outline:none; }
+#boncEntry .EntryCon .onFocus {border-color:#199ed8!important; box-shadow:0 0 6px #199ed8!important;}
+
+/* bonc鐧诲綍 > 涓儴褰曞叆 > 鍥炬爣鍩虹 */
+#boncEntry .EntryCon .iconUser{background:url("images/boncLayout/bg/iconUser.png") no-repeat;}
+#boncEntry .EntryCon .onFocus .iconUser {background:url("images/boncLayout/bg/iconUser_active.png") no-repeat;}
+#boncEntry .EntryCon .iconPassword{background:url("images/boncLayout/bg/iconPassword.png") no-repeat;}
+#boncEntry .EntryCon .onFocus .iconPassword {background:url("images/boncLayout/bg/iconPassword_active.png") no-repeat;}
+#boncEntry .EntryCon .iconCode{background:url("images/boncLayout/bg/iconCode.png") no-repeat;}
+#boncEntry .EntryCon .onFocus .iconCode {background:url("images/boncLayout/bg/iconCode_active.png") no-repeat;}
+
+#boncEntry .EntryCon .btnCode{color:#999!important; background:url("images/boncLayout/bg/iconRefresh.png") right 0 no-repeat;}
+#boncEntry .EntryCon .btnCode:hover,
+#boncEntry .EntryCon .btnCode:focus{color:#199ed8 !important;background:url("images/boncLayout/bg/iconRefreshActive.png") right 0 no-repeat;}
+
+/* bonc鐧诲綍 > 涓儴褰曞叆 > 鎻愪氦鎸夐挳 */
+#boncEntry .EntryCon .btnSubmit a,
+#boncEntry .EntryCon .btnSubmit button{ border-bottom-color:#367fa9; color:#fff;background-color:#199ed8;}
+#boncEntry .EntryCon .btnSubmit a.submit:hover,
+#boncEntry .EntryCon .btnSubmit a.submit:focus,
+#boncEntry .EntryCon .btnSubmit button:focus{ background-color:#367fa9; border-bottom-color:#307298;}
+#boncEntry .EntryCon .btnSubmit a.submit:active {background-color:#199ed8; border-bottom-color:#367fa9; }
+#boncEntry .EntryCon .btnSubmit a.find{color:#999; background:transparent;}
+
+/* bonc鐧诲綍 > 搴曢儴淇℃伅 */
+#boncEntry .EntryFoot{border-top-color:#f1f1f1; background-color:#f1f1f1;color:#666;}
+
+
+/* ---------------------------------- 鍩虹妗嗘灦 ---------------------------------- */
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟妯℃嫙婊氬姩鏉� */
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar{background-color:#2f4050; }
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-thumb{ border-color: transparent; background-color:rgba(0, 0, 0, .2);  box-shadow:inset 1px 1px 0 rgba(0, 0, 0, .1),inset 0 -1px 0 rgba(0, 0, 0, .07); }
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-thumb:vertical:hover{background-color:rgba(0, 0, 0, .3); }
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-thumb:vertical:active{background-color:rgba(0, 0, 0, .5); }
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-track{border:solid transparent; }
+#boncFrame .layout-panel-west .layout-body::-webkit-scrollbar-corner{background:transparent;}
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟瀹瑰櫒 */
+#boncFrame .easyui-layout{ background-color:#ebebed; }
+#boncFrame .layout-panel-west .layout-body { background-color:#2f4050;}
+#boncFrame .layout-panel-west .layout-body h3 {  color:#ccc;}
+#boncFrame .layout-panel-west .panel-header { background-color: #367fa9; background: -webkit-linear-gradient(top,#367fa9 0,#367fa9 100%); background: -moz-linear-gradient(top,#367fa9 0,#367fa9 100%); background: -o-linear-gradient(top,#367fa9 0,#367fa9 100%); background: linear-gradient(to bottom,#367fa9 0,#367fa9 100%); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#367fa9,endColorstr=#367fa9,GradientType=0);}
+#boncFrame .layout-panel-west .panel-title {  background:url("images/boncLayout/bg/boncFrameLogo.png") 10px 50% no-repeat;}
+#boncFrame .layout-panel-west .layout-button-left { background:url("images/boncLayout/bg/icon_plus.png") 50% 50% no-repeat; opacity:.8;}
+#boncFrame .layout-panel-west .layout-button-left:hover { background-color:#2e6b8f; opacity:1; }
+
+/* bonc妗嗘灦 > 搴曢儴瀹瑰櫒 */
+#boncFrame .layout-panel-south .layout-body{ /*background-color:#1f242c; border-top-color:#3b424b;*/background-color: #0434A2; color:#fff;}
+
+/* bonc妗嗘灦 > 椤堕儴瀹瑰櫒 */
+#boncFrame .layout-panel-north .layout-body{ color:#fff; background-color:#199ed8; }
+
+/* bonc妗嗘灦 > 椤堕儴鍏ㄥ眬鑿滃崟 */
+#boncFrame .globalMenu ul li a { border-top-color:transparent; color: #fff; }
+#boncFrame .globalMenu ul li a:hover{ background-color: #30a8dc; border-top-color:#367fa9;}
+#boncFrame .globalMenu ul li a:active,
+#boncFrame .globalMenu ul li a:focus{ background-color: #367fa9; border-top-color:#283745; }
+
+/* bonc妗嗘灦 > 椤堕儴鍏ㄥ眬鑿滃崟 > 绠＄悊鍛榽鏀惰棌澶箏鏌ヨ > 寮圭獥  */
+.userWindows ul,
+.favoriteWindows ul{border-color:#e7eaec; background-color: #fff;   box-shadow: 1px 1px 3px #f1f1f1; }
+.searchWindows p { border-color:#e7eaec; background-color: #fff; box-shadow: 1px 1px 3px #f1f1f1; }
+.searchWindows p span { box-shadow: none!important;}
+.userWindows ul li a,
+.favoriteWindows ul li a{ color:#a7b1c2; }
+.favoriteWindows ul li a.close { color:#f30; }
+.userWindows ul li a:hover,
+.favoriteWindows ul li a:hover{ color:#2f4050; }
+.userWindows ul li a:active,
+.userWindows ul li a:focus,
+.favoriteWindows ul li a:active,
+.favoriteWindows ul li a:focus{ background-color: #2f4050; color:#a7b1c2; }
+.userWindows .triangleDown,
+.favoriteWindows .triangleDown,
+.searchWindows .triangleDown{ border-color:transparent transparent #e7eaec transparent;}
+.userWindows .triangleDown span,
+.favoriteWindows .triangleDown span,
+.searchWindows .triangleDown span { border-color:transparent transparent #ffffff transparent;}
+
+/* bonc妗嗘灦 > 瀛愰〉闈㈠鍣ㄩ�夐」鍗� */
+#boncFrame .layout-panel-center .boncTabs .tabs-scroller-left{border-color:transparent #ddd #2f4050 transparent;}
+#boncFrame .layout-panel-center .boncTabs .tabs-scroller-right{ border-color:transparent transparent #2f4050 #ddd;}
+#boncFrame .layout-panel-center .boncTabs .tabs-wrap{ border-color:transparent transparent #2f4050;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-inner {border-color:#e7eaec; background:#1e242e !important;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-inner:hover{background-color:#283745!important; color: #ddd; filter: none;}
+#boncFrame .layout-panel-center .boncTabs .tabs li.tabs-selected a.tabs-inner{background-color: #2f4050!important; color: #ddd;}
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-inner{color: #ddd; background-color: #fff; }
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-close {background-color: #eee; }
+#boncFrame .layout-panel-center .boncTabs .tabs li a.tabs-close:hover{background-color: #ccc;}
+#boncFrame .layout-panel-center .boncTabs .tabs-p-tool a { background-color: #eee; }
+#boncFrame .layout-panel-center .boncTabs .tabs-panels { }
+/*#boncFrame .layout-panel-center .boncTabs .tabs-panels { background-color:#efefef;}*/
+
+/* bonc妗嗘灦 > 瀛愰〉闈㈠鍣� */
+#boncFrame .contentsIframe { background:url('images/total_bg.jpg') no-repeat;background-size: cover;}
+
+/* bonc妗嗘灦 > 缂╃暐鍥句富鑿滃崟瀹瑰櫒 */
+#boncFrame .layout-expand .panel-body {background-color:#2f4050;}
+#boncFrame .layout-expand .panel-header {  background-color: #367fa9; background: -webkit-linear-gradient(top,#367fa9 0,#367fa9 100%); background: -moz-linear-gradient(top,#367fa9 0,#367fa9 100%); background: -o-linear-gradient(top,#367fa9 0,#367fa9 100%); background: linear-gradient(to bottom,#367fa9 0,#367fa9 100%); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#367fa9,endColorstr=#367fa9,GradientType=0);}
+#boncFrame .layout-expand .panel-tool a {background:none;}
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟~閾炬帴鍩虹 */
+#boncFrame .mainMenu li a {  border-left-color:transparent; color:#8c97a7; }
+#boncFrame .mainMenu li sub {  color: #acb0b3; border-color:#62676c; }
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟~浜岀骇鍩虹 */
+#boncFrame .mainMenu li ul {  border-color:#2f4050 transparent transparent #367fa9; background-color:#25323f; }
+#boncFrame .mainMenu li ul li a { padding-left:8px;background:none!important;}
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟~涓夌骇鍩虹 */
+#boncFrame .mainMenu li ul li ul{ background-color:#212d39; border-top-color:#2f4050;  }
+#boncFrame .mainMenu li ul li ul li a { background:none!important;}
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟~浜�&涓夌骇涓嬫爣 */
+#boncFrame .mainMenu li .subscript { opacity:.6; background:url("images/boncLayout/bg/subscript.png") 50% 50% no-repeat;}
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟~涓�绾ч摼鎺ョ姸鎬� */
+#boncFrame .mainMenu li a:hover,
+#boncFrame .mainMenu li a:active,
+#boncFrame .mainMenu li a:focus,
+#boncFrame .mainMenu li a.selected {/*background-color:#293846; border-left-color:#3c8dbc;*/  color:#fff;  }
+#boncFrame .mainMenu li a:hover {color:#397d9 !important; }
+#boncFrame .mainMenu li a:active,
+#boncFrame .mainMenu li a:focus,
+#boncFrame .mainMenu li a.selected { background-position: 30px -50px;color:#00a8ff !important; }
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟~浜岀骇閾炬帴鐘舵�� */
+#boncFrame .mainMenu li ul li a:hover { color:#199ed8; }
+#boncFrame .mainMenu li ul li a:active,
+#boncFrame .mainMenu li ul li a:focus,
+#boncFrame .mainMenu li ul li a.selected { color:#fff;  }
+
+/* bonc妗嗘灦 > 涓讳綋鑿滃崟~涓夌骇閾炬帴鐘舵�� */
+#boncFrame .mainMenu li ul li ul li a:hover { color:#199ed8; }
+#boncFrame .mainMenu li ul li ul li a:active,
+#boncFrame .mainMenu li ul li ul li a:focus,
+#boncFrame .mainMenu li ul li ul li a.selected { color:#fff;  }
+
+/* bonc妗嗘灦 > 缂╃暐鍥句富鑿滃崟~涓�绾у熀纭� */
+#boncFrame #mainMenuSimple > .l-btn {filter:;}
+#boncFrame #mainMenuSimple .mainMenu li a { background-position: 50% 12px; }
+
+
+/* bonc妗嗘灦 > 缂╃暐鍥句富鑿滃崟~涓�绾ч摼鎺ョ姸鎬� */
+#boncFrame #mainMenuSimple .mainMenu li a:hover,
+#boncFrame #mainMenuSimple .mainMenu li a:active,
+#boncFrame #mainMenuSimple .mainMenu li a:focus,
+#boncFrame #mainMenuSimple .mainMenu li a.selected { background-color:#293846;}
+
+/* bonc妗嗘灦 > 缂╃暐鍥句富鑿滃崟~鍒囨崲鎸夐挳 */
+#boncFrame #mainMenuSimple .layout-button-right { background:transparent;}
+#boncFrame #mainMenuSimple .easyui-linkbutton.l-btn-small.easyui-fluid {  background:url("images/boncLayout/bg/icon_plus.png") 50% 50% no-repeat #367fa9; opacity:1;}
+
+/* bonc妗嗘灦 > 瀛愭鏋� */
+#boncFrame.boncSubFrame .subFrameLogo{background:url("images/boncLayout/bg/boncFrameLogo.png") 50% 50% no-repeat #367fa9;}
+
+/*2017-01-16鐢樿們*/
+#boncFrame .layout-panel-center .boncTabs .tabs-panels { background-color:#2b2d30;}
+#boncFrame .layout-panel-center .boncTabs .tabs-wrap{ background-color:#1e242e;}
+
+/*甘肃 2017.1.16*/
+#boncEntry .EntryHead{ background-color:#0434a2;}
+#boncEntry .EntryCon .btnSubmit a,
+#boncEntry .EntryCon .btnSubmit button{ border-bottom-color:#0434a2; color:#fff;background-color:#0434a2;}

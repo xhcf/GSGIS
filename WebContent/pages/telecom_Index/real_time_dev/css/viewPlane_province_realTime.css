@@ -1,0 +1,6 @@
+div.tab_menu a  {display:inline-block;float:left;height:22px;line-height:22px;width:60px;border-radius:2px;text-align:center;color:#a7d9ff;text-decoration:none;}
+div.tab_menu a.selected {background-color:#025aac;color:#fff;}
+#pagemap {width:100%;}
+#pagemap div {text-align:center;margin:auto;}
+#pagemap canvas {text-align:center;margin:auto;width:100%;}
+#pagemap {background:none!important;}

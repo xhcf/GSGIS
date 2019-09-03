@@ -1,0 +1,104 @@
+
+@media screen and (min-width:1320px){
+    .tabs_suvery ul {width:72%!important;margin:20px 15% 0px auto!important;}
+}
+/*2018-12-10 大屏工作台兼容性*/
+@media screen and (min-width:1500px)  {
+    .resident_wrapper select, .collect_new_choice select {height:30px!important;line-height:30px!important;font-size:14px!important;}
+}
+.collect_contain_choice {margin-top:0px;line-height:22px; font-size: 12px!important;height:28px!important;}
+.village_cell_win .collect_contain_choice input[type=text]{border-right:1px solid #ddd;}
+.collect_contain_choice input {left:0px!important;}
+.collect_new_choice {height:32px!important;padding-top:5px!important;height:40px!important;}
+.count_num2 {line-height:16px;margin:4px auto;width:96%;font-size:12px;font-weight:bold;}
+.count_num2 span {color:#f00;}
+#collect_new_table_content,.dispatch_m_tab,.t_table.grid_obd_m_tab,#collect_new_table_content1,.yhzt_exec_tab_body.t_table {height:58%!important;}
+.village_cell_win .collect_new_choice{margin-top:0px;padding-top:8px!important;padding-bottom:5px;width:100%;padding:0px 2%;border-bottom: 1px solid #eaeaea;}
+/*2018-12-10 大屏工作台兼容性*/
+
+@media screen and (min-height:630px)  {
+    .village_cell_win .village_info_win {}
+    .village_cell_win .village_desk {height:80px;background-size: auto 100%;line-height:50px;}
+    .village_cell_win .desk_menu {height:56px;padding-top:18px;font-size:16px;padding-left:36px!important;}
+    .village_cell_win .desk_orange_bar,.count_num {height:47px!important;line-height:47px!important;font-size:16px!important;padding-left:45px;}
+    .village_cell_win #village_view_latn, .village_cell_win #village_view_bureau, .village_cell_win #village_view_sub, .village_cell_win #village_view_grid {font-size:16px!important;}
+    .village_cell_win .sub_summary_tabs {width:92%;margin-top:31px!important;}
+    .village_cell_win #village_info_win_body {height:92%!important;}
+    .village_cell_win .sub_summary_tabs_title {line-height:60px!important;font-size:18px!important;}
+    .village_cell_win .village_summary_percent {height:75px!important;}
+    .village_cell_win .village_summary_percent_num {font-size:24px!important;line-height:45px!important;margin-top:5px;}
+    .village_cell_win .sub_summary_tabs.tabs_suvery ul {width:80%!important;margin:20px auto!important;}
+    .village_cell_win .index_desc {font-size:14px;}
+    .village_cell_win .sub_summary_index_content li {line-height:28px!important;font-size:14px!important;}
+    .village_cell_win .desk_tag{right:40px;top:12px;}
+    .village_cell_win .desk_tag span {height:30px;line-height: 30px;font-size:16px;}
+    .village_cell_win .village_desk{font-size:28px;}
+    .village_cell_win .bulid_village_btn button{width:78px;height:28px;line-height: 28px;font-size: 16px;}
+    .village_cell_win .bulid_village_btn.village_edit {margin-right:40px!important;}
+    .village_cell_win .desk_orange_bar.inside_data {font-size:16px;}
+    .village_cell_win .village_new_searchbar div {font-size:14px;}
+    .village_cell_win .village_new_searchbar div {height:30px;line-height:30px;}
+    .village_cell_win .resident_wrapper select, .village_cell_win .collect_new_choice select {height:30px!important;line-height:30px!important;font-size:14px!important;}
+    .village_cell_win .content_table th {height:36px!important;line-height:36px!important;font-size:14px!important;}
+    .village_cell_win .collect_contain_choice {margin-top:15px;font-size:14px!important;margin-top:10px;margin-bottom:0px;}
+    .village_cell_win .collect_new_choice{margin-top:0px;padding-top:2px!important;padding-bottom:5px;width:100%;padding:0px 2%;}
+    .village_cell_win .collect_new_choice span {font-size:14px;}
+    .village_cell_win .radio.tab_accuracy_head.tab_accuracy_other.desk_sub_menu {margin-top:15px;margin-bottom:10px;font-size:14px;}
+    .village_cell_win table.content_table td, table.content_table td a {font-size: 14px!important;}
+    .village_cell_win .count_num.desk_orange_bar.inside_data {font-size:16px!important;}
+    .village_cell_win .resident_wrapper input[type="text"], .village_cell_win .collect_new_choice input[type="text"] {height:30px!important;line-height:30px!important;font-size:14px!important;}
+    .village_cell_win .head_table tr th {line-height: 36px!important;font-size:14px!important;height:36px!important;}
+    .village_cell_win .yx_tab_switch {height:36px!important;line-height:36px!important;font-size:14px!important;}
+    .village_cell_win .village_new_searchbar #select_tab1 ,.village_cell_win .village_new_searchbar #select_tab1 inpit,.village_cell_win .village_new_searchbar #select_tab1 td{height:30px!important;line-height: 30px!important;font-size:14px!important;}
+    .village_cell_win .village_new_searchbar #select_tab1{margin-bottom:0px;clear:both;overflow: hidden;}
+    .village_cell_win #collect_new_body #info_query_tab{margin-bottom:0px;clear:both;overflow: hidden;}
+    .village_cell_win .village_new_searchbar .yx_tab_switch {height:36px!important;overflow: hidden;}
+    .village_cell_win .village_new_searchbar #select_tab1 td {padding-top:0px;}
+    .village_cell_win .village_new_searchbar #select_tab1 select {height:30px!important;line-height: 30px!important;font-size:14px!important;}
+    .count_num2 {line-height:18px;margin:6px auto;width:96%;font-size:14px;font-weight:bold;}
+    .count_num2 span {color:#f00;}
+
+    /*行政村*/
+   .collect_new_choice {height:56px!important;font-size: 14px!important;border-bottom:1px solid #eaeaea;}
+   .collect_contain_choice {height:30px;line-height: 30px;height:42px!important;margin-top:8px!important;}
+    .village_cell_win .collect_contain_choice input[type=text]{height:32px!important;line-height:32px!important;border-right:1px solid #ddd;}
+    .btn {height:30px!important;line-height:30px!important;font-size:14px!important;}
+    .exec_tab_body,#collect_new_table_content,.dispatch_m_tab,#build_obd_m_tab2,#collect_new_table_content1,.yhzt_exec_tab_body {height:61%!important;}
+    .sub_summary_tabs_title {height:12.5%;}
+
+
+}
+@media screen and (min-width:1320px){
+    .village_cell_win .sub_summary_tabs.tabs_suvery ul {width:72%!important;margin:20px 15% 0px auto!important;}
+}
+@media screen and (max-height: 800px){
+    .village_cell_win .sub_summary_index_content li {
+        line-height: 26px;
+        font-size: 12px;
+        padding-left: 10px;
+    }
+}
+/*兼容1440x900分辨率   2018-12-23 by shenruijie*/
+@media screen and (min-height:540px) and (max-height: 660px){
+    .sub_summary_tabs.tabs_suvery ul {margin-top:12px;}
+    .village_cell_win .sub_summary_index_content li {width:90%;margin-left:6%;font-size:13px;line-height: 28px;}
+
+    .desk_tab {height:62%!important;}
+    #collect_new_table_content,.dispatch_m_tab,.t_table.grid_obd_m_tab,#collect_new_table_content1,.yhzt_exec_tab_body.t_table {height:62%!important;}
+
+    .radio.tab_accuracy_head.tab_accuracy_other.desk_sub_menu {margin-top:2px;}
+    .sub_summary_index_content {height:85%!important;}
+    .sub_summary_tabs_title {line-height: 66px;}
+    .village_summary_percent_num {line-height: 42px;}
+    .village_summary_percent {height:70px;}
+
+}
+
+
+/*OBD详情弹窗  by shenruijie 2018-12-24*/
+/*OBD详情弹窗  by shenruijie 2018-12-24*/
+.OBD_detail_info {display: inline-block;line-height: 40px;width:100%;height:40px;text-align: left;margin-top:2px;}
+.OBD_detail_info span{display: block;margin:0px 18px;margin-right:0px;font-weight: bold;float:left;}
+.OBD_orange_line {background:#FAB900;height:40px;width:100%;text-align: center;}
+.OBD_orange_line span {display: inline-block;margin:0px 18px;line-height: 40px;font-size:14px;color:#fff;font-weight: bold;}
+.OBD_orange_line span i{margin-left: 5px;font-style: normal;}

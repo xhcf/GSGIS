@@ -1,0 +1,927 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>应急信息服务系统-甘肃-报表中心</title>
+
+		<link rel="stylesheet" href="css/emergencystyle.css" />
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js" ></script>
+		<style>
+			.tab_menu li:nth-child(1) {
+				background:url(img/icon-listone.png) no-repeat 12%  center;
+				background-size: 8%;
+			}
+			.tab_menu li:nth-child(2) {
+				background:url(img/icon-listtwo.png) no-repeat 12%  center;
+				background-size: 8%;
+			}
+			.tab_menu li:nth-child(3) {
+				background:url(img/icon-listthree.png) no-repeat 12%  center;
+				background-size: 8%;
+			}
+			.tab_menu li:nth-child(4) {
+				background:url(img/icon-listfour.png) no-repeat 12%  center;
+				background-size: 8%;
+			}
+			.title{
+				color:#fff;
+				font-size:17px;
+				text-align:center;
+				font-weight:bold;
+				padding-top:8px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+		    <!--顶部导航-->
+			<div class="nav">
+				<div class="logo"></div>
+				<b class="bigtitle">人员位置信息服务</b>
+				<div class="navbox">
+					<a href="index.html">人流分布</a>
+					<a href="analysis.html" target="_blank">自助分析</a>
+					<a href="Terminal monitoring.html" >终端监控</a>
+					<a href="#" class="selected">报表中心</a>
+					<a href="Terminal management.html" >终端管理</a>
+
+					<a href="#">系统管理</a>
+				</div>
+			</div>
+			<!--左导航切换-->
+			<div id="tab_2">
+				<ul class="tab_menu">
+					<li class="selected2" style="margin-top:10%;">热点区域统计</li>
+					<li>终端状态统计</li>
+					<li>短信推送查询</li>
+			    	<li>位置轨迹查询</li>
+			    </ul>
+			    <div class="tab_box_2">
+					<!--热点区域统计列表内容-->
+					<div>
+						<div class="title">热点区域统计</div>
+						<div class="buttonbox">
+							<span class="word-date">选择日期:</span>
+							<input class="date-input2" placeholder="2019-04-04" />
+							<span class="word-date">本地网:</span>
+							<input class="terminal-input" placeholder="请输入本地网" />
+							<span class="word-date">区县:</span>
+							<input class="terminal-input" placeholder="请输入区县" />
+							<span class="word-date">区域名称：</span>
+							<input class="terminal-input" placeholder="请输入区域名称" />
+							<button class="btn-search">查询</button>
+						</div>
+						<table class="terminal-information-table" cellpadding="0" cellspacing="0">
+							<thead>
+							<tr class="firstline">
+								<td rowspan="2">序号</td>
+								<td rowspan="2">本地网</td>
+								<td rowspan="2">区县</td>
+								<td rowspan="2">区域名称</td>
+								<td rowspan="2">关注</td>
+								<td colspan="5">人流情况</td>
+								<td colspan="4">年龄分布</td>
+								<td colspan="2">性别分布</td>
+								<td colspan="7">停留时长分布</td>
+							</tr>
+							<tr class="secondline">
+								<td>当前人数</td>
+								<td>较昨日</td>
+								<td>当日累计</td>
+								<td>常驻人数</td>
+								<td>流动人数</td>
+								<td>20岁以下</td>
+								<td>20-40岁</td>
+								<td>40-60岁</td>
+								<td>60岁以上</td>
+								<td>男</td>
+								<td>女</td>
+								<td>0-0.5h</td>
+								<td>0.5-01h</td>
+								<td>1-2h</td>
+								<td>2-3h</td>
+								<td>3-4h</td>
+								<td>4-8h</td>
+								<td>8h以上</td>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>1</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>6</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>7</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>8</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>9</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							<tr>
+								<td>10</td>
+								<td>兰州</td>
+								<td>城关区</td>
+								<td>万达广场</td>
+								<td class="guanzhubox">
+									<span class="icon-guanzhu"></span>
+									<span class="icon-yiguanzhu"></span>
+								</td>
+								<td>12490</td>
+								<td class="arrowbox3">
+									<span class="up2"></span>
+									<span class="down2"></span>
+									<b class="arrow-num">2200</b>
+								</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+								<td>12490</td>
+								<td>2200</td>
+							</tr>
+							</tbody>
+						</table>
+						<div class="pagination">
+							<span class="pagenum" >共  <b>400</b> 条记录 第 <b>1</b> / <b>80</b> 页</span>
+							<div class="paginationbox" >
+								<div><</div>  <div class="choose-btn">1</div>  <div>2</div>  <div>3</div>  <div>4</div>  <div>5</div>
+								<div>6</div>  <div>7</div>  <div>8</div>  <div>9</div>  <div>></div>
+								<select class="pagination-select" >
+									<option>10条/页</option>
+									<option>20条/页</option>
+									<option>30条/页</option>
+								</select>
+								<span style="margin-left: 20px;">跳至</span>
+								<input class="yeshu" />
+								<span>页</span>
+							</div>
+						</div>
+					</div>
+					<!--终端状态统计列表内容-->
+					<div class="hide">
+						<div class="title">热点区域统计</div>
+						<div class="buttonbox">
+							<span class="word-date">选择日期:</span>
+							<input class="date-input2" placeholder="2019-04-04" />
+							<span class="word-date">终端名称:</span>
+							<input class="terminal-input" placeholder="请输入终端名称" />
+							<span class="word-date">终端号码:</span>
+							<input class="terminal-input" placeholder="请输入终端号码" />
+							<button class="btn-search">查询</button>
+						</div>
+						<table class="terminal-information-table" cellpadding="0" cellspacing="0">
+							<thead>
+							<tr>
+								<td>序号</td>
+								<td>终端名称</td>
+								<td>终端号码</td>
+								<td>组织</td>
+								<td>岗位</td>
+								<td>在线天数</td>
+								<td>离线天数</td>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>1</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>应急管理厅</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>消防员</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>应急管理厅</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>应急管理厅</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>消防员</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>6</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>消防员</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>7</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>应急管理厅</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>8</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>应急管理厅</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>9</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>应急管理厅</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							<tr>
+								<td>10</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>应急管理厅</td>
+								<td>大队长</td>
+								<td>15</td>
+								<td>15</td>
+							</tr>
+							</tbody>
+						</table>
+						<div class="pagination">
+							<span class="pagenum" >共  <b>400</b> 条记录 第 <b>1</b> / <b>80</b> 页</span>
+							<div class="paginationbox" >
+								<div><</div>  <div class="choose-btn">1</div>  <div>2</div>  <div>3</div>  <div>4</div>  <div>5</div>
+								<div>6</div>  <div>7</div>  <div>8</div>  <div>9</div>  <div>></div>
+								<select class="pagination-select" >
+									<option>10条/页</option>
+									<option>20条/页</option>
+									<option>30条/页</option>
+								</select>
+								<span style="margin-left: 20px;">跳至</span>
+								<input class="yeshu" />
+								<span>页</span>
+							</div>
+						</div>
+					</div>
+					<!--短信推送查询列表内容-->
+					<div class="hide">
+						<div class="title">热点区域统计</div>
+						<div class="buttonbox">
+							<span class="word-date">选择日期:</span>
+							<input class="date-input2" placeholder="2019-04-04" />
+							<span class="word-date">终端名称:</span>
+							<input class="terminal-input" placeholder="请输入终端名称" />
+							<span class="word-date">终端号码:</span>
+							<input class="terminal-input" placeholder="请输入终端号码" />
+							<span class="word-date">发送状态:</span>
+							<select class="send-status">
+								<option>发送成功</option>
+								<option>发送失败</option>
+							</select>
+							<button class="btn-search">查询</button>
+						</div>
+						<table class="terminal-information-table" cellpadding="0" cellspacing="0">
+							<thead>
+							<tr>
+								<td>序号</td>
+								<td>终端名称</td>
+								<td>终端号码</td>
+								<td>短信</td>
+								<td>发送时间</td>
+								<td>发送状态</td>
+								<td>操作 </td>
+							</tr>
+							</thead>
+							<tbody>
+							<tr>
+								<td>1</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>3</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>4</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>5</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>6</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>7</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>8</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>9</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							<tr>
+								<td>10</td>
+								<td>周舟</td>
+								<td>18912345678</td>
+								<td>发送的短信内容发送的短信内容</td>
+								<td>12:34</td>
+								<td>发送成功</td>
+								<td>
+									<a href="#" class="btn-view">查看</a>
+									<a href="#" class="btn-delete">删除</a>
+								</td>
+							</tr>
+							</tbody>
+						</table>
+						<div class="pagination">
+							<span class="pagenum" >共  <b>400</b> 条记录 第 <b>1</b> / <b>80</b> 页</span>
+							<div class="paginationbox" >
+								<div><</div>  <div class="choose-btn">1</div>  <div>2</div>  <div>3</div>  <div>4</div>  <div>5</div>
+								<div>6</div>  <div>7</div>  <div>8</div>  <div>9</div>  <div>></div>
+								<select class="pagination-select" >
+									<option>10条/页</option>
+									<option>20条/页</option>
+									<option>30条/页</option>
+								</select>
+								<span style="margin-left: 20px;">跳至</span>
+								<input class="yeshu" />
+								<span>页</span>
+							</div>
+						</div>
+					</div>
+			    	<!--位置轨迹查询列表内容-->
+			    	<div class="hide">
+						<div class="title">热点区域统计</div>
+			    	   <div class="buttonbox">
+					         <span class="word-date">市州:</span>
+							 <select class="area_select">
+								<option>兰州</option>
+								<option>白银</option>
+								<option>金昌</option>
+								<option>武威</option>
+								<option>张掖</option>
+							</select>
+							<span class="word-date">区县:</span>
+							 <select class="area_select">
+								<option>城关区</option>
+								<option>七里河区</option>
+								<option>皋兰县</option>
+								<option>西固区</option>
+								<option>安宁区</option>
+							</select>
+							<span class="word-date">乡镇:</span>
+							 <select class="area_select">
+								<option>全部</option>
+
+							</select>
+							<span class="word-date">单位:</span>
+							 <select class="area_select">
+								<option>全部</option>
+
+							</select>
+							<br/>
+			    	   	     <span class="word-date">日期:</span>
+			    	   	     <input class="date-input2" placeholder="2019-04-04" />
+			    	   	     <span class="word-date">名称:</span>
+			    	   	     <input class="terminal-input" placeholder="请输入终端名称" />
+			    	   	     <span class="word-date">号码:</span>
+			    	   	     <input class="terminal-input" placeholder="请输入终端号码" />
+			    	         <button class="btn-search" style="margin-left:36px;">查询</button>
+			    	   </div>
+			    	   <table class="terminal-information-table" cellpadding="0" cellspacing="0">
+			    	      <thead>
+			    	      	<tr>
+			    	      		<td>序号</td>
+			    	      		<td>终端名称</td>
+			    	      		<td>终端号码</td>
+			    	      		<td>经度</td>
+			    	      		<td>纬度</td>
+			    	      		<td>位置</td>
+			    	      		<td>定位时间</td>
+			    	      	</tr>
+			    	      </thead>
+			    	      <tbody>
+			    	      	<tr>
+			    	      		<td>1</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>2</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>3</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>4</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>5</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>6</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>7</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>8</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>9</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      	<tr>
+			    	      		<td>10</td>
+			    	      		<td>周舟</td>
+			    	      		<td>18912345678</td>
+			    	      		<td>120.11743</td>
+			    	      		<td>30.28977</td>
+			    	      		<td>甘肃省兰州市城关区平凉路20号</td>
+			    	      		<td>2019-04-01  12:34:22</td>
+			    	      	</tr>
+			    	      </tbody>
+			    	   </table>
+			    	   <div class="pagination">
+			    	   	    <span class="pagenum" >共  <b>400</b> 条记录 第 <b>1</b> / <b>80</b> 页</span>
+							<div class="paginationbox" >
+								<div><</div>  <div class="choose-btn">1</div>  <div>2</div>  <div>3</div>  <div>4</div>  <div>5</div>
+								<div>6</div>  <div>7</div>  <div>8</div>  <div>9</div>  <div>></div>
+								<select class="pagination-select" >
+									<option>10条/页</option>
+									<option>20条/页</option>
+									<option>30条/页</option>
+							    </select>
+							    <span style="margin-left: 20px;">跳至</span>
+							    <input class="yeshu" />
+							    <span>页</span>
+					        </div>
+			    	   </div>
+			    	</div>
+
+			    </div>
+			</div>
+		</div>
+		<script type="text/javascript">
+		    //做导航一级切换
+			$(document).ready(function(){
+				var $tab_li = $('#tab_2 ul li');
+				$tab_li.click(function(){
+					$(this).addClass('selected2').siblings().removeClass('selected2');
+					var index = $tab_li.index(this);
+					$('div.tab_box_2 > div').eq(index).show().siblings().hide();
+					$(".title").text($(this).text());
+				});
+			});
+
+		</script>
+	</body>
+</html>
+

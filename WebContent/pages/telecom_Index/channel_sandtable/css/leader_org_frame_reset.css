@@ -1,0 +1,60 @@
+/* ��������ʽ */
+.tips_table_wrapper1{
+    padding: 0 20px 8px;
+}
+.tips_table_wrapper1 table{
+    color: #fff;
+}
+.tips_table_wrapper1 table td{
+    font-size: 12px;
+}
+.tips_table_wrapper1 table tr:nth-child(1){
+    border-bottom: 1px solid rgba(0,0,0,.8);
+    text-align:center;
+}
+.tips_table_wrapper1 table tr td:nth-child(1){
+    text-align: justify;
+    text-align-last: justify;
+    width: 55px;
+}
+.tips_table_wrapper1 table tr td:nth-child(2),
+.tips_table_wrapper1 table tr td:nth-child(3),
+.tips_table_wrapper1 table tr td:nth-child(4),
+.tips_table_wrapper1 table tr td:nth-child(5)
+{
+    padding-left: 8px;
+    text-align:right;
+}
+.tips_table_wrapper1 table tr:nth-child(1) td:nth-child(1){
+    text-align: center;
+    text-align-last: center;
+    font-weight: bold;
+    color: #a5d2f9;
+    font-size: 14px;
+    white-space: nowrap;
+}
+/* NBS Add new EchartsMap message */
+.tips_table_wrapper1 .area_msg{
+	/* display: block; */
+	padding:2%;
+}
+.tips_table_wrapper1 .v_area_msg{
+	text-align:left!important;
+}
+
+
+.tips_table_wrapper10{width: 100%;height:100%;}
+/* .tips_table_wrapper10 tr{border: 1px solid #d4d4d4;}
+.tips_table_wrapper10 tr td{border: 1px solid #d4d4d4;}
+.tips_table_wrapper10 tr td:nth-child(1){border-left: none;color: #f90;font-weight: bold;width:16.7%;}
+.tips_table_wrapper10 tr td:nth-child(2){color: #020842;width:20%;}
+.tips_table_wrapper10 tr td:nth-child(3){border-right: none;color: #020842;width:20%;}
+.v_area_msg tr td{border-left: none;border-right: none;line-height: 35px;} */
+
+.new_index table{width: 90%;}
+/* .new_index tr{border: 1px solid #d4d4d4;} */
+.new_index tr td{border: 1px solid #1D427A;color:#fff;text-align:center;}
+.new_index tr td:nth-child(1){border-left: none;}
+.new_index tr td:nth-child(4){border-right: none;}
+.tab_body td{color:#0099ff!important;}
+.tab_head td{width:22.5%!important;}

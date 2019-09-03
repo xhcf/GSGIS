@@ -1,0 +1,10 @@
+/*校园政企功能样式*/
+
+/*左侧导航样式 部分在leader_org_frame.css*/
+
+#nav_type_village span{background: url(../images/enterprise/nav_type_village_ico.png)no-repeat center/contain;}
+#nav_type_school span{background: url(../images/enterprise/nav_type_school_ico.png)no-repeat center/contain;}
+#nav_type_enterprise span{background: url(../images/enterprise/nav_type_enterprise_ico.png)no-repeat center/contain;}
+#nav_func_xinjian1 span{background: url(../images/enterprise/nav_func_xinjian1_ico.png)no-repeat center/contain;}
+#nav_func_pos_tab span{background: url(../images/enterprise/nav_func_pos_tab.png)no-repeat center/contain;}
+#nav_func_back span{background: url(../images/enterprise/nav_func_back_ico.png)no-repeat center/contain;}

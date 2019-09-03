@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+  <html>
+  <head>
+  <title>Elevation Profile with existing features</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no">
+
+ <link rel="stylesheet" href="http://js.arcgis.com/3.14/esri/css/esri.css">
+  <style>
+    html,body,#mainContainer{
+      padding:0;
+      margin:0;
+      height:100%;
+      width: 100%;
+    }
+    #mapDiv{
+      width: 100%;
+      height: 100%;
+    }
+    #searchDiv{
+      position: absolute;
+      top:5px;
+      right:20px;
+    }
+    #profilePane{
+      height:0;
+    }
+    #profilePane.open{
+      height:300px;
+    }
+
+  </style>
+
+  <script>var dojoConfig = { parseOnLoad: true };</script>
+  <script src="http://js.arcgis.com/3.14/"></script>
+  <script>
+    require([
+      "esri/arcgis/utils",
+      "esri/dijit/Search",
+      "esri/dijit/ElevationProfile",
+      "esri/units",
+      "dojo/dom-class",
+      "dijit/registry",
+      "dijit/layout/BorderContainer",
+      "dijit/layout/ContentPane",
+      "dojo/domReady!"
+      ], function (arcgisUtils, Search, ElevationProfile, Units, domClass,registry) {
+        arcgisUtils.createMap("cb34313f61494675b598bc987712eb9b", "mapDiv").then(function (response) {
+          var map = response.map;
+          
+          var chartOptions = {
+              title: "Race Profile",
+              chartTitleFontSize: 12,
+              indicatorFillColor: "#666",
+              titleFontColor: "#6a6a6a",
+              axisFontColor: "#959595",
+              elevationLineColor: "#99c199",
+              elevationTopColor: "#7fb17f",
+              elevationBottomColor: "#328332"
+          };
+
+          // Create the elevation profile widget
+          var profileWidget = new ElevationProfile({
+            map:map,
+            chartOptions:chartOptions,
+            profileTaskUrl: "https://elevation.arcgis.com/arcgis/rest/services/Tools/ElevationSync/GPServer",
+            scalebarUnits: Units.MILES
+          },"profileChartNode");   
+          profileWidget.startup();   
+
+
+
+          // Setup the Ultra Races feature layer as a search layer 
+          var search = new Search({
+            sources: [{
+              featureLayer: map.getLayer("UltraRaces_4566"),
+              enableSuggestions:true,
+              placeholder: "Enter race name",
+              showInfoWindowOnSelect: false
+            }],
+            value: "Big Horn",
+            map: map
+          },"searchDiv");
+
+          search.on("select-result", function(response){
+            var feature = response.result.feature;
+            // Draw elevation profile 
+            profileWidget.set("profileGeometry", feature.geometry);
+            if(!domClass.contains("profilePane", "open")){
+             domClass.add("profilePane", "open");
+             registry.byId("mainContainer").resize();
+            }
+          });
+          search.on("clear-search", function(){
+            domClass.remove("profilePane", "open");
+            registry.byId("mainContainer").resize();
+            profileWidget.clearProfile();
+          });
+
+          search.startup();
+          search.search();
+        });
+    });
+  </script>
+
+  </head>
+
+  <body class="claro">
+      <div id="mainContainer" data-dojo-type="dijit/layout/BorderContainer" data-dojo-props="design:'headline'">
+          <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'center'">
+              <div id="mapDiv"></div>
+              <div id="searchDiv"></div>
+          </div>
+          <div id="profilePane" data-dojo-type="dijit/layout/ContentPane" data-dojo-props="region:'bottom'">                              
+              <div id="profileChartNode"></div>
+          </div>
+      </div>      
+  </body>
+  </html>

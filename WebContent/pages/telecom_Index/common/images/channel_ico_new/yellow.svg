@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMidYMid" width="66" height="66" viewBox="0 0 66 66">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #ffc900;
+        opacity: 0.2;
+      }
+    </style>
+  </defs>
+  <g>
+    <circle cx="33" cy="33" r="33" class="cls-1"/>
+    <circle cx="33" cy="33" r="28.063" class="cls-1"/>
+    <circle cx="33" cy="33" r="23.844" class="cls-1"/>
+    <circle cx="33" cy="33" r="19.063" class="cls-1"/>
+    <circle cx="33" cy="33" r="15.25" class="cls-1"/>
+    <circle cx="33" cy="33" r="12.188" class="cls-1"/>
+  </g>
+</svg>

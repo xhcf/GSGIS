@@ -1,0 +1,206 @@
+<%@ page import="java.net.URLDecoder" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="e" uri="http://www.bonc.com.cn/easy/taglib/e"%>
+<%@ taglib prefix="c" uri="http://www.bonc.com.cn/easy/taglib/c"%>
+<e:q4o var="resident_info">
+    SELECT
+    VIF.GRID_NAME,
+    VIF.BRANCH_NAME,
+    VIF.VILLAGE_NAME,
+    BIF.STAND_NAME_2,
+    BIF.CONTACT_PERSON,
+    BIF.CONTACT_NBR,
+    BIF.KD_BUSINESS,
+    BIF.KD_XF,
+    TO_CHAR(KD_DQ_DATE, 'YYYY-MM-DD') KD_DQ_DATE,
+    BIF.ITV_BUSINESS,
+    BIF.ITV_XF,
+    TO_CHAR(ITV_DQ_DATE, 'YYYY-MM-DD') ITV_DQ_DATE
+    FROM
+    GIS_DATA.TB_GIS_ADDR_OTHER_ALL BIF
+    LEFT OUTER JOIN GIS_DATA.TB_GIS_VILLAGE_ADDR4 BVF ON BVF.SEGM_ID = BIF.SEGM_ID
+    LEFT OUTER JOIN GIS_DATA.TB_GIS_VILLAGE_EDIT_INFO VIF ON VIF.VILLAGE_ID = BVF.VILLAGE_ID
+    WHERE
+    BIF.SEGM_ID_2 = '${param.segment_id }'
+</e:q4o>
+<!DOCTYPE>
+<html>
+<head>
+<c:resources type="easyui,app" style="b" />
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<e:script value="/resources/layer/layer.js"/>
+    <link href='<e:url value="/resources/themes/common/css/reset.css?version=1.2"/>' rel="stylesheet" type="text/css"
+          media="all"/>
+    <link href='<e:url value="/pages/telecom_Index/sub_grid/css/viewPlane_info_collect_edit_diy_new.css?version=1.2.16"/>' rel="stylesheet" type="text/css"
+          media="all"/>
+<title>竞争收集编辑页面</title>
+</head>
+<body>
+<div class="sub_name_other">
+    <span id="collect_edit_sub_name"></span>
+</div>
+<div class="new_collect_wrapper">
+    <div class="messages">
+        <header>归属信息</header>
+        <ul>
+            <li>详细地址：<span id="collect_edit_addr" style="color:#ee7008;font-weight:bold;"></span></li>
+            <li style="width: 48%;float: left;">网&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;格：<span id="collect_edit_grid"></span></li>
+            <li style="width: 48%;float: left;">小&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;区：<span id="collect_edit_village"></span></li>
+            <div style="clear:both"></div>
+        </ul>
+    </div>
+    <div class="messages">
+        <header>客户信息</header>
+        <ul class="messages_oneline">
+            <li>客户姓名： <input id="collect_edit_customer_name"/></li>
+            <li>联系方式： <input id="collect_edit_customer_phone"/></li>
+        </ul>
+    </div>
+    <div class="messages border_message">
+        <header>业务信息</header>
+        <div class="business">
+            <div class="messages_title">宽带</div>
+            <ul style="height:56px" class="must_messages">
+                <li>运&nbsp;营&nbsp;商&nbsp;：
+                    <input type="radio" name="collect_operator" value="1"/>移动
+                    <input type="radio" name="collect_operator" value="2"/>联通
+                    <input type="radio" name="collect_operator" value="3"/>广电
+                    <input type="radio" name="collect_operator" value="4"/>其他
+                    <input type="radio" name="collect_operator" value="0"/>未装<span>*</span>
+                </li>
+                <li style="float: left;margin-right: 20px;">到期时间： <input id="collect_edit_date"/><span>*</span></li>
+                <li style="float: left">资费： <input id="collect_expense"/></li>
+            </ul>
+        </div>
+    </div>
+    <div class="messages">
+        <div class="business" style="margin-top: 10px">
+            <div class="messages_title">电视</div>
+            <ul style="height:56px" class="must_messages">
+                <li>运&nbsp;营&nbsp;商&nbsp;：
+                    <input type="radio" name="collect_operator_itv" value="1"/>移动
+                    <input type="radio" name="collect_operator_itv" value="2"/>联通
+                    <input type="radio" name="collect_operator_itv" value="3"/>广电
+                    <input type="radio" name="collect_operator_itv" value="4"/>其他
+                    <input type="radio" name="collect_operator_itv" value="0"/>未装
+                </li>
+                <li style="float: left;margin-right: 20px;">到期时间： <input id="collect_itv_edit_date"/></li>
+                <li style="float: left;">资费： <input id="collect_itv_expense"/></li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="button_wrapper">
+    <button class="button_click" onclick="save(this)">保存</button>
+    <button class="button_click" onclick="cancle()">取消</button>
+</div>
+<script type="text/javascript">
+$(function() {
+	$("#collect_edit_date").datebox({
+		editable:false,
+		panelHeight: '200px'
+	})
+	$("#collect_itv_edit_date").datebox({
+        editable:false,
+        panelHeight: '200px'
+    })
+	//加载数据
+    load_info();
+	
+	
+})
+
+function load_info() {
+	var temp;
+	var subName = decode();
+	$("#collect_edit_sub_name").html(subName);
+	$("#collect_edit_addr").html('${resident_info.STAND_NAME_2}');
+	$("#collect_edit_grid").html('${resident_info.GRID_NAME}');
+	$("#collect_edit_village").html('${resident_info.VILLAGE_NAME}');
+	$("#collect_edit_customer_name").val('${resident_info.CONTACT_PERSON}');
+	$("#collect_edit_customer_phone").val('${resident_info.CONTACT_NBR}');
+	$("#collect_expense").val('${resident_info.KD_XF}');
+	temp = '${resident_info.KD_BUSINESS}';
+	if ( temp != "" && temp != "null") {
+		$("input[name='collect_operator'][value=" + temp + "]").attr("checked", "checked");
+	}
+	temp = '${resident_info.ITV_BUSINESS}';
+	if ( temp != "" && temp != "null") {
+        $("input[name='collect_operator_itv'][value=" + temp + "]").attr("checked", "checked");
+    }
+	$("#collect_itv_expense").val('${resident_info.ITV_XF}');
+	temp = '${resident_info.KD_DQ_DATE}';
+	if (temp != "") {
+		   $("#collect_edit_date").datebox('setValue', temp)
+	}
+	
+	temp = '${resident_info.ITV_DQ_DATE}';
+    if (temp != "") {
+           $("#collect_itv_edit_date").datebox('setValue', temp)
+    }
+	
+}
+
+function decode() {
+	var url = location.href;
+	var subName = url.substring((url.lastIndexOf("=") + 1));
+	return decodeURI(subName);
+}
+    
+function save(doc) {
+	var collect_operator = $("input[name='collect_operator']:checked").val();
+	var collect_date = $("#collect_edit_date").datebox('getValue');
+	console.log("collect_operator:" + collect_operator);
+	console.log("collect_date:" + collect_date);
+	if (collect_operator == '0' && collect_date != null && collect_date != '') {
+		layer.msg("请检查输入,未装宽带时不允许选择到期时间")
+		return false;
+	} else if (collect_operator != '0') {
+		if (collect_operator == '' || collect_operator == null || collect_date == null || collect_date == '') {
+	        layer.msg("请检查输入,宽带日期 运营商 不为空");
+	        return false;
+	    }
+	}
+	
+	var collect_operator_itv = $("input[name='collect_operator_itv']:checked").val();
+	var collect_date_itv = $("#collect_itv_edit_date").datebox('getValue');
+	
+	if (collect_operator_itv == '0' && (collect_date_itv != null && collect_date_itv != '')) {
+        layer.msg("请检查输入,未装itv时不允许选择到期时间")
+        return false;
+    } 
+	
+	var params = {
+			eaction: "save_collect_info_new",
+			segment_id: "${param.segment_id}",
+			resident_name: $("#collect_edit_customer_name").val().trim(),
+			resident_phone: $("#collect_edit_customer_phone").val().trim(),
+			collect_operator: collect_operator,
+			collect_expense: $("#collect_expense").val(),
+			collect_date: collect_date,
+			collect_operator_itv: collect_operator_itv,
+            collect_expense_itv: $("#collect_itv_expense").val(),
+            collect_date_itv: collect_date_itv
+	}
+	$(doc).attr("disabled", "disabled");
+	$.post(parent.url4Query, params, function(data) {
+		data = data.trim();
+		if(data>0){
+            layer.msg("保存成功");  
+            parent.collect_new_load_build_info(1);
+            setTimeout(function(){
+                parent.closeWinInfoCollectionEdit();
+            },2000);
+        }else{
+            layer.msg("保存失败");
+        }
+	})
+    
+}
+
+function cancle() {
+	parent.closeWinInfoCollectionEdit();
+}
+</script>
+</body>
+</html>

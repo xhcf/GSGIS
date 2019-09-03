@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>热力图</title>
+    <link rel="stylesheet" type="text/css"
+          href="http://127.0.0.1/arcgis_js_api/library/3.16/3.16/dijit/themes/tundra/tundra.css"/>
+    <link rel="stylesheet" type="text/css" href="http://127.0.0.1/arcgis_js_api/library/3.16/3.16/esri/css/esri.css"/>
+    <script type="text/javascript" src="http://127.0.0.1/arcgis_js_api/library/3.16/3.16/init.js"></script>
+    <style>
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+    <script>
+        var map;
+        var featureLayer;
+        require([
+                "esri/map",
+                "esri/layers/FeatureLayer",
+                "esri/renderers/HeatmapRenderer",
+                "esri/symbols/SimpleMarkerSymbol",
+                "esri/symbols/SimpleLineSymbol",
+                "esri/symbols/SimpleFillSymbol",
+                "esri/Color"],
+            function (Map, FeatureLayer, HeatmapRenderer, SimpleMarkerSymbol, SimpleLineSymbol, SimpleFillSymbol, Color) {
+                map = new Map("map", {
+                    basemap: "osm",
+                    center: [106, 29],
+                    zoom: 8
+                });
+                var geodata = [
+                    {value: 800, pnt: [106, 29]},
+                    {name: '酉阳县', value: 32, pnt: [108.8196, 28.8666]},
+                    {name: '奉节县', value: 232, pnt: [109.3909, 30.9265]},
+                    {name: '巫溪县', value: 354, pnt: [109.3359, 31.4813]},
+                    {name: '开县', value: 87, pnt: [108.4131, 31.2561]},
+                    {name: '彭水县', value: 87, pnt: [108.2043, 29.3994]},
+                    {name: '云阳县', value: 364, pnt: [108.8306, 31.0089]},
+                    {name: '万州区', value: 164, pnt: [108.3911, 30.6958]},
+                    {name: '城口县', value: 61, pnt: [108.7756, 31.9098]},
+                    {name: '江津区', value: 12, pnt: [106.2158, 28.9874]},
+                    {name: '石柱县', value: 52, pnt: [108.2813, 30.1025]},
+                    {name: '巫山县', value: 43, pnt: [109.8853, 31.1188]},
+                    {name: '涪陵区', value: 94, pnt: [107.3364, 29.6796]},
+                    {name: '丰都县', value: 57, pnt: [107.8418, 29.9048]},
+                    {name: '武隆县', value: 124, pnt: [107.655, 29.35]},
+                    {name: '南川区', value: 157, pnt: [107.1716, 29.1302]},
+                    {name: '秀山县', value: 18, pnt: [109.0173, 28.5205]},
+                    {name: '黔江区', value: 67, pnt: [108.7207, 29.4708]},
+                    {name: '合川区', value: 84, pnt: [106.3257, 30.108]},
+                    {name: '綦江县', value: 147, pnt: [106.6553, 28.8171]},
+                    {name: '忠县', value: 184, pnt: [107.8967, 30.3223]},
+                    {name: '梁平县', value: 214, pnt: [107.7429, 30.6519]},
+                    {name: '巴南区', value: 244, pnt: [106.7322, 29.4214]},
+                    {name: '潼南县', value: 268, pnt: [105.7764, 30.1135]},
+                    {name: '永川区', value: 18, pnt: [105.8643, 29.2566]},
+                    {name: '垫江县', value: 48, pnt: [107.4573, 30.2454]},
+                    {name: '渝北区', value: 85, pnt: [106.7212, 29.8499]},
+                    {name: '长寿区', value: 35, pnt: [107.1606, 29.9762]},
+                    {name: '大足县', value: 249, pnt: [105.7544, 29.6136]},
+                    {name: '铜梁县', value: 154, pnt: [106.0291, 29.8059]},
+                    {name: '荣昌县', value: 257, pnt: [105.5127, 29.4708]},
+                    {name: '璧山县', value: 95, pnt: [106.2048, 29.5807]},
+                    {name: '北碚区', value: 108, pnt: [106.5674, 29.8883]},
+                    {name: '万盛区', value: 204, pnt: [106.908, 28.9325]},
+                    {name: '南岸区', value: 181, pnt: [106.6663, 29.5367]},
+                    {name: '江北区', value: 192, pnt: [106.8311, 29.6191]},
+                    {name: '双桥区', value: 50, pnt: [105.7874, 29.4928]},
+                    {name: '渝中区', value: 10, pnt: [106.5344, 29.5477]}
+                ];
+                var features = [];
+                var style1 = new SimpleMarkerSymbol(SimpleMarkerSymbol.STYLE_CIRCLE, 10, new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID, new Color([255, 0, 0]), 0.5), new Color([0, 0, 255, 1]));
+
+                for (var i = 0; i < geodata.length; i++) {
+                    var point = new esri.geometry.Point(geodata[i].pnt[0], geodata[i].pnt[1], new esri.SpatialReference({wkid: 4326}));
+
+                    var graphic = new esri.Graphic(point, style1);
+                    graphic.setAttributes({"FID": i, "name": geodata[i].name, "value": geodata[i].value});
+                    features.push(graphic);
+                }
+
+                var featureSet = new esri.tasks.FeatureSet();
+                featureSet.features = features;
+                featureSet.geometryType = 'esriGeometryPoint';
+                featureSet.fieldAliases = {
+                    "FID": "FID",
+                    "name": "name",
+                    "value": "value"
+                };
+                featureSet.spatialReference = new esri.SpatialReference({wkid: 4326});
+                var layerDefinition = {
+                    "objectIdField": "FID",
+                    "geometryType": "esriGeometryPoint",
+                    "fields": [
+                        {
+                            "name": "FID",
+                            "type": "esriFieldTypeOID",
+                            "alias": "FID",
+                            "sqlType": "sqlTypeOther"
+                        },
+                        {
+                            "name": "name",
+                            "type": "esriFieldTypeInteger",
+                            "alias": "name"
+                        },
+                        {
+                            "name": "value",
+                            "type": "esriFieldTypeInteger",
+                            "alias": "value"
+                        }
+                    ]
+                }
+
+                var featureCollection = {
+                    layerDefinition: layerDefinition,
+                    featureSet: featureSet
+                };
+                featureLayer = new FeatureLayer(featureCollection, {
+                    mode: FeatureLayer.MODE_SNAPSHOT,
+                    outFields: ["name", "value"],
+                });
+                var heatmapRenderer = new HeatmapRenderer({
+                    field: "value",
+                    blurRadius: 10,
+                    //颜色设置
+                    colorStops: [
+                        {ratio: 0, color: "rgba(0, 255, 150, 0)"},
+                        {ratio: 0.6, color: "rgb(250, 250, 0)"},
+                        {ratio: 0.85, color: "rgb(250, 150, 0)"},
+                        {ratio: 0.95, color: "rgb(255, 50, 0)"}],
+                    maxPixelIntensity: 500,
+                    minPixelIntensity: 0
+                });
+                featureLayer.setRenderer(heatmapRenderer);
+                console.log(featureLayer);
+                map.addLayer(featureLayer,1);
+                console.log(map.getLayer(featureLayer.id));
+                var featureHotspotLayer = map.getLayer(featureLayer.id)
+                console.log(map.layerIds)
+                console.log(map.graphicsLayerIds)
+                console.log(map.getLevel())
+
+
+
+            });
+
+        function removelayer() {
+            featureLayer.hide();
+        }
+
+        function add() {
+            featureLayer.show();
+        }
+    </script>
+</head>
+<body>
+<div id="map">
+    <button onclick="removelayer()">隐藏</button>
+    <button onclick="add()">显示</button>
+</div>
+</body>
+</html>

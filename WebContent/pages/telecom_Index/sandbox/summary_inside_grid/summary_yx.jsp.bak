@@ -1,0 +1,1425 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="e" uri="http://www.bonc.com.cn/easy/taglib/e"%>
+<%@ taglib prefix="c" uri="http://www.bonc.com.cn/easy/taglib/c"%>
+
+<!--获取系统时间 -->
+<e:q4o var="sys_date">
+	SELECT TO_CHAR(SYSDATE,'YYYYMMDD') DAY_VAL,TO_CHAR(SYSDATE,'YYYY-MM') MONTH_VAL FROM DUAL
+</e:q4o>
+<e:set var="ACCT_DAY">
+	${sys_date.DAY_VAL}
+</e:set>
+<e:set var="ACCT_MONTH">
+	${sys_date.MONTH_VAL}
+</e:set>
+<e:q4l var="mkt_list">
+	select ' ' mkt_id,'全部' mkt_name from dual
+	union all
+	SELECT mkt_id,mkt_name FROM
+	<e:description>
+		edw.tb_dim_send_market@gsedw
+	</e:description>
+	${gis_user}.tb_dic_gis_market_type
+</e:q4l>
+<html>
+<head>
+	<title>营销标签</title>
+	<style>
+		.div_show{display:block;}
+		.div_hide{display:none;}
+		.combo-p{
+			z-index:99110000!important;
+		}
+		#bound_ready_jump{display:none;}
+		#follow_info_list a {color:blue;cursor: pointer;}
+		.datagrid {height:100%!important;}
+		.t_table.summary_day_m_tab {height:52%;}
+		.win_full_screen .t_table.summary_day_m_tab {height:69%;}
+
+		#pd_3 tr th:first-child {width:5%;}
+		#pd_3 tr th:nth-child(2) {width:27%;}
+		#pd_3 tr th:nth-child(3) {width:13%;}
+		#pd_3 tr th:nth-child(4) {width:27%;}
+		#pd_3 tr th:nth-child(5) {width:13%;}
+		#pd_3 tr th:nth-child(6) {width:15%;}
+
+		#follow_info_list tr td:first-child {width:5%;}
+		#follow_info_list tr td:nth-child(2) {width:27%;}
+		#follow_info_list tr td:nth-child(3) {width:13%;}
+		#follow_info_list tr td:nth-child(4) {width:27%;}
+		#follow_info_list tr td:nth-child(5) {width:13%;}
+		#follow_info_list tr td:nth-child(6) {width:15%;}
+
+		#pd_5 tr th:first-child {width:5%;}
+		#pd_5 tr th:nth-child(2) {width:13%;}
+		#pd_5 tr th:nth-child(3) {width:12%;}
+		#pd_5 tr th:nth-child(4) {width:38%;}
+		#pd_5 tr th:nth-child(5) {width:20%;}
+		#pd_5 tr th:nth-child(6) {width:12%;}
+
+		#succ_info_list tr td:first-child {width:5%;}
+		#succ_info_list tr td:nth-child(2) {width:13%;}
+		#succ_info_list tr td:nth-child(3) {width:12%;}
+		#succ_info_list tr td:nth-child(4) {width:38%;}
+		#succ_info_list tr td:nth-child(5) {width:20%;}
+		#succ_info_list tr td:nth-child(6) {width:12%;}
+	</style>
+</head>
+<script>
+	var begin_scroll = "", seq_num = 0, list_page = 0;
+	var tab_index2 = '${param.tab_index2}';
+	var grid_id_short = '${param.grid_id_short}';
+	var grid_id = '${param.grid_id}';
+	var url_yx_grid = "<e:url value='pages/telecom_Index/common/sql/tabData_sandbox_summary_grid_yx.jsp'/>";
+	var url_sum_grid = "<e:url value='/pages/telecom_Index/common/sql/tabData_sandbox_summary_grid.jsp'/>";
+
+	function tabSelectedReset(){
+		$("#third_tab > span").eq(0).addClass("active").siblings().removeClass("active");
+		$("#intraday_tb > span").eq(0).addClass("active").siblings().removeClass("active");
+		$("#track_tb > span").eq(0).addClass("active").siblings().removeClass("active");
+		$("#summary_day_left_0 > span").eq(0).addClass("active").siblings().removeClass("active");
+		$("#summary_day_left_1 > span").eq(0).addClass("active").siblings().removeClass("active");
+		$("#summary_day_left_2 > span").eq(0).addClass("active").siblings().removeClass("active");
+	}
+	function selectReset(){
+		$("#intraday_tb").val("");
+		//$("#intraday_tb option:first").attr("selected","selected");
+		$("#summary_day_left_0").val("");
+		$("#summary_day_left_1").val("");
+		$("#summary_day_left_2").val("");
+	}
+	//下面是标签对应的加载事件
+	/* 	function load_jz(){
+
+	 }  */
+	function clear_data() {
+		begin_scroll = "", seq_num = 0, list_page = 0;
+		//趋势日
+		$("#qs_summary_day_info_list").empty();
+		//网格月
+		$("#wg_summary_month_info_list").empty();
+		//网格日
+		$("#wg_summary_day_info_list").empty();
+		$("#dispatch_info_list").empty();
+		$("#follow_info_list").empty();
+		$("#succ_info_list").empty();
+	}
+
+	/*-考核统计 start-*/
+	//日表单转融
+	var flag=0;
+	var sence_id='';
+	//日表沉默唤醒
+	function load_cmhx(){
+		flag='3';
+		load_tb_d(flag);
+	}
+	function load_dzr(){
+		flag='1';
+		load_tb_d(flag);
+		// load_tb2(flag);
+	}
+	//日表协议到期
+	function load_hydq(){
+		flag=-1;
+		load_tb_d(flag);
+		//load_tb2(flag);
+	}
+	//日表全部
+	function day_sence_all(){
+		flag=0;
+		load_tb_d(flag);
+	}
+
+	//月表单转融
+	var flag=0;
+	var sence_id='';
+	//月表沉默唤醒
+	//月表协议到期
+
+	//执行考核统计日、月表格加载
+	function load_tb_d(flag){
+		if(flag==1){
+			sence_id='10';
+		}else if(flag==-1){
+			sence_id='11';
+		}else if(flag==0){
+			sence_id='';
+		}else if(flag==3){
+			sence_id='12';
+		}
+		load_day_data(sence_id);
+	}
+
+	//时间控件
+	function initDateSelect(){
+		//检索日
+		$("#selectDay").datebox({
+			onSelect : function(date){
+				var selectDay = $('#selectDay').datebox('getValue').replace(/-/g, "");
+				//加载考核统计-网格日数据
+				//load_wgd_data("");
+				$("#summary_day_left_1 span").eq(0).click();
+			}
+		});
+
+		//检索日
+		$("#selectDay").datebox("setValue",'${ACCT_DAY}');
+
+		//检索月
+		var db = $('#selectMonth');
+		db.datebox({
+			onShowPanel: function () {//显示日趋选择对象后再触发弹出月份层的事件，初始化时没有生成月份层
+				span.trigger('click'); //触发click事件弹出月份层
+				//fix 1.3.x不选择日期点击其他地方隐藏在弹出日期框显示日期面板
+				if (p.find('div.calendar-menu').is(':hidden')) p.find('div.calendar-menu').show();
+				if (!tds) setTimeout(function () {//延时触发获取月份对象，因为上面的事件触发和对象生成有时间间隔
+					tds = p.find('div.calendar-menu-month-inner td');
+					tds.click(function (e) {
+						e.stopPropagation(); //禁止冒泡执行easyui给月份绑定的事件
+						var year = /\d{4}/.exec(span.html())[0]//得到年份
+								, month = parseInt($(this).attr('abbr'), 10); //月份，这里不需要+1
+						db.datebox('hidePanel')//隐藏日期对象
+								.datebox('setValue', year + '-' + (month < 10 ? "0" + month : month)); //设置日期的值
+					});
+				}, 0);
+				yearIpt.unbind();//解绑年份输入框中任何事件
+			},
+			parser: function (s) {
+				if (!s) return new Date();
+				var arr = s.split('-');
+				return new Date(parseInt(arr[0], 10), parseInt(arr[1], 10) - 1, 1);
+			},
+			formatter: function (d) {
+				return d.getFullYear() + '-' + ((d.getMonth() + 1) < 10 ? "0" + (d.getMonth() + 1) : (d.getMonth() + 1));
+				/*getMonth返回的是0开始的，忘记了。。已修正*/
+			}
+		});
+
+		$("#selectMonth").datebox({
+			onChange: function(date){
+				acct_mon = date;
+				acct_mon = acct_mon.replace(/-/g,'');
+				console.log(acct_mon);
+				//加载考核统计-网格月数据
+				$("#summary_day_left_2 span").eq(0).click();
+			}
+		});
+
+		var p = db.datebox('panel'), //日期选择对象
+				tds = false, //日期选择对象中月份
+				aToday = p.find('a.datebox-current'),
+				yearIpt = p.find('input.calendar-menu-year'),//年份输入框
+		//显示月份层的触发控件
+				span = aToday.length ? p.find('div.calendar-title span') ://1.3.x版本
+						p.find('span.calendar-text'); //1.4.x版本
+		if (aToday.length) {//1.3.x版本，取消Today按钮的click事件，重新绑定新事件设置日期框为今天，防止弹出日期选择面板
+
+			aToday.unbind('click').click(function () {
+				var now = new Date();
+				db.datebox('hidePanel').datebox('setValue', now.getFullYear() + '-' + ((now.getMonth() + 1) < 10 ? "0" + (now.getMonth() + 1) : (now.getMonth() + 1)));
+			});
+		} else {
+			var date = '${ACCT_MONTH}';
+			var date_arry = date.split("-");
+			var year = date_arry[0];
+			var mm = date_arry[1];
+			db.datebox('hidePanel').datebox('setValue', year + '-' + mm);
+		}
+	}
+	//加载考核统计趋势日数据
+	function load_day_data(sence_id){
+		//record_num();
+		var params = {};
+		params.flag=sence_id;
+		params.grid_id=grid_id;
+		params.eaction="marketing_dzr_day";
+		var $grid_list = $("#qs_summary_day_info_list");
+		$grid_list.empty();
+		$.post(url_yx_grid,params, function (data) {
+			data = $.parseJSON(data);
+			if (data.length == 0 ) {
+				$grid_list.append("<tr><td style='text-align:center' colspan=5 onMouseOver=\"this.style.background='rgb(250,250,250)'\">没有查询到数据</td></tr>")
+				return;
+			}
+			for (var i = 0, l = data.length; i < l; i++) {
+				var d = data[i];
+				var newRow = "<tr>";
+				if(d.ORDER_DATE=='99')
+					newRow += "<td style='width:65px'>累计</td>";
+				else
+					newRow += "<td style='width:65px'>" + d.ORDER_DATE + "日</td>";
+				if(d.TOTAL_COUNT==null || d.TOTAL_COUNT == 'undefined'){
+					newRow += "<td style='width:50px'></td>";
+				}else{
+					newRow += "<td style='width:50px'>" + d.TOTAL_COUNT + "</td>";
+				}
+				if(d.NUM_1==null || d.NUM_1 == 'undefined'){
+					newRow += "<td style='width:65px'></td>";
+				}else{
+					newRow += "<td style='width:65px'>" + d.NUM_1 + "</td>";
+				}
+				if(d.RATE_1=="%"){
+					newRow += "<td style='width:65px'></td>";
+				}else{
+					newRow += "<td style='width:65px'><font color='red'>" + d.RATE_1 + "</font></td>";
+				}
+				if(d.NUM_2==null || d.NUM_2 == 'undefined'){
+					newRow += "<td style='width:65px'></td>";
+				}else{
+					newRow += "<td style='width:65px'>" + d.NUM_2 + "</td>";
+				}
+
+				if(d.RATE_2=="%"){
+					newRow += "<td style='width:95px'></td>";
+				}else{
+					newRow += "<td style='width:95px'>" + d.RATE_2 + "</td>";
+				}
+				newRow +="</tr>";
+				$grid_list.append(newRow);
+			}
+		});
+	}
+
+	//趋势(日)加载日、月数据记录条数
+	function record_num(){
+		var params = {};
+		params.grid_id=grid_id;
+		params.eaction="marketing_sence_num";
+		$.post(url_yx_grid,params, function (data) {
+			data = $.parseJSON(data);
+			if(data.length>0){
+				//全部
+				$("#qs_sence_all_day").html("("+((data[0].SUM_NUM==null)?0:data[0].SUM_NUM)+")");
+				//单转融
+				$("#qs_dzr_day").html("("+((data[0].DR_NUM==null)?0:data[0].DR_NUM)+")");
+				//协议到期
+				$("#qs_xydq_day").html("("+((data[0].XY_NUM==null)?0:data[0].XY_NUM)+")");
+				//沉默唤醒
+				$("#qs_cmhx_day").html("("+((data[0].CMHX_NUM==null)?0:data[0].CMHX_NUM)+")");
+			}
+		})
+	}
+
+	//加载考核统计-网格月数据
+	function load_wgm_data(sence_id){
+		//record_num_wgmonth();
+		var params = {};
+		params.flag=sence_id;
+		params.grid_id=grid_id;
+		//账期
+		var selectMonth = $('#selectMonth').datebox('getValue').replace(/-/g, "");
+		params.acct_month=selectMonth;
+		params.eaction="marketing_dzr_month";
+		var $mon_list = $("#wg_summary_month_info_list");
+		$mon_list.empty();
+
+		$.post(url_yx_grid,params, function (data) {
+			data = $.parseJSON(data);
+			if (data.length == 0 ) {
+				$mon_list.append("<tr><td style='text-align:center' colspan=4 onMouseOver=\"this.style.background='rgb(250,250,250)'\">没有查询到数据</td></tr>")
+				return;
+			}
+			for (var i = 0, l = data.length; i < l; i++) {
+				var d = data[i];
+				var newRow = "<tr>";
+				newRow += "<td style='width:100px;'>" +  d.QUYUNAME + "</td>"+
+				"<td style='width:50px;'>" +  d.PD_NUM + "</td>"+
+				"<td style='width:50px;'>" + d.ZX_RATE+
+				"<td style='width:50px;'>" + d.CG_RATE + "</td></tr>";
+				$mon_list.append(newRow);
+			}
+		});
+	}
+
+	//考核统计-网格月
+	function record_num_wgmonth(){
+		var params = {};
+		params.grid_id=grid_id;
+		//账期
+		var selectMonth = $('#selectMonth').datebox('getValue').replace(/-/g, "");
+		params.acct_month=selectMonth;
+		params.ation = "marketing_sence_month_num";
+		$.post(url_yx_grid,params, function (data) {
+			data = $.parseJSON(data);
+			if(data.length>0){
+				//全部
+				$("#wg_sence_all_month").html("("+((data[0].SUM_NUM==null)?0:data[0].SUM_NUM)+")");
+				//单转融
+				$("#wg_dzr_month").html("("+((data[0].DR_NUM==null)?0:data[0].DR_NUM)+")");
+				//协议到期
+				$("#wg_xydq_month").html("("+((data[0].XY_NUM==null)?0:data[0].XY_NUM)+")");
+				//沉默唤醒
+				$("#wg_cmhx_month").html("("+((data[0].CMHX_NUM==null)?0:data[0].CMHX_NUM)+")");
+			}
+		})
+	}
+
+	//加载考核统计-网格日数据
+	function load_wgd_data(sence_id){
+		//record_num_wgday();
+		//账期
+		var selectDay = $('#selectDay').datebox('getValue').replace(/-/g, "");
+		var params = {};
+		params.flag=sence_id;
+		params.grid_id=grid_id;
+		params.acct_day=selectDay;
+		params.eaction = "marketing_dzr_wgday";
+		var $day_list = $("#wg_summary_day_info_list");
+		$day_list.empty();
+		$.post(url_yx_grid,params, function (data) {
+			data = $.parseJSON(data);
+			if (data.length == 0 ) {
+				$day_list.append("<tr><td style='text-align:center' colspan=4 onMouseOver=\"this.style.background='rgb(250,250,250)'\">没有查询到数据</td></tr>")
+				return;
+			}
+			for (var i = 0, l = data.length; i < l; i++) {
+				var d = data[i];
+				var newRow = "<tr>";
+				newRow += "<td style='width:100px;'>" +  d.QUYUNAME + "</td>"+
+				"<td style='width:50px;'>" +  d.PD_NUM + "</td>"+
+				"<td style='width:50px;'>" + d.ZX_RATE+
+				"<td style='width:50px;'>" + d.CG_RATE + "</td></tr>";
+				$day_list.append(newRow);
+			}
+		});
+	}
+
+	//考核统计-网格月
+	function record_num_wgday(){
+		//账期
+		var selectDay = $('#selectDay').datebox('getValue').replace(/-/g, "");
+		var params = {};
+		params.grid_id=grid_id;
+		params.acct_day=selectDay;
+		params.eaction = "marketing_sence_wgday_num";
+		$.post(url_yx_grid,params, function (data) {
+			data = $.parseJSON(data);
+			if(data.length>0){
+				//全部
+				$("#wg_sence_all_day").html("("+((data[0].SUM_NUM==null)?0:data[0].SUM_NUM)+")");
+				//单转融
+				$("#wg_dzr_day").html("("+((data[0].DR_NUM==null)?0:data[0].DR_NUM)+")");
+				//协议到期
+				$("#wg_xydq_day").html("("+((data[0].XY_NUM==null)?0:data[0].XY_NUM)+")");
+				//沉默唤醒
+				$("#wg_cmhx_day").html("("+((data[0].CMHX_NUM==null)?0:data[0].CMHX_NUM)+")");
+			}
+		})
+	}
+
+	/*-考核统计 end-*/
+	/*-当日派单 start-*/
+	//滚动加载 当日派单
+	// 绑定事件
+	var intraday_sence_id='';
+	$(function(){
+		var mkt_list = ${e:java2json(mkt_list.list)};
+		if(mkt_list.length){
+			for(var i = 0,l = mkt_list.length;i<l;i++){
+				var mkt = mkt_list[i];
+
+				//每日派单
+				var span = "";
+				span = "<option value='"+mkt.MKT_ID+"'>";
+				span += mkt.MKT_NAME;
+				//span += "<span id='intraday_cnt_"+mkt.MKT_ID+"'>";
+				span += "</option>";
+				//span += "</span>";
+
+				$("#intraday_tb").append(span);
+
+				var split_line = "|";
+				//趋势日
+				var span1 = "";
+				if(i > 0)
+					span1 += split_line;
+				else
+					span1 = "场景:";
+				span1 = "<option value='"+mkt.MKT_ID+"'>";
+				span1 += mkt.MKT_NAME;
+				//span1 += "<span id='qs_cnt_"+mkt.MKT_ID+"'>";
+				span1 += "</option>";
+				//span1 += "</span>";
+
+				$("#summary_day_left_0").append(span1);
+
+				//网格日
+				var span2 = "";
+				if(i > 0)
+					span2 += split_line;
+				else
+					span2 = "场景:";
+				span2 = "<option value='"+mkt.MKT_ID+"'>";
+				span2 += mkt.MKT_NAME;
+				//span2 += "<span id='wg_day_cnt_"+mkt.MKT_ID+"'>";
+				span2 += "</option>";
+				//span2 += "</span>";
+
+				$("#summary_day_left_1").append(span2);
+
+				//网格月
+				var span3 = "";
+				if(i > 0)
+					span3 += split_line;
+				else
+					span3 = "场景:";
+				span3 = "<option value='"+mkt.MKT_ID+"'>";
+				span3 += mkt.MKT_NAME;
+				//span3 += "<span id='wg_mon_cnt_"+mkt.MKT_ID+"'>";
+				span3 += "</option>";
+				//span3 += "</span>";
+
+				$("#summary_day_left_2").append(span3);
+			}
+		}else{
+			layer.msg("请先添加营销场景");
+			return;
+		}
+
+		$("#intraday_tb > option").each(function (index) {
+			$(this).unbind();
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				intraday_sence_id='';
+				//显示当前表格，隐藏其他表格
+				if(index==0){
+					intraday_sence_id='';
+				}else if(index==1){
+					intraday_sence_id='10';
+				}else if(index==2){
+					intraday_sence_id='11';
+				}else if(index==3){
+					intraday_sence_id='12';
+				}
+				load_intraday_data(intraday_sence_id);
+
+			})
+		})
+		//时间控件初始化
+		initDateSelect();
+	});
+	function intra_change(){
+		console.log("intra_change");
+		intraday_sence_id = $.trim($("#intraday_tb option:selected").val());
+		load_intraday_data(intraday_sence_id);
+	}
+
+	var load_intraday_data = function (intraday_sence_id){
+		intraday_num();
+		var params = {
+			eaction: "marketing_intraday",
+			page: 0,
+			"grid_id_short":grid_id_short,
+			intraday_sence_id:intraday_sence_id
+		}
+		clear_data();
+		intradayListScroll(params,1);
+	};
+	yx_load_intraday_data_view = load_intraday_data;
+
+	//加载表格数据
+	function intradayListScroll(params, flag) {
+		var $grid_list = $("#dispatch_info_list");
+		$.post(url_sum_grid, params, function (data) {
+			data = $.parseJSON(data);
+			for (var i = 0, l = data.length; i < l; i++) {
+				var d = data[i];
+				var newRow = "<tr><td style='width:35'>" + (++seq_num) + "</td>";
+				//newRow += "<td style='width:120px'><a href=\"javascript:void(0);\" onclick=\"standard_position_load('" + d.GRID_NAME + "',this)\" >" + d.GRID_NAME + "</a></td>";
+//					newRow += "<td style='width:280px'>" + d.CONTACT_ADDS + "</td><td style='width:90px'>"+d.CONTACT_TEL +"</br>"+ d.SERV_NAME + "</td><td style='width:100px'>" + d.ACC_NBR
+				newRow += "<td style='width:210'>" + d.CONTACT_ADDS + "</td><td style='width:90'><span>"+d.CONTACT_TEL +"</span></br>"+ d.SERV_NAME + "</td><td style='width:90'><a onclick=\"exec_agent('" + d.PROD_INST_ID + "','" + d.ORDER_ID + "','"+d.ADDRESS_ID+"','" + d.SEGM_ID +"',0,1,'"+ d.SCENE_ID_NUM+"','','1','')\">" + d.ACC_NBR
+				+ "</a></td><td style='width:210;text-align: left;'><span>【" + d.SCENE_NAME+"】</span></br>"+d.MKT_REASON+"</td><td style='width:35'><a onclick=\"exec_agent('" + d.PROD_INST_ID + "','" + d.ORDER_ID + "','"+d.ADDRESS_ID+"','" + d.SEGM_ID +"',2,1,'"+ d.SCENE_ID_NUM+"','','1','')\">执行</a>";
+				if(d.SCENE_ID_NUM=='10' || d.SCENE_ID_NUM=='11' || d.SCENE_ID_NUM=='1491')//20181204装逼用
+					newRow += "<a style='display:none;' id=\"crm_"+d.PROD_INST_ID+"\" onclick=\"execute_crm('${sessionScope.UserInfo.EXT30}','"+d.SERV_NAME+"','"+ d.CONTACT_ADDS+"','"+ d.CONTACT_TEL +"','"+ d.ACC_NBR +"','"+ d.SCENE_ID_NUM+"','"+ d.PROD_INST_ID+"')\">受理</a>";//原本倒数第二个参数 SCENE_ID_CRM
+				newRow += "</td></tr>";
+				$grid_list.append(newRow);
+			}
+			if (data.length == 0 && flag) {
+				$grid_list.empty();
+				$grid_list.append("<tr><td style='text-align:center' colspan=6 onMouseOver=\"this.style.background='rgb(250,250,250)'\">没有查询到数据</td></tr>")
+				return;
+			}
+		});
+	}
+
+	//执行，调用父页面的客户视图
+	function exec_agent(prod_inst_id,order_id,add6,add4,tab_id,exec_able,scene_id,is_lost,is_yx,is_track){
+		var param = {};
+		param.prod_inst_id = prod_inst_id;
+		param.order_id = order_id;
+		param.add6 = add6;
+		param.add4 = add4;
+		param.tab_id = tab_id;
+		param.exec_able = exec_able;
+		param.scene_id = scene_id;
+		param.is_lost = is_lost;
+		param.is_yx = is_yx;
+		param.is_track = is_track;
+		openCustViewByProdInstId(param);
+	}
+
+	//当日派单场景记录数
+	function intraday_num(){
+		var params = {};
+		params.grid_id_short=grid_id_short;
+		params.intraday_sence_id=intraday_sence_id;
+		params.eaction = "intraday_num";
+		$.post(url_sum_grid,params, function (data) {
+			data = $.parseJSON(data);
+			if(data.length>0){
+				$("#intraday_all").html(""+data[0].MKT_CNT+"");
+				try{
+					$("#intraday_dzr").html("("+data[1].MKT_CNT+")");
+					$("#intraday_xydq").html("("+data[2].MKT_CNT+")");
+					$("#intraday_cmhx").html("("+data[3].MKT_CNT+")");
+				}catch(e){
+				}
+			}else{
+				$("#intraday_all").text("0");
+			}
+		})
+	}
+	/*-当日派单 end-*/
+
+	/*-跟踪用户 start-*/
+	function load_track_data(flag1){
+		track_mun();
+		var params = {
+			eaction: "marketing_track",
+			page: 0,
+			"grid_id_short":grid_id_short,
+			exec_stat:flag1
+		}
+		clear_data();
+		trackListScroll(params,1);
+	};
+
+	//加载表格数据
+	function trackListScroll(params,flag) {
+		var $grid_list = $("#follow_info_list");
+		$.post(url_sum_grid,params, function (data) {
+			data = $.parseJSON(data);
+			for (var i = 0, l = data.length; i < l; i++) {
+				var d = data[i];
+				var newRow = "<tr><td>" + (++seq_num) + "</td>";
+				//newRow += "<td style='width:120px'><a href=\"javascript:void(0);\" onclick=\"standard_position_load('" + d.GRID_NAME + "',this)\" >" + d.GRID_NAME + "</a></td>";
+				newRow += "<td style='text-align:left'>" + d.CONTACT_ADDS + "</td><td><span>"
+				+"<a onclick=\"exec_agent('" + d.PROD_INST_ID + "','" + d.ORDER_ID + "','"+d.ADDRESS_ID+"','" + d.SEGM_ID +"',0,1,'"+ d.SCENE_ID+"','','1','1')\">"+ d.ACC_NBR+"</a>";
+				if(d.SCENE_ID_NUM=='10' || d.SCENE_ID_NUM=='11' || d.SCENE_ID_NUM=='1491')//20181204装逼用
+					newRow += "<a style='display:none;' id=\"crm_"+d.PROD_INST_ID+"\" onclick=\"execute_crm('${sessionScope.UserInfo.EXT30}','"+d.SERV_NAME+"','"+ d.CONTACT_ADDS+"','"+ d.CONTACT_TEL +"','"+ d.ACC_NBR +"','"+ d.SCENE_ID_NUM+"','"+ d.PROD_INST_ID+"')\">受理</a>";//原本倒数第二个参数 SCENE_ID_CRM
+				newRow += "</span></br>"+d.SERV_NAME+
+				"</td><td style='text-align:left'><span>【" +d.MKT_CONTENT + "】</span></br>"+d.MKT_REASON +   "</td><td style='width:70px'>"
+				+ d.EXEC_TIME + "</td><td>"
+				+ d.EXEC_DESC + "</td></tr>";
+				$grid_list.append(newRow);
+			}
+			if (data.length == 0 && flag) {
+				$grid_list.empty();
+				$grid_list.append("<tr><td style='text-align:center' colspan=6 onMouseOver=\"this.style.background='rgb(250,250,250)'\">没有查询到数据</td></tr>")
+				return;
+			}
+		});
+	}
+
+	//获取根据用户—>有意向、同意办理等记录条数
+	function track_mun(){
+		var params = {};
+		params.grid_id_short=grid_id_short;
+		params.eaction = "track_mun";
+		$.post(url_sum_grid,params, function (data) {
+			data = $.parseJSON(data);
+			if(data.length>0){
+				$("#track_mybe").html("("+data[0].EXEC1+")");
+				$("#track_agree").html("("+data[0].EXEC2+")");
+				$("#track_refuse").html("("+data[0].EXEC3+")");
+				$("#track_uncontact").html("("+data[0].EXEC4+")");
+			}
+		})
+	}
+	/*-跟踪用户 end-*/
+	/*-成功用户 start-*/
+	function load_succ_data(succ_flag){
+		succ_num();
+		var params = {
+			eaction: "marketing_succ",
+			page: 0,
+			"grid_id_short":grid_id_short,
+			succ_flag:succ_flag
+		}
+		clear_data();
+		succListScroll(params,1);
+	};
+
+	//加载表格数据
+	function succListScroll(params, flag) {
+		var $grid_list = $("#succ_info_list");
+		$.post(url_sum_grid, params, function (data) {
+			data = $.parseJSON(data);
+			for (var i = 0, l = data.length; i < l; i++) {
+				var d = data[i];
+				var newRow = "<tr><td>" + (++seq_num) + "</td>";
+				//newRow += "<td style='width:120px'><a href=\"javascript:void(0);\" onclick=\"standard_position_load('" + d.GRID_NAME + "',this)\" >" + d.GRID_NAME + "</a></td>";
+				newRow += "<td>" +  d.ACC_NBR +
+					//"</td><td style='width:90px'>" + d.CONTACT_CONTPERSON +
+				"</td><td>" + d.SERV_NAME +
+				"</td><td style='text-align:left'><span>【" + d.MKT_CONTENT +"】</span></br>"+d.MKT_REASON+
+				"</td><td>" + d.SUCC_BUSINESS  +
+				"</td><td>" + d.SUCC_TIME +
+				"</td></tr>";
+				$grid_list.append(newRow);
+			}
+			if (data.length == 0 && flag) {
+				$grid_list.empty();
+				$grid_list.append("<tr><td style='text-align:center' colspan=6 onMouseOver=\"this.style.background='rgb(250,250,250)'\">没有查询到数据</td></tr>")
+				return;
+			}
+		});
+	}
+
+	//获取成功用户数
+	function succ_num() {
+		var params = {};
+		params.grid_id_short = grid_id_short;
+		params.eaction = "succ_num";
+		$.post(url_sum_grid, params, function (data) {
+			data = $.parseJSON(data);
+			if (data.length > 0) {
+				$("#succ_val").html(data[0].NUM);
+			}
+		})
+	}
+	/*-成功用户 end-*/
+	function load_yw() {
+		$("#marketing_warning_info_list").empty();
+		var params = {
+			eaction: "marketing_warning",
+			page: 0
+		}
+		clear_data();
+		warningListScroll(params, 1);
+		params.eaction = "marketing_warning_count";
+		$.post(url_sum_grid, params, function (data) {
+			if (data != null && data.trim() != 'null') {
+				data = $.parseJSON(data);
+				$("#marketing_warning_count").html("(" + data[0].C_NUM + ")");
+			} else {
+				$("#marketing_warning_count").html("(0)");
+			}
+		})
+	}
+
+	function warningListScroll(params, flag) {
+		var $grid_list = $("#marketing_warning_info_list");
+		$.post(url_sum_grid, params, function (data) {
+			data = $.parseJSON(data);
+			for (var i = 0, l = data.length; i < l; i++) {
+				var d = data[i];
+				var newRow = "<tr><td style='width: 40px'>" + (++seq_num) + "</td>";
+				newRow += "<td style='width: 50px'>" + d.CONTACT_PERSON + "</td><td style='width: 200px'>" + d.STAND_NAME_2 +
+				"</td><td style='width: 50px'>" + d.KD_BUSINESS +"</td><td style='width:100px'>" + d.CONTACT_NBR + "</td><td style='width:80px'>"+ d.KD_DQ_DATE + "</td>";
+				//newRow += "<td style='width: 50px'><a href='javascript:void(0);' onclick='execute(" + d.SEGM_ID_2 + ")'>执行</a></td></tr>"
+				newRow += "<td style='width: 50px'><a href='javascript:void(0);' onclick='execute(" + d.SEGM_ID_2 + ")'></a></td></tr>"
+				$grid_list.append(newRow);
+			}
+			if (data.length == 0 && flag) {
+				$grid_list.empty();
+				$grid_list.append("<tr><td style='text-align:center' colspan=9 onMouseOver=\"this.style.background='rgb(250,250,250)'\">没有查询到数据</td></tr>")
+				return;
+			}
+		});
+	}
+
+	var UTFTranslate = {
+		Change:function(pValue){
+			return pValue.replace(/[^\u0000-\u00FF]/g,function($0){return escape($0).replace(/(%u)(\w{4})/gi,"&#x$2;")});
+		},
+		ReChange:function(pValue){
+			return unescape(pValue.replace(/&#x/g,'%u').replace(/\\u/g,'%u').replace(/;/g,''));
+		}
+	};
+
+	//var url1 = 'http://135.149.64.146:9004/gsch-api/mkt/getBindAccount';
+	var url1 = 'http://135.149.64.144:8000/gsch-api/mkt/getBindAccount';
+	var cust_name = "";
+	var cust_addr = "";
+	var contact_num = "";
+	var acc_nbr = "";
+	var prod_inst_id = "";
+	var scene_id = "";
+	var crm_bind_win = "";
+	var crm_id = "";
+	var bound_ready_jump_win = "";
+
+	function call_execute(element_id){
+		$("#crm_"+element_id).click();
+	}
+	parent.call_execute_new_cust_view = call_execute;
+	//crm跳转
+	function execute_crm(id,cust_name1,cust_addr1,contact_num1,acc_nbr1,scene_id1,prod_inst_id1){
+		cust_name = cust_name1;
+		cust_addr = cust_addr1;
+		contact_num = contact_num1;
+		acc_nbr = acc_nbr1;
+		prod_inst_id = prod_inst_id1;
+		if(scene_id1=='1491'){//20181204装逼用
+			scene_id1 = 10;
+		}
+		scene_id = scene_id1;
+		if(id=="" || id==undefined){
+			layer.msg("没有查到对应的划小工号，请等待同步后使用");
+			return;
+		}
+		//调用划小接口检测当前账号是否绑定成功，如果成功进crm。否则弹出填写crm工号的页面进行绑定
+
+		//1.调用CRM绑定帐号接口
+		/*if(test!=undefined){
+		 var cust_name2 = encodeURI(encodeURI(cust_name));//UTFTranslate.Change(cust_name);
+		 var address2 = encodeURI(encodeURI(cust_addr));//UTFTranslate.Change(cust_addr);
+		 var accnbr2 = encodeURI(encodeURI(contact_num));//UTFTranslate.Change(contact_num);
+		 var broadband2 = encodeURI(encodeURI(acc_nbr));//UTFTranslate.Change(acc_nbr);
+		 var crm_id = '316666';
+		 //scene_id ren是续约 sin是单转融
+		 var crm_url = 'http://10.52.66.110:8090/MmtWeb/home/verplatform.jsp?username=316666&userpwd=8763&code=8763&reqparam=';
+		 //var crm_url = 'http://135.149.47.21/MmtWeb/home/verplatform.jsp?username=316666&userpwd=8763&code=8763&reqparam=';
+		 //var crm_url = 'http://135.149.47.21/MmtWeb/home/verplatform.jsp?reqparam=';
+		 $.post('<e:url value="crmUrl.e"/>',{"user_id":crm_id,"cust_name":cust_name,"address":cust_addr,"accnbr":contact_num,"broadband":acc_nbr,"bus_type":scene_id},function(data){
+		 var reqparam = $.trim(data);//crm_id正式环境把316666换成crm_id
+		 //弹窗被阻挡，window.open的写法不行，改为下面写法
+		 //var tempwindow=window.open('_blank');
+		 //tempwindow.location=crm_url+reqparam+"&cust_name="+cust_name2+"&address="+address2+"&accnbr="+accnbr2+"&broadband="+broadband2+"&bus_type="+scene_id;
+		 console.log(cust_name2,address2,accnbr2,broadband2,scene_id);
+		 //window.open(crm_url+reqparam+"&cust_name="+cust_name2+"&address="+address2+"&accnbr="+accnbr2+"&broadband="+broadband2+"&bus_type="+scene_id,'CRM预受理');
+		 window.open(crm_url+reqparam,'CRM预受理');
+		 });
+		 return;
+		 }*/
+		console.log("id1:"+id);console.log("id2:"+id);console.log("id3:"+id);
+		$.post(url1,{"staffNo":id},function(data){
+			//var d1 = {errorCode:0,entity:{STAFF_CODE:'',MOBILE_PHONE:''}};
+			var d1 = data;
+			if(d1.errorCode!='0'){//调用划小接口失败，
+				console.log("id4:"+id);
+				layer.msg(d1.message);
+				return;
+			}else{
+				var entity = d1.entity;
+				console.log(entity);
+				if(entity.STAFF_CODE=="" || entity.STAFF_CODE==undefined){
+					layer.msg("还未绑定CRM工号，请绑定");
+					crm_bind_win = layer.open({
+						title: '营销派单转CRM受理',
+						type: 2,
+						shade: 0,
+						area: ["480px", "400px"],
+						content: '<e:url value="/pages/telecom_Index/sub_grid/crm_bind_page.jsp" />?staff_no='+id,
+						skin: 'sub_summary_div',
+						cancel: function (index) {
+						}
+					});
+				}else if(entity.MOBILE_PHONE=="" || entity.MOBILE_PHONE==undefined){//未绑定手机号
+					layer.msg("没有在CRM绑定手机号，请先在CRM完善信息");
+					return;
+				}else{//已绑定成功
+					crm_id = entity.STAFF_CODE;
+					bound_ready_jump_win = layer.open({
+						title: '营销派单转CRM受理',
+						type: 2,
+						shade: 0,
+						area: ["480px", "200px"],
+						content: "<e:url value='/pages/telecom_Index/sub_grid/crm_jump_page.jsp' />?staff_no="+id,
+						skin: 'sub_summary_div',
+						cancel: function (index) {
+						}
+					});
+				}
+			}
+		});
+	}
+
+	function closeCrmBindWin(){
+		layer.close(crm_bind_win);
+	}
+	function closeCrmJumpWin(){
+		layer.close(bound_ready_jump_win);
+	}
+
+	function jumpToCRM(){
+		var jumpTo = "http://gs.189.cn/dyjl/wechatclerk/peopleinfo/coorTipAccept.html";
+		$.post('<e:url value="pages/telecom_Index/common/sql/tabData.jsp" />',{"eaction":"getOrderId_oneKeyBuy","mkt_id":scene_id,"prod_inst_id":prod_inst_id},function(data){
+			var data = $.parseJSON(data);
+			window.open(jumpTo + "?contact_order_id=" + data.CONTACT_ORDER_ID + "&staff_id=" + crm_id);
+		});
+	}
+
+	function jumpToCRM_no_use(){
+		var cust_name2 = encodeURI(encodeURI(cust_name));//UTFTranslate.Change(cust_name);
+		var address2 = encodeURI(encodeURI(cust_addr));//UTFTranslate.Change(cust_addr);
+		var accnbr2 = encodeURI(encodeURI(contact_num));//UTFTranslate.Change(contact_num);
+		var broadband2 = encodeURI(encodeURI(acc_nbr));//UTFTranslate.Change(acc_nbr);
+		var crm_id = crm_id;
+		//scene_id ren是续约 sin是单转融
+		//var crm_url = 'http://10.52.66.110:8090/MmtWeb/home/verplatform.jsp?username=316666&userpwd=8763&code=8763&reqparam=';
+		//var crm_url = 'http://135.149.47.21/MmtWeb/home/verplatform.jsp?reqparam=';
+		var crm_url = 'http://135.149.47.21/MmtWeb/home/verplatform.jsp?reqparam=';
+		$.post('<e:url value="crmUrl.e"/>',{"user_id":crm_id,"cust_name":cust_name2,"address":address2,"accnbr":accnbr2,"broadband":broadband2,"bus_type":scene_id},function(data1){
+			var reqparam = $.trim(data);//crm_id正式环境把316666换成crm_id
+			/*layer.open({
+			 title: "业务受理",
+			 //title:false,
+			 type: 2,
+			 shade: 0,
+			 area: ['100%','90%'],//sub_summary_div_size
+			 content: crm_url+reqparam+"&cust_name="+cust_name+"&address="+address+"&accnbr="+accnbr+"&broadband="+broadband+"&bus_type="+bus_type,
+			 skin: 'win_blue',
+			 cancel: function (index) {
+			 }
+			 });*/
+			//弹窗被阻挡，window.open的写法不行，改为下面写法
+			//var tempwindow=window.open('_blank');
+			//tempwindow.location=crm_url+reqparam+"&cust_name="+cust_name2+"&address="+address2+"&accnbr="+accnbr2+"&broadband="+broadband2+"&bus_type="+scene_id;
+			window.open(crm_url+reqparam,'CRM预受理');
+			//window.open(crm_url+reqparam+"&cust_name="+cust_name2+"&address="+address2+"&accnbr="+accnbr2+"&broadband="+broadband2+"&bus_type="+scene_id,'CRM预受理');
+		});
+	}
+
+	$(function () {
+		//支局名赋值
+		$("#sub_name").text(grid_name);
+		//标签页切换事件
+		$("#jz_yw > span").each(function (index) {
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				$("#jz_marketing").children().not($(".div_" + index)).hide();
+				$(".div_" + index).show();
+				if (index == 0) {
+					/* load_jz(); */
+					//day_sence_all();
+					//mon_sence_all();
+					load_day_data("");
+				} else if (index == 1) {
+					load_yw();
+				}
+			});
+		});
+
+		$("#tab > span").each(function (index) {
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				$("#content1 > div").hide();
+				$(".div_0_" + index).show();
+				if (index == 0) {
+					//load_tb_d(0);
+					//load_dzr();
+					//load_dzr_m();
+					//模拟点击考勤统计-趋势日
+					$("#third_tab > span").eq(0).click();
+					//数据加载
+					//load_day_data("");
+				} else if (index == 1) {
+					intraday_sence_id = '';
+					load_intraday_data(intraday_sence_id);
+				} else if (index == 2) {
+					load_track_data(1);
+				} else if (index == 3) {
+					var succ_flag = 1;
+					load_succ_data(succ_flag);
+				}
+			})
+
+			//默认加载 精准营销 -->考核统计-->单转融
+			/*  if (tab_index2 == "1" && index==1){
+			 $(this).click();
+			 }else{
+			 load_dzr();
+			 load_dzr_m();
+			 }  */
+		})
+
+		//单转融   合约到期切换
+		//日表
+		$(".summary_day_head>p>span").each(function (index) {
+			$(this).unbind();
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				//显示当前表格，隐藏其他表格
+				if (index == 0) {
+					day_sence_all();
+				} else if (index == 1) {
+					load_dzr();
+				}else if (index ==2) {
+					load_hydq();
+					//load_dzr();
+				}if(index ==3) {
+					load_cmhx();
+				}
+			})
+		})
+
+		//月表
+		$(".summary_month_head2>p>span").each(function (index) {
+			$(this).unbind();
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				//显示当前表格，隐藏其他表格
+				if (index == 0) {
+					mon_sence_all();
+				} else if (index == 1) {
+					load_dzr_m();
+				}else if (index == 2) {
+					load_hydq_m();
+				}if(index ==3) {
+					load_cmhx_m();
+				}
+			})
+		})
+
+		var flag1=1;
+		//有意向、同意办理……等页签切换
+		$("#track_tb > span").each(function (index) {
+			$(this).unbind();
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				//显示当前表格，隐藏其他表格
+				if(index==0){
+					flag1=1;
+				}else if(index==1){
+					flag1=2;
+				}else if(index==2){
+					flag1=3;
+				}else if(index==3){
+					flag1=4;
+				}
+				load_track_data(flag1);
+			})
+		})
+
+		//})
+		//考核统计---趋势日 网格(日)网格(月)……等页签切换
+		$("#third_tab > span").each(function (index) {
+			$(this).unbind();
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				//显示当前表格，隐藏其他表格
+				if(index==0){
+					$("#khtj_qsr").show();
+					$("#khtj_wgr").hide();
+					$("#khtj_wgy").hide();
+					//load_tb_d(flag);
+
+					load_day_data("");
+				}else if(index==1){//网格(日)
+					$("#khtj_qsr").hide();
+					$("#khtj_wgr").show();
+					$("#khtj_wgy").hide();
+					//load_tb_wgd("");
+					load_wgd_data("");
+				}else if(index==2){//网格(月)
+					$("#khtj_qsr").hide();
+					$("#khtj_wgr").hide();
+					$("#khtj_wgy").show();
+					load_wgm_data("");
+				}
+				//数据加载
+
+			})
+		})
+
+		//网格日 场景切换
+		$("#summary_day_left_1 > span").each(function (index) {
+			$(this).unbind();
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				//显示当前表格，隐藏其他表格
+				var wg_day_index= ''
+				//显示当前表格，隐藏其他表格
+				if(index==0){
+					wg_day_index='';
+				}else if(index==1){
+					wg_day_index='10';
+				}else if(index==2){
+					wg_day_index='11';
+				}else if(index==3){
+					wg_day_index='12';
+				}
+
+				load_wgd_data(wg_day_index);
+			})
+		})
+
+		//网格月 场景切换
+		$("#summary_day_left_2 > span").each(function (index) {
+			$(this).unbind();
+			$(this).on("click", function () {
+				tabSelectedReset();
+				selectReset();
+				$(this).addClass("active").siblings().removeClass("active");
+				//显示当前表格，隐藏其他表格
+				var wg_month_index= ''
+				//显示当前表格，隐藏其他表格
+				if(index==0){
+					wg_month_index='';
+				}else if(index==1){
+					wg_month_index='10';
+				}else if(index==2){
+					wg_month_index='11';
+				}else if(index==3){
+					wg_month_index='12';
+				}
+
+				load_wgm_data(wg_month_index);
+			})
+		})
+
+		//设置滚动事件
+		$(".dispatch_m_tab").scroll(function () {
+			var viewH = $(this).height();
+			var contentH = $(this).get(0).scrollHeight;
+			var scrollTop = $(this).scrollTop();
+			if (scrollTop / (contentH - viewH) >= 0.95) {
+				if (new Date().getTime() - begin_scroll > 500) {
+					var params = {
+						eaction: "marketing_intraday",
+						page: ++list_page,
+						flag: '5',
+						union_org_code: substation,
+						intraday_sence_id: intraday_sence_id
+						//last_month:'${last_month.val}'
+					}
+					intradayListScroll(params, 0);
+				}
+				begin_scroll = new Date().getTime();
+			}
+		});
+
+		//设置滚动事件
+		$(".follow_m_tab").scroll(function () {
+			var viewH = $(this).height();
+			var contentH = $(this).get(0).scrollHeight;
+			var scrollTop = $(this).scrollTop();
+			if (scrollTop / (contentH - viewH) >= 0.95) {
+				if (new Date().getTime() - begin_scroll > 500) {
+					var params = {
+						eaction: "marketing_track",
+						page: ++list_page,
+						flag:'5',
+						union_org_code:substation,
+						exec_stat:flag1
+						//last_month:'${last_month.val}'
+					}
+					trackListScroll(params, 0);
+				}
+				begin_scroll = new Date().getTime();
+			}
+		});
+
+		//设置滚动事件
+		$(".succ_info_list").scroll(function () {
+			var viewH = $(this).height();
+			var contentH = $(this).get(0).scrollHeight;
+			var scrollTop = $(this).scrollTop();
+			if (scrollTop / (contentH - viewH) >= 0.95) {
+				if (new Date().getTime() - begin_scroll > 500) {
+					var params = {
+						eaction: "marketing_succ",
+						page: ++list_page,
+						flag:'5',
+						union_org_code:substation,
+						//last_month:'${last_month.val}'
+					}
+					succListScroll(params,1);
+				}
+				begin_scroll = new Date().getTime();
+			}
+		});
+
+		$(".warning_m_tab").scroll(function () {
+			var viewH = $(this).height();
+			var contentH = $(this).get(0).scrollHeight;
+			var scrollTop = $(this).scrollTop();
+			if (scrollTop / (contentH - viewH) >= 0.95) {
+				if (new Date().getTime() - begin_scroll > 500) {
+					var params = {
+						eaction: "marketing_warning",
+						page: ++list_page
+					}
+					warningListScroll(params, 0);
+				}
+				begin_scroll = new Date().getTime();
+			}
+		});
+
+		//默认先加载第一个标签的数据
+		//load_summary();
+		var tab_index = "${param.tab_index}";
+		if (tab_index == 0) {
+			$("#jz_yw span").eq(0).click();
+		} else if (tab_index == 1) {
+			$("#jz_yw span").eq(1).click();
+		} else {
+			$("#jz_yw span").eq(0).click();
+		}
+
+		if(tab_index2==2){
+			$("#third_tab > span").eq(2).click();
+		}
+
+		$("#CRM_jump").on("click",function(){
+			jumpToCRM();
+		});
+	});
+
+	function day0(){
+		console.log("day0");
+		var sence_id = $.trim($("#summary_day_left_0 option:selected").val());
+		load_day_data(sence_id);
+	}
+
+	function day1(){
+		console.log("day1");
+		var sence_id = $.trim($("#summary_day_left_1 option:selected").val());
+		load_wgd_data(sence_id);
+	}
+
+	function day2(){
+		console.log("day2");
+		var sence_id = $.trim($("#summary_day_left_2 option:selected").val());
+		load_wgm_data(sence_id);
+	}
+</script>
+<body>
+<div id="sub_name" class="sub_summary_div_name"></div>
+
+<div class="tab_head" id="jz_yw">
+	<span class="active">精准营销</span> <span>异网预警</span>
+</div>
+
+<div class="tab_body" id="jz_marketing">
+	<div class="div_show div_0">
+		<!--精准营销标签页内容 -->
+		<div class="tab_accuracy_head tab_accuracy_other yx_submenu" id="tab" style="padding-left:14px;">
+			<span class="active">考核统计</span> <span>当日派单 </span>&nbsp;<span>跟踪用户</span>&nbsp;<span>成功用户</span>
+		</div>
+		<div id="content1">
+			<div class="div_show div_0_0" >
+				<div class="tab_accuracy_head third_tab_accuracy_other  yx_submenu" id="third_tab">
+					<span>趋势(日)</span>  <span>网格(日)</span>  <span>网格(月)</span>
+				</div>
+				<!--考核统计标签页内容--趋势日-->
+				<div class="summary_day_data" id ="khtj_qsr">
+					<div class="summary_day_head summary_day_head_other">
+						<span style="float:left;">场景:</span><select class="summary_day_left" id="summary_day_left_0" onchange="day0()"><!--场景:
+		              <span class="active">全部<span id="qs_sence_all_day"></span></span>
+		             | <span >单转融<span id="qs_dzr_day"></span></span>
+		             |<span>协议到期<span id="qs_xydq_day"></span></span>
+		             |<span>沉默唤醒<span id="qs_cmhx_day"></span></span>-->
+					</select><!-- p -->
+						<input type="hidden" id="execute_type" value="0" />
+					</div>
+					<div id="div_all">
+						<div class="datagrid" >
+							<div class="head_table_wrapper">
+								<table class="head_table">
+									<tr>
+										<th style="width: 65px">日期</th>
+										<th style="width: 50px">派单数</th>
+										<th style="width: 65px">执行数</th>
+										<th style="width: 65px">执行率</th>
+										<th style="width: 65px">成功用户</th>
+										<th style="width: 95px">成功率</th>
+									</tr>
+								</table>
+							</div>
+							<div class="t_table summary_day_m_tab" style="margin:0 auto;">
+								<table class="content_table marketing_day_record" id="qs_summary_day_info_list" style="width:100%;margin:0px auto;">
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--考核统计标签页内容--网格(日)-->
+				<div class="summary_day_data" id ="khtj_wgr" style ="display:none">
+					<div class="summary_day_head summary_day_head_other">
+						<span style="float:left;">场景:</span><select class="summary_day_left" id ="summary_day_left_1" onchange="day1()"><!--场景:
+		             <span class="active">全部<span id="wg_sence_all_day"></span></span>
+			         | <span >单转融<span id="wg_dzr_day">(0)</span></span>
+			         |<span>协议到期<span id="wg_xydq_day">(0)</span></span>
+			         |<span>沉默唤醒<span id="wg_cmhx_day">(0)</span></span>-->
+					</select><!-- p-->
+						<div style="position:absolute;right:15px;">
+							<input id="selectDay" type="text" style="color:#ffffff; width:150px" />
+						</div>
+					</div>
+
+					<div class="datagrid">
+						<div class="head_table_wrapper">
+							<table class="head_table">
+								<tr>
+									<th style="width: 100px;">区域</th>
+									<th style="width: 50px;">派单数</th>
+									<th style="width: 50px;">执行率</th>
+									<th style="width: 50px;">成功率</th>
+								</tr>
+							</table>
+						</div>
+						<div class="t_table summary_day_m_tab" style="margin:0 auto;">
+							<table class="content_table summary_yx_tab" id="wg_summary_day_info_list" style="width:100%;margin:0px auto;">
+							</table>
+						</div>
+					</div>
+				</div>
+				<!--考核统计标签页内容--网格(月)-->
+				<div class="summary_day_data" id ="khtj_wgy" style ="display:none">
+					<div class="summary_day_head summary_day_head_other">
+						<span style="float:left;">场景:</span><select class="summary_day_left" id  = "summary_day_left_2" onchange="day2()"><!--场景:
+		             <span class="active">全部<span id="wg_sence_all_month"></span></span>
+			         | <span >单转融<span id="wg_dzr_month">(0)</span></span>
+			         |<span>协议到期<span id="wg_xydq_month">(0)</span></span>
+			         |<span>沉默唤醒<span id="wg_cmhx_month">(0)</span></span>-->
+					</select><!-- p -->
+						<div style="position:absolute;right:15px;">
+							<input id="selectMonth" type="text" style="color:#ffffff; width:150px"/>
+						</div>
+					</div>
+
+					<div class="datagrid">
+						<div class="head_table_wrapper">
+							<table class="head_table">
+								<tr>
+									<th style="width: 100px;">区域</th>
+									<th style="width: 50px;">派单数</th>
+									<th style="width: 50px;">执行率</th>
+									<th style="width: 50px;">成功率</th>
+								</tr>
+							</table>
+						</div>
+						<div class="t_table summary_day_m_tab" style="margin:0 auto;">
+							<table class="content_table summary_yx_tab" id="wg_summary_month_info_list" style="width:100%;margin:0px auto;">
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<div class="div_hide div_0_1">
+				<!--当日派单标签页内容 -->
+				<div class="dispatch_head">
+                <span style="padding-left:10px;">
+                	<span>场景:&nbsp;&nbsp;</span><select class="radio tab_accuracy_head tab_accuracy_other yx_submenu" id="intraday_tb" style="border-bottom: none;padding-left:0px;" onchange="intra_change()">
+					<!-- div -->
+				</select>
+                </span>
+					<span style="text-align:right;margin-right:4%;float:right;margin-top:5px;">总记录数：<span id="intraday_all"></span></span>
+				</div>
+				<div class="datagrid">
+					<div class="head_table_wrapper">
+						<table class="head_table">
+							<tr>
+								<th width="35">序号</th>
+								<th width="210">详细地址</th>
+								<th width="90">联系人</th>
+								<th width="90">接入号码</th>
+								<th width="210">营销场景</th>
+								<th width="35">操作</th>
+							</tr>
+						</table>
+					</div>
+					<div class="t_table dispatch_m_tab" style="margin:0px auto;">
+						<table class="content_table dispatch_detail_in" id="dispatch_info_list" style="width:100%;">
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="div_hide div_0_2">
+				<!--跟踪用户标签页内容 -->
+				<div class="tab_accuracy_head follow_head yx_submenu" id="track_tb">
+					<span class="active">有意向<span id="track_mybe"></span></span>
+					<span >同意办理<span id="track_agree"></span></span>
+					<span >不需要<span id="track_refuse"></span></span>
+					<span >无法联系<span id="track_uncontact"></span></span>
+				</div>
+				<div class="datagrid">
+					<div class="head_table_wrapper">
+						<table class="head_table"id="pd_3">
+							<tr>
+
+								<th>序号</th>
+								<th>详细地址</th>
+								<th>联系人</th>
+								<th>派单内容</th>
+								<th>执行时间</th>
+								<th>备注</th>
+
+							</tr>
+						</table>
+					</div>
+					<div class="t_table follow_m_tab" style="margin:0 auto;">
+						<table class="content_table follow_detail_in" id="follow_info_list" style="width:100%;">
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="div_hide div_0_3">
+				<!-- 成功用户标签页 -->
+				<div class="grid_count_title">记录数:<span id="succ_val">0</span></div>
+				<div class="datagrid">
+					<div class="head_table_wrapper">
+						<table class="head_table" id="pd_5">
+							<tr>
+								<th>序号</th>
+								<th>号码</th>
+								<th>姓名</th>
+								<th>派单内容</th>
+								<th>订购业务</th>
+								<th>订购时间</th>
+							</tr>
+						</table>
+					</div>
+					<div class="t_table succ_m_tab" style="margin:0px auto;">
+						<table class="content_table succ_detail_in" id="succ_info_list" style="width:100%;">
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="div_hide div_1">
+		<p class="grid_count_title">记录数:<span id="marketing_warning_count">(0)</span></p>
+		<div class="datagrid">
+			<div class="head_table_wrapper">
+				<table class="head_table">
+					<tr>
+						<th width="40">序号</th>
+						<th width="50">客户名称</th>
+						<th width="200">详细地址</th>
+						<th width="50">运营商</th>
+						<th width="100">联系方式</th>
+						<th width="80">到期时间</th>
+						<th width="50">操作</th>
+					</tr>
+				</table>
+			</div>
+			<div class="t_table warning_m_tab" style="margin:0px auto;height:291px;">
+				<table class="content_table warning_detail_in" id="marketing_warning_info_list" style="width:100%;">
+				</table>
+			</div>
+		</div>
+	</div>
+</div>

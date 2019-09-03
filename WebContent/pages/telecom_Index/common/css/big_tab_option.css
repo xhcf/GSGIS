@@ -1,0 +1,50 @@
+/*查询区域中 选项变透明加淡紫色边框*/
+.trans_condition {
+    background: none;
+    border: 1px solid #3E4997;
+    color:#ffffff;
+}
+
+/*下拉框选项 白色背景 黑色字体，选中时选框里是白色字*/
+.trans_condition option {
+    background: #fff!important;
+    color: #000000!important;
+}
+
+/*表格中要突出的字*/
+.text-important {color:#00FFFF!important;}/*亮绿色*/
+.text-important-a {color:#4CB9F9!important;}/*蓝色链接字*/
+.text-important-b {color:#fa8513!important;}/*橙色*/
+.text-important-c {color:#ff0000!important;}/*红色*/
+
+/*查询区 选中的黄色样式*/
+.search {
+    background-color: #043572!important;
+    width: 100%;
+    color: #fff;
+    border: 1px solid #1851a9;
+    margin: 0px auto;
+    position: relative;
+    left: 0px;
+    top: 0px;
+}
+.query_option a{
+    color:#fff;
+    font-weight:normal;
+}
+.query_option a.selected {color:#FFCC33;}
+.search td{
+    height:32px;
+}
+
+/*报表开头 大标题*/
+.big_table_title {
+    width: 100%;
+    height: 28px;
+    text-align: center;
+    padding-top: 12px;
+    margin-bottom: 15px;
+}
+.big_table_title h4 {font-size:20px;}
+
+.too_long {white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}

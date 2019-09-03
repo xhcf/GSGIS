@@ -1,0 +1,1544 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="e" uri="http://www.bonc.com.cn/easy/taglib/e"%>
+<%@ taglib prefix="c" uri="http://www.bonc.com.cn/easy/taglib/c"%>
+<%@ taglib prefix="a" tagdir="/WEB-INF/tags/app"%>
+<e:q4o var="today">
+	SELECT TO_CHAR(SYSDATE,'YYYYMMDD') val FROM DUAL
+</e:q4o>
+<e:q4o var="date_in_month">
+	SELECT TO_CHAR(TO_DATE(MON_A, 'yyyymmdd'), 'yyyymmdd') AS CURRENT_FIRST,
+		TO_CHAR(LAST_DAY(TO_DATE(MON_A, 'yyyymmdd')),'yyyymmdd') AS CURRENT_LAST,
+		TO_CHAR(TO_DATE(MON_B, 'yyyymmdd'), 'yyyymmdd') AS LAST_FIRST,
+		TO_CHAR(LAST_DAY(TO_DATE(MON_B, 'yyyymmdd')), 'yyyymmdd') AS LAST_LAST
+	FROM (SELECT TO_CHAR(TO_DATE('${today.val}', 'yyyymmdd'), 'yyyymm') || '01' MON_A,
+		TO_CHAR(ADD_MONTHS(TO_DATE('${today.val}', 'yyyymmdd'), -1),
+		'yyyymm') || '01' MON_B
+	FROM DUAL)
+</e:q4o>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+	<meta http-equiv="expires" content="0">
+	<title>区县地图</title>
+	<link href='<e:url value="/arcgis_js/esri/css/esri.css"/>' rel="stylesheet" type="text/css" />
+	<link href='<e:url value="/resources/css/main.css"/>' rel="stylesheet" type="text/css" />
+	<link href='<e:url value="/resources/themes/common/css/reset.css"/>' rel="stylesheet" type="text/css" media="all" />
+	<script src='<e:url value="/resources/component/echarts_new/echarts/js/jquery-1.7.2.min.js"/>'></script>
+	<e:script value="/resources/layer/layer.js" />
+	<c:resources type="easyui,app" style="b"/>
+	<link href='<e:url value="/resources/themes/common/css/reset.css"/>' rel="stylesheet" type="text/css" media="all" />
+	<script type="text/javascript" src='<e:url value="/arcgis_js/init.js"/>'></script>
+	<script src='<e:url value="/pages/telecom_Index/common/js/js_constant.js"/>' charset="utf-8"></script>
+	<script src='<e:url value="/pages/telecom_Index/common/js/setDataToEchartMap.js"/>' charset="utf-8"></script>
+	<script src='<e:url value="/pages/telecom_Index/common/js/gisSubOperator.js"/>' charset="utf-8"></script>
+	<script src='<e:url value="/pages/telecom_Index/common/js/gisGridOperator.js"/>' charset="utf-8"></script>
+	<script src='<e:url value="/resources/scripts/admin.js"/>'></script>
+	<style>
+		html, body {
+			height: 100%;
+			width:100%;
+			margin: 0;
+			padding: 0;
+			border:none;
+		}
+		body {
+			background-color: none;
+			overflow: hidden;
+		}
+		div.tab_menu a  {display:inline-block;float:left;height:22px;line-height:22px;width:60px;border-radius:2px;text-align:center;color:#a7d9ff;text-decoration:none;}
+		div.tab_menu a.selected {background-color:#025aac;color:#fff;}
+		#nav_fanhui_qx{display:none;}
+		#query_div{
+			position:absolute;
+			z-index:999;
+			display:none;
+			padding: 4px 6px 4px 10px;			
+            background: #0f2c92;
+		}
+		#location_type{height:28px !important;color:#333; }
+		#location_name{width:140px;background: #fff;border:none;color:#333;}
+		.button{width:40px;background: #299beb; color:#fff;border:none; text-align: center; cursor: pointer;}
+		/*列表表格*/
+		.list_table{
+			background-color:rgb(250, 250, 250);
+			width: 280px;
+			height: auto;
+		}
+		.list_table tbody tr {
+			cursor:pointer;
+			background-color:transparent;
+			color: #000;
+			padding-left: 10px;
+			font-size:1.4em;
+			line-height: 26px;
+		}
+
+		.list_table tbody tr:hover {
+			cursor: pointer;
+			background-color: #c1c1c1;
+			color: #000;
+			padding-left: 10px;
+			font-size: 1.4em;
+			line-height: 26px;
+		}
+		.list_table tbody tr:active {
+			cursor: pointer;
+			background-color: #c1c1c1;
+			color: #000;
+			padding-left: 10px;
+			font-size: 1.4em;
+			line-height: 26px;
+		}
+
+
+		.layui-layer-setwin .layui-layer-close2 {
+			right: 5px !important;
+			top: -5px !important;
+			display: none;}
+		/*::-webkit-scrollbar {*/
+			/*padding-left: 1px;*/
+			/*background-color: transparent;*/
+			/*overflow: visible;*/
+			/*width: 14px;*/
+			/*height: 14px;}*/
+
+		td:nth-child(2){padding-left: 10px;}
+		td:nth-child(3){padding-left: 10px;}
+		tr:nth-child(1){margin-top: 34px}
+		.layui-layer-setwin a{position:relative;width:16px;height:16px;margin-left:10px;margin-top:-5px;font-size:12px;_overflow:hidden}
+		#show_grid_menu {
+			display:none;
+			position:absolute;
+			background: #fff;
+			color:#000;
+			z-index:100;
+			cursor:pointer;
+		}
+	</style>
+<script type="text/javascript">
+	var name_short_array_reverse = {
+		"张家川回族自治县":"甘肃省张家川回族自治县",//天水
+		"肃北蒙古族自治县":"甘肃省肃北蒙古族自治县",//酒泉
+		"阿克塞哈萨克族自治县":"甘肃省阿克塞哈萨克族自治县",//酒泉
+		"肃南裕固族自治县":"甘肃省肃南裕固族自治县",//张掖
+		"天祝藏族自治县":"甘肃省天祝藏族自治县",//武威,两个凉州区
+		"东乡族自治县":"甘肃省东乡族自治县",//临夏
+		"合作市":"合作区"//甘南
+	};
+$(document).ready(function(){
+  $("#hide").click(function(){
+	  $("#tools").hide();
+	  $(".tools_n").height(28);
+	  $("#hide").hide();
+	  $("#show").show();
+  });
+  $("#show").click(function(){
+	  $("#tools").show();
+	  $(".tools_n").height("98%");
+	  $("#show").hide();
+	  $("#hide").show();
+  });
+});
+
+</script>
+</head>
+<body class="body_padding" style="position:relative;background-color:transparent;">
+
+	<div id="list_div" style="display: none;overflow: visible;">
+		<div>
+			<div style="color: #000; background-color: #e4e4e4; position:fixed;top:0;width: 280px;z-index: 9999999;height: 32px;line-height: 32px;font-size:0.8em;font-weight: bold">
+				<div style='text-align: center;width: 10%;display: inline-block'>序号</div>
+				<div style='text-align: center;width: 16%;display: inline-block'>本地网</div>
+				<div style='text-align: center;width: 45%;display: inline-block'>支局名称</div>
+				<div style='text-align: center;width: 20%;display: inline-block'>支局类型</div>
+			</div>
+		</div>
+		<table class="list_table" style="display: block;">
+		</table>
+	</div>
+
+	<div id="show_grid_menu" style="padding: 5px 10px 0px 10px;background-color: rgba(0,0,0,0.8);color: #fff;">显示网格</div>
+
+	<div style="clear:both ">
+		<div id="gismap" name="gismap" width="800px" style="text-align: left;background: -webkit-radial-gradient(#fff, #f5f5f5, #a5a5a5);background: -moz-radial-gradient(#fff, #f5f5f5, #a5a5a5);"></div>
+		<a href="javascript:backToEchart()" id="nav_fanhui" class="add_backcolor"></a>
+		<a href="javascript:backToQx()" id="nav_fanhui_qx" class="add_backcolor"></a>
+		<div class="tools_n" style="position:absolute;top:-12px;left:0px;text-align:center;">
+		  <a href="javascript:void(0)" id="show">显示</a>
+		  <a href="javascript:void(0)" id="hide">隐藏</a>
+			<ul id="tools">
+				<li id="nav_zoomin"><span></span><a href="javascript:void(0)" id="zoomin">放大</a></li>
+				<li id="nav_zoomout"><span></span><a href="javascript:void(0)" id="zoomout">缩小</a></li>
+				<!--
+				<li><span></span><a href="javascript:void(0)">热力</a></li>
+				<li><span></span><a href="javascript:void(0)">列表</a></li>
+				<li><span></span><a href="javascript:void(0)">网络</a></li>
+				<li><span></span><a href="javascript:void(0)">趋势</a></li>-->
+				<li id="nav_hidetiled"><span></span><a href="javascript:void(0)" id="hidetiled">地图</a></li>
+				<%--<li id="nav_hidepoint"><span></span><a href="javascript:void(0)" id="hidepoint">网点</a></li>--%>
+				<li id="nav_query"><span></span><a href="javascript:void(0)" id="query">查找</a></li>
+				<li id="nav_list" style="cursor: hand"><span></span><a href="javascript:void(0)" id="list">列表</a></li>
+				<!--<li id="nav_tianyi"><span></span><a href="javascript:void(0)">天翼</a></li>
+				<li id="nav_kuandai"><span></span><a href="javascript:void(0)">宽带</a></li>
+				<li id="nav_itv"><span></span><a href="javascript:void(0)">ITV</a></li>
+				<li id="nav_reli"><span></span><a href="javascript:void(0)">热力</a></li>
+				<li id="nav_guanbi"><span></span><a href="javascript:void(0)">关闭</a></li>-->
+				<!--  li id="nav_fanhui"><span></span><a href="javascript:backToEchart()" id="backtop">返回</a></li-->
+				<!--  li id="nav_fanhui_qx" style="display:none;"><span></span><a href="javascript:backToQx()" id="backtop_qx">返回</a></li-->
+			</ul>
+		</div>
+	</div>
+
+	<div id="query_div">
+		<select id="location_type">
+			<option value="2">支局</option>
+			<option value="1">网格</option>
+		</select>
+		<input type="text" id="location_name" />
+		<input class="button" id="location_find" value="搜索" />
+	</div>
+
+
+</body>
+</html>
+<script type="text/javascript">
+	//支局名称 按地图放大缩小 分级展示用的数组
+	var sub_name_label_symbol1 = new Array();
+	var sub_name_label_symbol2 = new Array();
+	var sub_name_label_symbol3 = new Array();
+	var sub_name_label_symbol4 = new Array();
+	var sub_name_label_symbol5 = new Array();
+
+	//网格名称 按地图放大缩小 分级展示用的数组
+	var grid_name_label_symbol1 = new Array();
+	var grid_name_label_symbol2 = new Array();
+	var grid_name_label_symbol3 = new Array();
+	var grid_name_label_symbol4 = new Array();
+	var grid_name_label_symbol5 = new Array();
+
+	parent.global_parent_area_name = parent.global_position[1];
+	var parent_name = parent.global_parent_area_name;
+	var city_full_name = parent.global_current_full_area_name;
+	var city_name = parent.global_current_area_name;
+	var index_type = parent.global_current_index_type;
+	var flag = parent.global_current_flag;
+	parent.global_position.splice(2,1,parent.global_current_full_area_name);//进入区县
+	if(city_full_name!="嘉峪关市")//嘉峪关特殊处理
+		parent.updatePosition(flag);
+	var url4Query = '<e:url value="/pages/telecom_Index/common/sql/tabData.jsp"/>';
+
+	var colorflow = [[68,169,254],[1,1,89]];
+	var colorflow_grid = [[68,169,254],[1,1,89]];//[[109,252,146],[39,255,80]];
+
+	var fill_color_array = [
+		//紫色
+		/*[2,10,83,0.6],
+		 [0,11,112,0.6],
+		 [0,14,137,0.6],
+		 [0,11,112,0.6],*/
+		//[24,34,126,0.6],
+		[63,78,222,0.6],
+		[133,141,210,0.6],
+		[97,111,234,0.6],
+
+//红色：
+		//[255,21,25,0.6],
+		[249,75,78,0.6],
+		[223,95,98,0.6],
+		[232,138,139,0.6],
+		[204,146,145,0.6],
+		[234,91,90,0.6],
+		[237,193,193,0.6],
+
+//橙色：
+		[255,136,0,0.6],
+		[242,148,39,0.6],
+		[218,161,93,0.6],
+		[255,201,0,0.6],
+		[255,217,75,0.6],
+		[246,218,115,0.6],
+		[251,233,165,0.6],
+
+//蓝色：
+		[0,198,255,0.6],
+		[22,180,225,0.6],
+		[84,209,245,0.6],
+		[0,174,255,0.6],
+		[53,189,253,0.6],
+		[121,195,229,0.6],
+		[96,164,241,0.6]
+	];
+
+	var sub_selected_ext = "";
+	var back_to_ext = "";
+
+	var clickedFlag = false;
+
+	var clickToSub = "";
+	$(function(){
+		parent.toggleModelButton();
+		//parent.hideSubTab();
+		toGis(parent.global_current_full_area_name,parent.global_parent_area_name);
+		//$("#backtop").on("click",backToEchart());
+	});
+
+	var map = "";//在toGis中创建，在doShowAll中销毁
+
+	//var grap_map = new Array();//支局的graphics映射
+
+	//渲染 某个区县 下的支局群板块，填充颜色
+	function toGis(city_name,parent_name) {
+		qx_name = parent_name;
+		//global_current_area_name = city_name;
+		global_current_flag = 4;
+
+		global_current_map = "gis";
+		var cityForLayer = cityNames[parent_name];
+		if (cityForLayer == undefined)
+			return;
+
+		var pageMapHeight = $(window).height();
+		if(pageMapHeight==0)
+			pageMapHeight = parent.document.documentElement.clientHeight-6;
+		$("#gismap").height(pageMapHeight);
+		$("#gismap").show();
+		require(["esri/map", "esri/config", "esri/layers/FeatureLayer", "esri/layers/LabelLayer", "esri/toolbars/draw",
+					"esri/dijit/Scalebar", "esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters",
+					"esri/symbols/SimpleFillSymbol", "esri/symbols/SimpleLineSymbol", "esri/symbols/SimpleMarkerSymbol",
+					"esri/renderers/SimpleRenderer","esri/graphic", "esri/Color", "dojo/_base/connect", "dijit/registry",
+					"esri/tasks/Geoprocessor","esri/tasks/FeatureSet", "esri/layers/ArcGISDynamicMapServiceLayer",
+					"esri/layers/ImageParameters","esri/tasks/IdentifyTask", "esri/tasks/IdentifyParameters",
+					"esri/tasks/query", "esri/tasks/QueryTask","esri/layers/ArcGISTiledMapServiceLayer",
+					"esri/tasks/Geoprocessor", "esri/tasks/GeometryService","esri/layers/GraphicsLayer", "esri/symbols/Font",
+					"esri/symbols/TextSymbol", "esri/dijit/OverviewMap","esri/renderers/ClassBreaksRenderer",
+					"esri/symbols/PictureMarkerSymbol","esri/toolbars/navigation","dojo/query","dojo/parser","dojo/domReady!"],
+				function (Map, Config, FeatureLayer, LabelLayer, draw, Scalebar, IdentifyTask, IdentifyParameters, SimpleFillSymbol,
+						  SimpleLineSymbol, SimpleMarkerSymbol, SimpleRenderer, Graphic, Color, connect, registry, Geoprocessor,
+						  FeatureSet, Dynamic, ImageParameters, IdentifyTask, IdentifyParameters, Query, QueryTask, ArcGISTiledMapServiceLayer,
+						  Geoprocessor, GeometryService, GraphicsLayer, Font, TextSymbol, OverviewMap, ClassBreaksRenderer,PictureMarkerSymbol,
+						  Navigation,query,parser
+				) {
+					//本地网地图url
+					var layer_ds = "http://135.149.48.47:6080/arcgis/rest/services/NewMap/" + cityForLayer + "/MapServer";
+					//var new_url = "http://135.149.48.47:6080/arcgis/rest/services/bonc_gansu/new_sub_grid_netpoint/MapServer";
+					var new_url_sub_grid = "http://135.149.48.47:6080/arcgis/rest/services/bonc_gansu/new_sub_grid_with_area_20170609/MapServer";
+					var new_url_point = "http://135.149.48.47:6080/arcgis/rest/services/bonc_gansu/channel_point_new_20170609/MapServer";
+					var highlightSymbolzj = new SimpleFillSymbol(
+					          SimpleFillSymbol.STYLE_SOLID,
+					          new SimpleLineSymbol(
+					            SimpleLineSymbol.STYLE_SOLID,
+					            new Color([255,0,0]), 0.5
+					          ),
+					          new Color([255,255,102,0.65])
+					        );
+					//parser.parse();//解释小部件标签属性
+					map = new Map("gismap");
+					map.showPanArrows();
+					//map.showZoomSlider();
+
+					map.on("load", function () {
+						//$("#back").remove();
+						//$("#gismap").append("<div id=\"back\" style=\"cursor:pointer;left:20px;top:18px;width:53px;height:64px;color:white;position:absolute;\" onclick=\"doShowAll('" + parent_name + "',true)\"></div>");
+						//$("#navDiv1").append("<div id=\"back\" data-dojo-type=\"dijit/layout/ContentPane\" class=\"navItem\" data-dojo-props=\"splitter:'false'\" onclick=\"doShowAll('" + parent_name + "',true)\"><img class=\"navItem\" src=\"images/option_ico/back_to_top.png\" title=\"返回上级\"/></div>");
+						//$("#back").css("background-image", 'url(<e:url value="/resources/component/echarts_new/images/map_03_city.png" />)');
+						//$("#navDiv1").show();
+						map.hideZoomSlider();
+					});
+
+					var navToolbar = new Navigation(map);
+
+					$("#nav_zoomprev").click(
+						function(){
+							navToolbar.zoomToPrevExtent();
+						}
+					);
+					$("#nav_zoomnext").click(
+						function(){
+							navToolbar.zoomToNextExtent();
+						}
+					);
+					$("#nav_extent").click(
+						function(){
+							navToolbar.zoomToFullExtent();
+						}
+					);
+					$("#nav_zoomin").click(
+						function(){
+							map.setLevel(map.getLevel()+1);
+						}
+					);
+					$("#nav_zoomout").click(
+						function(){
+							map.setLevel(map.getLevel()-1);
+						}
+					);
+					$("#nav_hidetiled").click(
+						function() {
+							if (tiled.visible)
+								tiled.hide();
+							else
+								tiled.show();
+						}
+					);
+					/*$("#nav_hidepoint").click(
+						function(){
+							if(graLayer_qx_wd.visible)
+								graLayer_qx_wd.hide();
+							else
+								graLayer_qx_wd.show();
+						}
+					);*/
+					$("#nav_query").click(
+						function(){
+							$("#query_div").css({"top":$(this).offset().top});
+							$("#query_div").css({"left":"32px"});
+							$("#query_div").toggle();
+						}
+					);
+
+					var tmp = '';
+					$('#nav_list').on('click', function () {
+						if (tmp == '') {
+							tmp = "1";
+
+                            layer.closeAll();
+						} else {
+                            tmp = '';
+                            layer.open({
+//								title: ['列表结果', 'line-height:32px;text-size:30px;height:32px;'],
+                                title:false,
+                                type: 1,
+                                shade: 0,
+								/*area: ['30%', '100%'],*/
+                                offset: ['0px', '34px'],
+                                content: $("#list_div")
+                            });
+
+
+						}
+					});
+					//查找 支局 网格
+					$("#location_find").click(
+						function(){
+							var location_name = $("#location_name").val();
+							if($.trim(location_name)==""){
+								layer.msg("请输入名称");
+								return;
+							}
+							back_to_ext = map.extent;
+							$("#query_div").hide();
+							var location_type = $("#location_type").val();
+
+							var queryTask1 = new QueryTask(new_url_sub_grid + "/"+location_type);
+							var query = new Query();
+
+							var latn_name = parent.global_position[1];
+							if(city_name_speical.indexOf(latn_name)>-1)
+								latn_name = latn_name.replace(/州/gi,'');
+							else
+								latn_name = latn_name.replace(/市/gi,'');
+
+							query.where = "RESNAME LIKE '%"+location_name+"%' AND RESNO LIKE '"+latn_name+"%'";
+							query.outFields = ["RESNO","RESNAME"];
+							query.returnGeometry = true;
+
+							queryTask1.execute(query, function(results) {
+								var fs = results.features;
+								if(fs.length==0){
+									layer.msg("暂无查询结果");
+									return;
+								}
+								clickedFlag = true;
+								graLayer_qx.setOpacity(0.8);
+								graLayer_zjname.setOpacity(1);
+								//graLayer_qx_wd.hide();
+								graLayer_zj_wd.hide();
+								//graLayer_wg.show();
+								//graLayer_wg_text.show();
+								graLayer_tops.hide();
+								graLayer_tops_latn.hide();
+								graLayer_mouseclick.clear();
+								graLayer_mouseclick.show();
+
+								$("#nav_fanhui_qx").show();
+								$("#nav_fanhui").hide();
+
+								var feature = results.features[0];
+								//var extent = feature.geometry.getExtent();
+								//map.setExtent(extent.expand(1.3));
+
+								//支局
+								if(location_type==2){
+									var sub_name = feature.attributes.RESNAME;
+
+									parent.global_current_flag = 4;
+									parent.global_current_full_area_name = sub_name;
+									parent.global_current_area_name = sub_name;
+									parent.freshIndexContainer();
+									parent.global_position.splice(3,1,sub_name);
+									parent.updatePosition(parent.global_current_flag+1);
+
+									parent.frmTitleShow();
+									parent.bar_status_history = parent.status;
+									//var geo = grap_map[sub_name].geometry;
+
+
+									//所点支局的视野、名称
+									var sub_selected_geometry = feature.geometry;
+									sub_selected_ext = sub_selected_geometry.getExtent();
+									var sub_selected_name = sub_name;
+
+									var sub_id = js_map[sub_selected_name];
+									var grid_url = url4Query+'?eaction=grids_in_sub';
+
+									$.post(grid_url,{sub_id: sub_id}, function(data){
+										data = $.parseJSON(data);
+										var where = "RESNAME in ";
+										where += "(";
+										for(var i = 0,l = data.length;i<l; i++) { //branch_name
+											where += "'" +data[i].GRID_NAME +"'";
+											if(i < l-1)
+												where += ",";
+										}
+										where += ")";
+										var latn_name = parent.global_position[1];
+										if(city_name_speical.indexOf(latn_name)>-1)
+											latn_name = latn_name.replace(/州/gi,'');
+										else
+											latn_name = latn_name.replace(/市/gi,'');
+
+										where += " AND RESNO LIKE '" + latn_name+"%'";
+										var queryTask2 = new esri.tasks.QueryTask(new_url_sub_grid+"/1");
+										var query2 = new esri.tasks.Query();
+										query2.where = where;
+										query2.outFields = ["RESNO","RESNAME"];
+										query2.returnGeometry = true;
+										queryTask2.execute(query2, function(results) {
+
+											var feature1 = results.features;
+											//查询后的支局，进行描边
+											var linesymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(click_line_color), 3);
+											var graphics = new esri.Graphic(feature1.geometry, linesymbol);
+											graLayer_mouseclick.show();
+											graLayer_mouseclick.add(graphics);
+
+											/*var grid_number_in_sub = feature1.length;//支局下的网格数量
+											if(grid_number_in_sub>0){ //支局线条渲染（描边）支局下有网格 填充支局
+												var fillsymbol1 = new esri.symbol.SimpleFillSymbol().setColor(new esri.Color(sub_click_has_subs_fill_color));
+												fillsymbol1.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(sub_click_has_subs_line_color), 1));
+												var graphic2 = new esri.Graphic(sub_selected_geometry, fillsymbol1);
+												graLayer_wg.add(graphic2);
+											}else{
+												//突出所点支局显示（填充） 支局下没有网格
+												var fillsymbol1 = new esri.symbol.SimpleFillSymbol().setColor(new esri.Color(sub_click_none_subs_fill_color));
+												fillsymbol1.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(sub_click_none_subs_line_color), 1));
+												var graphic1 = new esri.Graphic(sub_selected_geometry, fillsymbol1);
+												graLayer_wg.add(graphic1);
+
+												//显示所点支局的名称
+												var font = new esri.symbol.Font("14px", esri.symbol.Font.STYLE_NORMAL, esri.symbol.Font.VARIANT_NORMAL, esri.symbol.Font.WEIGHT_BOLDER);
+												var textSymbol = new esri.symbol.TextSymbol(sub_selected_name,font, new esri.Color(sub_name_text_color));
+												var labelGraphic = new esri.Graphic(sub_selected_geometry, textSymbol);
+												graLayer_wg_text.add(labelGraphic);
+											}
+
+											for (var i = 0, l = grid_number_in_sub; i < l; i++) {//填充网格
+												//网格板块渲染填充
+												var geometry2 = feature1[i].geometry;
+												var fillsymbol1 = new esri.symbol.SimpleFillSymbol().setColor(new esri.Color(grid_fill_color));
+												fillsymbol1.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(grid_line_color), 1));
+												var graphic1 = new esri.Graphic(geometry2, fillsymbol1);
+												graLayer_wg.add(graphic1);
+
+												//网格板块名称添加
+												var font = new esri.symbol.Font(fontSizeChange(map.getZoom()), esri.symbol.Font.STYLE_NORMAL, esri.symbol.Font.VARIANT_NORMAL, esri.symbol.Font.WEIGHT_BOLDER);
+												var textSymbol = new esri.symbol.TextSymbol(feature1[i].attributes.RESNAME,font, new esri.Color(grid_name_text_color));
+												var labelGraphic = new esri.Graphic(geometry2,textSymbol);
+												graLayer_wg_text.add(labelGraphic);
+											}
+											graLayer_wg.show();*/
+
+											//放大到所选支局的视野
+											map.setExtent(sub_selected_ext.expand(1.2));
+											var params = new Object();
+											params.level = 2;
+											params.graLayer_wg = graLayer_wg;
+											params.new_url_sub_grid = new_url_sub_grid;
+											params.graLayer_grid_mouseover = graLayer_grid_mouseover;
+											params.where = where;
+											gisGridOperator(params);
+										});
+									});
+								}else if(location_type==1){
+									//var grid_name = feature.attributes.RESNAME;
+
+									//查询后的支局，进行描边
+									var linesymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(click_line_color), 3);
+									var graphics = new esri.Graphic(feature.geometry, linesymbol);
+									graLayer_mouseclick.add(graphics);
+									graLayer_mouseclick.show();
+									graLayer_mouseclick.redraw();
+
+									/*var grid_number_in_sub = feature1.length;//支局下的网格数量
+									if(grid_number_in_sub>0){ //支局线条渲染（描边）支局下有网格 填充支局
+										var fillsymbol1 = new esri.symbol.SimpleFillSymbol().setColor(new esri.Color(sub_click_has_subs_fill_color));
+										fillsymbol1.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(sub_click_has_subs_line_color), 1));
+										var graphic2 = new esri.Graphic(sub_selected_geometry, fillsymbol1);
+										graLayer_wg.add(graphic2);
+									}else{
+										//突出所点支局显示（填充） 支局下没有网格
+										var fillsymbol1 = new esri.symbol.SimpleFillSymbol().setColor(new esri.Color(sub_click_none_subs_fill_color));
+										fillsymbol1.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(sub_click_none_subs_line_color), 1));
+										var graphic1 = new esri.Graphic(sub_selected_geometry, fillsymbol1);
+										graLayer_wg.add(graphic1);
+
+										//显示所点支局的名称
+										var font = new esri.symbol.Font("14px", esri.symbol.Font.STYLE_NORMAL, esri.symbol.Font.VARIANT_NORMAL, esri.symbol.Font.WEIGHT_BOLDER);
+										var textSymbol = new esri.symbol.TextSymbol(sub_selected_name,font, new esri.Color(sub_name_text_color));
+										var labelGraphic = new esri.Graphic(sub_selected_geometry, textSymbol);
+										graLayer_wg_text.add(labelGraphic);
+									}
+
+									for (var i = 0, l = grid_number_in_sub; i < l; i++) {//填充网格
+										//网格板块渲染填充
+										var geometry2 = feature1[i].geometry;
+										var fillsymbol1 = new esri.symbol.SimpleFillSymbol().setColor(new esri.Color(grid_fill_color));
+										fillsymbol1.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(grid_line_color), 1));
+										var graphic1 = new esri.Graphic(geometry2, fillsymbol1);
+										graLayer_wg.add(graphic1);
+
+										//网格板块名称添加
+										var font = new esri.symbol.Font(fontSizeChange(map.getZoom()), esri.symbol.Font.STYLE_NORMAL, esri.symbol.Font.VARIANT_NORMAL, esri.symbol.Font.WEIGHT_BOLDER);
+										var textSymbol = new esri.symbol.TextSymbol(feature1[i].attributes.RESNAME,font, new esri.Color(grid_name_text_color));
+										var labelGraphic = new esri.Graphic(geometry2,textSymbol);
+										graLayer_wg_text.add(labelGraphic);
+									}*/
+									//放大到所选支局的视野
+									map.setExtent(feature.geometry.getExtent().expand(1.2));
+								}
+							});
+						}
+					);
+
+					//支局 id 字典
+					var js_map = new Array();
+					//var sub_in_qx = new Array();
+
+					//实体渠道 子分类
+					var color_map = new Array();
+					/*color_map['2001000'] = '自有厅';
+					 color_map['2001100'] = '专营店';
+					 color_map['2001200'] = '连锁店';
+					 color_map['2001300'] = '独立店';
+					 color_map['2001400'] = '便利点';*/
+					color_map['2001000'] = [164,0, 233,1];
+					color_map['2001100'] = [255,229,0,1];
+					color_map['2001200'] = [254,84, 0,1];
+					color_map['2001300'] = [106,226,0,1];
+					color_map['2001400'] = [9,0, 183,1];
+					var color_point_line = [255,0,0];
+
+					var channel_ico = new Array();
+					channel_ico['2001000'] = '<e:url value="/pages/telecom_Index/common/images/channel_ico_new/channel_point1.png" />';
+					channel_ico['2001100'] = '<e:url value="/pages/telecom_Index/common/images/channel_ico_new/channel_point2.png" />';
+					channel_ico['2001200'] = '<e:url value="/pages/telecom_Index/common/images/channel_ico_new/channel_point3.png" />';
+					channel_ico['2001300'] = '<e:url value="/pages/telecom_Index/common/images/channel_ico_new/channel_point4.png" />';
+					channel_ico['2001400'] = '<e:url value="/pages/telecom_Index/common/images/channel_ico_new/channel_point5.png" />';
+
+					var tiled = new ArcGISTiledMapServiceLayer(layer_ds);
+					//tiled.setOpacity(0.15);
+					map.addLayer(tiled);
+
+					//网点展示
+					//var graLayer_qx_wd = new GraphicsLayer();
+
+					var graLayer_zj_wd = new GraphicsLayer();
+					//map.addLayer(graLayer_zj_wd);
+					var graLayer_wg_wd = new GraphicsLayer();
+					//map.addLayer(graLayer_wg_wd);
+					var graLayer_wg_child_wd = new GraphicsLayer();
+					//map.addLayer(graLayer_wg_child_wd);
+
+
+					//突出显示行政区县的层，包含区县轮廓，所有支局填充
+					var graLayer_qx = new GraphicsLayer();
+					map.addLayer(graLayer_qx);
+					//支局名字的层，包含所有支局名称
+					var graLayer_zjname = new GraphicsLayer();
+					//graLayer_zjname.setScaleRange(25000, 50000);
+					//graLayer_zjname.setMinScale(5);
+
+					var graLayer_zj_click = new GraphicsLayer();
+					map.addLayer(graLayer_zj_click);
+					var graLayer_wg_click = new GraphicsLayer();
+					map.addLayer(graLayer_wg_click);
+
+
+					//鼠标悬浮到支局，突出显示鼠标下的支局
+					var graLayer_sub_mouseover = new GraphicsLayer();
+					map.addLayer(graLayer_sub_mouseover);
+					//鼠标点击支局，突出显示支局轮廓
+					var graLayer_mouseclick = new GraphicsLayer();
+					map.addLayer(graLayer_mouseclick);
+					//鼠标悬浮到网格，突出显示鼠标下的网格
+					var graLayer_grid_mouseover = new GraphicsLayer();
+					map.addLayer(graLayer_grid_mouseover);
+
+					//下钻时突出显示支局范围的层,包含网格填充、网格名称、支局轮廓
+					var graLayer_wg = new GraphicsLayer();
+					map.addLayer(graLayer_wg);
+					graLayer_wg.hide();
+					var graLayer_wg_text = new GraphicsLayer();
+					//map.addLayer(graLayer_wg_text);
+					graLayer_wg_text.hide();
+					var graLayer_wg_child = new GraphicsLayer();
+					map.addLayer(graLayer_wg_child);
+
+					//top10层 区县范围的
+					var graLayer_tops = new GraphicsLayer();
+					//map.addLayer(graLayer_tops);
+					//top10层 市级范围的
+					var graLayer_tops_latn = new GraphicsLayer();
+					//top10层 省级范围的
+					var graLayer_tops_province = new GraphicsLayer();
+
+					//市级top10
+					var qx_name_temp = "";
+					if(city_name_speical.indexOf(parent_name)>-1)
+						qx_name_temp = parent_name.replace(/州/gi,'');
+					else
+						qx_name_temp = parent_name.replace(/市/gi,'');
+
+					/*var where_tops_latn = "";
+					$.post(url4Query,{'eaction':'sub_nameList','flag':'3','city_name':qx_name_temp},function(res){
+						res = $.parseJSON(res);
+						if(res.length==0)
+							return;
+
+						var city_rank = new Array();
+						where_tops_latn = 'RESNAME IN (';
+						for(var i = 0,l = res.length;i<l;i++){
+							where_tops_latn += "'" + res[i].BRANCH_NAME + "'";
+							if(i<l-1)
+								where_tops_latn += ",";
+							city_rank[res[i].BRANCH_NAME] = i+1;
+						}
+						where_tops_latn += ')';
+						where_tops_latn += " and RESNO LIKE '"+qx_name_temp+"%'";
+						var queryTask1 = new QueryTask(new_url_sub_grid + "/2");
+						var query1 = new Query();
+						query1.where = where_tops_latn;
+						query1.outFields = ['RESNAME'];
+						//query1.returnDistinctValues = true;
+						query1.returnGeometry = true;
+						queryTask1.execute(query1, function (results){
+							if(results.features.length==0)
+								return;
+							for(var i = 0,l = results.features.length;i<l;i++){
+								var img = new PictureMarkerSymbol("images/map.gif", 23, 25);
+								var geo = results.features[i].geometry;
+								var graphic = new esri.Graphic(geo, img);
+								graLayer_tops_latn.add(graphic);
+
+								var font_top = new Font("13px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_BOLDER);
+								var text_top = new TextSymbol(city_rank[results.features[i].attributes.RESNAME]+"."+results.features[i].attributes.RESNAME,font_top, new Color(tops_text_color));
+								//var text_top = new TextSymbol(city_rank[results.features[i].attributes.RESNAME],font_top, new Color([255,0,0]));
+								text_top.setOffset(-1, -5);
+								var lable_top = new esri.Graphic(geo,text_top);
+								graLayer_tops_latn.add(lable_top);
+
+								graLayer_tops_latn.hide();
+							}
+						});
+					});*/
+
+					//查询开始
+					//var queryTask = new QueryTask(layer_ds + "/112");
+					var queryTask = new QueryTask(layer_ds + "/" + city_gis_tiled_layerids[qx_name_temp]);
+					var query = new Query();
+					query.where = "NAME = '" + city_name + "'";//某区县名
+					//监听滚轮事件
+					//map.on("zoom-end", function(){
+					//map.on("mouse-wheel", function(){
+					var addSubLabel = function(font_size,label_symbols){
+						for(var i = 0,l = label_symbols.length;i<l;i++){
+							var graphics = label_symbols[i];
+							var text = graphics.symbol.text;
+
+							var geometry = graphics.geometry;
+							var font = new Font(font_size, Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+							if(clickedFlag)//暂时修改
+								sub_name_text_color = [255,255,255];//[128,128,128];
+							else{
+								if(sub_name_text_color=="")
+									sub_name_text_color = [255,255,255];
+							}
+
+							var textSymbol = new TextSymbol(text,font, new Color(sub_name_text_color));
+							var labelGraphic = new esri.Graphic(geometry, textSymbol);
+							graLayer_zjname.add(labelGraphic);
+						}
+					}
+
+					var addGridLabel = function(font_size,label_symbols){
+						for(var i = 0,l = label_symbols.length;i<l;i++){
+							var graphics = label_symbols[i];
+							var text = graphics.symbol.text;
+							var geometry = graphics.geometry;
+							var font = new Font(font_size, Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+							if(grid_name_text_color=="")
+								grid_name_text_color = [0,0,0];
+							var textSymbol = new TextSymbol(text,font, new Color(grid_name_text_color));
+							var labelGraphic = new esri.Graphic(geometry, textSymbol);
+							graLayer_wg_text.add(labelGraphic);
+						}
+					}
+
+					var zj_name_show_hide = function(current_zoom){
+						if(current_zoom>6){
+							addSubLabel("12px",sub_name_label_symbol1);
+							addSubLabel("12px",sub_name_label_symbol2);
+							addSubLabel("12px",sub_name_label_symbol3);
+							addSubLabel("12px",sub_name_label_symbol4);
+							addSubLabel("12px",sub_name_label_symbol5);
+						}else if(current_zoom==6){
+							addSubLabel("12px",sub_name_label_symbol2);
+							addSubLabel("12px",sub_name_label_symbol3);
+							addSubLabel("12px",sub_name_label_symbol4);
+							addSubLabel("12px",sub_name_label_symbol5);
+						}else if(current_zoom==4 || current_zoom==5){
+							addSubLabel("11.5px",sub_name_label_symbol3);
+							addSubLabel("11.5px",sub_name_label_symbol4);
+							addSubLabel("11.5px",sub_name_label_symbol5);
+						}else if(current_zoom==3){
+							addSubLabel("11px",sub_name_label_symbol4);
+							addSubLabel("11px",sub_name_label_symbol5);
+						}else if(current_zoom==2){
+							addSubLabel("10px",sub_name_label_symbol5);
+						}else if(current_zoom==1){
+							addSubLabel("10px",sub_name_label_symbol5);
+						}
+
+						if(current_zoom<=3){
+							graLayer_tops_latn.show();//显示市级top10
+							graLayer_tops.hide();//隐藏区县top10
+						}else{
+							graLayer_tops_latn.hide();//隐藏市级top10
+							graLayer_tops.show();//显示区县top10
+						}
+					}
+
+					var wg_name_show_hide = function(current_zoom){
+						if(current_zoom>6){
+							addGridLabel("12px",grid_name_label_symbol1);
+							addGridLabel("12px",grid_name_label_symbol2);
+							addGridLabel("12px",grid_name_label_symbol3);
+							addGridLabel("12px",grid_name_label_symbol4);
+							addGridLabel("12px",grid_name_label_symbol5);
+						}else if(current_zoom==6){
+							addGridLabel("12px",grid_name_label_symbol2);
+							addGridLabel("12px",grid_name_label_symbol3);
+							addGridLabel("12px",grid_name_label_symbol4);
+							addGridLabel("12px",grid_name_label_symbol5);
+						}else if(current_zoom==4 || current_zoom==5){
+							addGridLabel("11.5px",grid_name_label_symbol3);
+							addGridLabel("11.5px",grid_name_label_symbol4);
+							addGridLabel("11.5px",grid_name_label_symbol5);
+						}else if(current_zoom==3){
+							addGridLabel("11px",grid_name_label_symbol4);
+							addGridLabel("11px",grid_name_label_symbol5);
+						}else if(current_zoom==2){
+							addGridLabel("10px",grid_name_label_symbol5);
+						}else if(current_zoom==1){
+							addGridLabel("10px",grid_name_label_symbol5);
+						}
+
+						if(current_zoom<=3){
+							graLayer_tops_latn.show();//显示市级top10
+							graLayer_tops.hide();//隐藏区县top10
+						}else{
+							graLayer_tops_latn.hide();//隐藏市级top10
+							graLayer_tops.show();//显示区县top10
+						}
+					}
+
+					var fontSizeChange = function(current_zoom){
+						var font_size = 0;
+						if(current_zoom>6)
+							font_size = 12;
+						else if(current_zoom==6)
+							font_size = 10;
+						else if(current_zoom==5)
+							font_size = 8;
+						return font_size;
+					};
+
+					var layerOpacityChange = function(current_zoom){
+						var opacity = 0;
+						if(current_zoom>6)
+							opacity = 0.25;
+						else if(current_zoom==6)
+							opacity = 0.1;
+						else if(current_zoom<=5)
+							opacity = 0.2;
+
+						graLayer_qx.setOpacity(opacity);
+						graLayer_zjname.setOpacity(opacity+0.2);
+
+						if(current_zoom>9)
+							opacity = 0.1;
+						else if(current_zoom==6 || current_zoom==7 || current_zoom==8 || current_zoom==9)
+							opacity = 0.8;
+						else if(current_zoom<=5)
+							opacity = 0.9;
+						graLayer_wg.setOpacity(opacity);
+						graLayer_wg_text.setOpacity(opacity+0.2);
+					}
+
+					if(city_name_speical.indexOf(parent_name)>-1)
+						qx_name_temp = parent_name.replace(/州/gi,'');
+					else
+						qx_name_temp = parent_name.replace(/市/gi,'');
+
+					//响应左侧列表点击每行
+					clickToSub = function(substation,sub_name){
+						graLayer_mouseclick.clear();
+						parent.global_current_flag = 4;
+						parent.global_current_full_area_name = sub_name;
+						parent.global_current_area_name = sub_name;
+						parent.freshIndexContainer();
+
+						$.post(url4Query,{eaction:"getAreaNameBySubName",sub_name:sub_name,city_id:city_ids[qx_name_temp]},function(data){
+							data = $.parseJSON(data);
+							parent.global_position.splice(2,1,data.ORG_NAME);
+							parent.global_position.splice(3,1,sub_name);
+							parent.updatePosition(parent.global_current_flag);
+						});
+
+						var queryTask1 = new QueryTask(new_url_sub_grid + "/2");
+						var query = new Query();
+						query.where = "SUBSTATION = '"+substation+"'";
+						query.outFields = ["RESNO","RESNAME"];
+						query.returnGeometry = true;
+						queryTask1.execute(query, function(results) {
+							var fs = results.features;
+							if(fs.length==0){
+								layer.msg(sub_name+"暂无地图数据");
+								return;
+							}
+							var feature = fs[0];
+							var sub_selected_geometry = feature.geometry;
+							sub_selected_ext = sub_selected_geometry.getExtent();
+							map.setExtent(sub_selected_ext.expand(1.2));
+							var linesymbol = new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(click_line_color), 3);
+							var graphics = new esri.Graphic(sub_selected_geometry, linesymbol);
+							graLayer_mouseclick.add(graphics);
+							graLayer_mouseclick.show();
+							graLayer_mouseclick.redraw();
+							/*layer.closeAll();*/
+						});
+					}
+
+					var city_name_temp;
+					if(city_name_speical.indexOf(parent_name)>-1)
+						city_name_temp = parent_name.replace(/州/gi,'');
+					else
+						city_name_temp = parent_name.replace(/市/gi,'');
+					$.post(url4Query,{eaction:"getSubListByLatnId",city_id:city_ids[city_name_temp]},function(data){
+						data = $.parseJSON(data);
+						for(var i = 0,l = data.length;i<l;i++){
+							var d = data[i];
+							var str = "<tr onclick=\"javascript:clickToSub('"+d.UNION_ORG_CODE+"','"+d.BRANCH_NAME+"')\" ><td style='width: 10%;text-align: center'>"+ d.ROWNUM+"</td><td style='width: 20%;text-align: center'>"+ d.LATN_NAME+"</td><td style='width: 50%' title=\""+d.BRANCH_NAME+"\">"+ (d.BRANCH_NAME.length>9?d.BRANCH_NAME.substr(0,9)+"..":d.BRANCH_NAME)+"</td><td style='width: 30%;text-align: center'>"+ d.BRANCH_TYPE+"</td></tr>";
+							$(".list_table").append(str);
+						}
+					});
+
+					var names_temp = new Array();
+					var sub_selected_name_font = function(current_zoom){
+
+						var graphicses = graLayer_wg_text.graphics;
+						for(var i = 0,l = graphicses.length;i<l;i++){
+							var symbol = graphicses[i].symbol;
+							var font_size = 12;
+							if(symbol.type=="textsymbol"){//修改文字大小
+								if(current_zoom>6)
+									font_size = 12;
+								else if(current_zoom==6)
+									font_size = 10;
+								else if(current_zoom==5)
+									font_size = 8;
+								else if(current_zoom<=4){
+									graLayer_wg_text.hide();
+									return;
+								}
+								var graphics = graLayer_wg_text.remove(graphicses[i]);
+								var text = graphics.symbol.text;
+								var geometry = graphics.geometry;
+								var font_style = Font.STYLE_NORMAL;
+								if(text.indexOf("支局")>-1)
+									font_style=Font.WEIGHT_BOLD;
+								var font = new Font(font_size, font_style);
+								var textSymbol = new TextSymbol(text,font, new Color(sub_name_text_color));
+								var labelGraphic = new esri.Graphic(geometry, textSymbol);
+								graLayer_wg_text.add(labelGraphic);
+							}
+						}
+						graLayer_wg_text.hide();
+						//graLayer_wg_text.redraw();
+						graLayer_wg_text.show();
+					};
+					map.on("extent-change", function(){
+						var mapZoom = map.getZoom();
+						//sub_selected_name_font(mapZoom);
+						/*if(parent.clickFlag)
+							return;*/
+						graLayer_zjname.clear();
+						graLayer_wg_text.clear();
+
+						//var mapScale = map.getScale();
+						//地图缩放的时候zoom大，地图放大的时候zoom小
+						zj_name_show_hide(mapZoom);
+						wg_name_show_hide(mapZoom);
+
+						if(clickedFlag){
+							//layerOpacityChange(mapZoom);
+						}
+					});
+
+					query.returnGeometry = true;
+
+					var qx_geometry = "";//所展示区县范围的图形对象
+					queryTask.execute(query, function (results) {
+						//指定范围的结果
+						var feature = results.features;
+						//显示圈定范围的业务图层
+						var geometry = feature[0].geometry;
+						qx_geometry = geometry;
+
+						//区县级别的下钻视野聚焦调整
+						var ext = qx_geometry.getExtent();
+						var reg=new RegExp("区$");
+						if(reg.test(city_name)) //区一级地图放大点
+							map.setExtent(ext.expand(0.4));
+						else					//县一级地图缩小点
+							map.setExtent(ext.expand(0.8));
+
+						//var lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new dojo.Color([221, 20, 42, 0.8]),1.5);
+						//var graphic = new esri.Graphic(geometry, lineSymbol);
+						//graLayer_qx.add(graphic);
+					});
+
+					//20170303
+					//给所有区县染色
+					var city_name_temp = name_short_array_reverse[city_name];//区县名称
+					if(city_name_temp==undefined)
+						city_name_temp = city_name;
+
+					$.post(url4Query,{"eaction":"qx_nameList_all","city_name": city_name_temp}, function (data) {
+						data = $.parseJSON(data);
+						if(data.length==0)
+							return;
+
+						var index = 0;
+						//var colors_temp = new Array();
+						//区县大板块填充色
+						/*for(var i= 0,l = data.length;i<l;i++){
+							var queryTask = new QueryTask(layer_ds + "/112");
+							var query = new Query();
+							query.where = "NAME = '" + data[i].ORG_NAME + "'";
+							query.outFields = ['NAME'];
+							query.returnGeometry = true;
+							queryTask.execute(query, function (results) {
+								//var color = city_colors[i];
+								if(results.features.length==0)
+									return;
+
+								if(index>=city_colors.length)
+									index = 0;
+								var color = city_colors[index];
+								colors_temp.push(color);
+								index++;
+
+								var geometry = results.features[0].geometry;
+
+								var lineSymbol = new SimpleLineSymbol(SimpleLineSymbol.STYLE_SOLID,new dojo.Color([221, 20, 42, 0.8]),1.5);
+								var graphic = new esri.Graphic(geometry, lineSymbol);
+
+								//graLayer_qx.add(graphic);
+							});
+						}*/
+
+						//每个区县内的支局查询
+						var subList_where = new Array();//每个区县支局的查询sql
+						var subs_rank_in_qx = new Array();//支局排名
+						var subs_dev_num = new Array();//支局发展量
+						var subs_max_dev_num = new Array();//支局发展量为最大值做准备的变量
+
+						var gridList_where = new Array();//每个区县支局的查询sql
+						var grids_rank_in_qx = new Array();//支局排名
+						var grids_dev_num = new Array();//支局发展量
+						var grids_max_dev_num = new Array();//支局发展量为最大值做准备的变量
+
+						for(var i= 0,l = data.length;i<l;i++){//每个区县的支局查询
+							$.post(url4Query,{"eaction":"sub_nameList","city_name":data[i].ORG_NAME,"flag":'4'},function(res){
+								var where = "SUBSTATION IN (";
+								res = $.parseJSON(res);
+								if(res.length==0)
+									return;
+								for(var j = 0,k = res.length;j<k;j++){
+									where += "'"+res[j].UNION_ORG_CODE+"'";
+									if(j!=k-1)
+										where += ",";
+									js_map[res[j].BRANCH_NAME] = res[j].UNION_ORG_CODE;
+									subs_rank_in_qx[res[j].BRANCH_NAME] = res[j].ROWNUM;
+									//sub_in_qx[res[j].BRANCH_NAME] = res[j].BUREAU_NAME;
+									//subs_dev_num[res[j].UNION_ORG_CODE] = res[j].CURRENT_DAY_DEV;
+									subs_dev_num[res[j].UNION_ORG_CODE] = res[j].ROW_NUM;
+									subs_max_dev_num.push(res[j].ROW_NUM);
+								}
+								where += ")";
+								if(i==data.length)
+									i=0;
+								where += " and RESNO LIKE '"+qx_name_temp+"%'";// RESNO LIKE '兰州%'
+								i++;
+								subList_where.push(where);
+							});
+						}
+
+						for(var i= 0,l = data.length;i<l;i++) {//每个区县的网格查询
+							$.post(url4Query,{"eaction":"grid_nameList","city_name":data[i].ORG_NAME,"flag":'4'},function(res){
+								var where = "REPORTTO IN (";
+								res = $.parseJSON(res);
+								if(res.length==0)
+									return;
+								for(var j = 0,k = res.length;j<k;j++){
+									where += "'"+res[j].GRID_NAME+"'";
+									if(j!=k-1)
+										where += ",";
+									js_map[res[j].GRID_NAME] = res[j].UNION_ORG_CODE;
+									grids_rank_in_qx[res[j].GRID_NAME] = res[j].ROWNUM;
+									//sub_in_qx[res[j].GRID_NAME] = res[j].BUREAU_NAME;
+									grids_dev_num[res[j].GRID_NAME] = res[j].CURRENT_DAY_DEV;
+									grids_max_dev_num.push(res[j].CURRENT_DAY_DEV);
+								}
+								where += ")";
+								if(i==data.length)
+									i=0;
+								where += " and RESNO LIKE '"+qx_name_temp+"%'";//  RESNO LIKE '兰州%'
+								i++;
+								gridList_where.push(where);
+							});
+						}
+
+						//支局、网格板块初步处理（没有填充色）及其发展量的数据、名称的数据
+						setTimeout(
+							function(){
+								//支局处理
+								for(var i = 0,l = subList_where.length;i<l;i++){
+									var queryTask1 = new QueryTask(new_url_sub_grid + "/2");
+									var query1 = new Query();
+									query1.where = subList_where[i];
+									query1.outFields = ['F_AREA','RESNAME','RESNO','SUBSTATION'];
+									query1.returnGeometry = true;
+									queryTask1.execute(query1, function (results){
+										if(results.features.length==0)
+											return;
+										if(i>=subList_where.length){
+											i=0;
+										}
+										//var color = colors_temp[i];
+
+										for(var j = 0,m= 0,k = results.features.length;j<k;j++,m++){
+											var geo = results.features[j].geometry;
+											var attr = results.features[j].attributes;
+											//attr.CURRENT_DAY_DEV = subs_dev_num[results.features[j].attributes.SUBSTATION];
+											if(m>=fill_color_array.length)
+												m=0;
+											var fillsymbol = new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color(fill_color_array[m]));// 42,68,98
+											fillsymbol.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color(fill_color_array[m]),1));
+											var graphic = new esri.Graphic(geo,fillsymbol);
+											graphic.setAttributes(attr);
+											graLayer_qx.add(graphic);
+
+											//grap_map[results.features[j].attributes.RESNAME] = graphic;
+
+											var area = results.features[j].attributes.F_AREA;
+
+											var sub_name = results.features[j].attributes.RESNAME;
+											if(sub_name.indexOf("（")>-1)
+												sub_name = sub_name.substr(0,sub_name.indexOf("（"));
+											if(area>500000000){//zoom=3 地图收到很小
+												var font = new Font("11px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(sub_name,font, new Color(sub_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												sub_name_label_symbol5.push(labelGraphic);
+											}else if(area>70000000){ //zoom=4
+												var font = new Font("11px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(sub_name,font, new Color(sub_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												sub_name_label_symbol4.push(labelGraphic);
+											}else if(area>8000000){ //zoom=5
+												var font = new Font("11px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(sub_name,font, new Color(sub_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												sub_name_label_symbol3.push(labelGraphic);
+											}else if(area>300000){ //zoom=6
+												var font = new Font("12px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(sub_name,font, new Color(sub_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												sub_name_label_symbol2.push(labelGraphic);
+											}else{ //zoom>=7 地图放到最大，看最清晰的支局
+												var font = new Font("13px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(sub_name,font, new Color(sub_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												sub_name_label_symbol1.push(labelGraphic);
+											}
+
+											//top10的点，水波纹图片
+											/*if(subs_rank_in_qx[results.features[j].attributes.RESNAME]<11){
+												var img = new PictureMarkerSymbol("images/map.gif", 23, 25);
+												var graphic = new esri.Graphic(geo, img);
+												graLayer_tops.add(graphic);
+
+												var font_top = new Font("13px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_BOLDER);
+												var text_top = new TextSymbol(subs_rank_in_qx[results.features[j].attributes.RESNAME],font_top, new Color(tops_text_color));
+												text_top.setOffset(-1, -5);
+												var lable_top = new esri.Graphic(geo,text_top);
+												graLayer_tops.add(lable_top);
+											}*/
+										}
+										i++;
+									});
+								}
+
+								//网格处理
+								for(var i = 0,l = gridList_where.length;i<l;i++){
+									var queryTask1 = new QueryTask(new_url_sub_grid + "/1");
+									var query1 = new Query();
+									query1.where = gridList_where[i];//"resname in ('北辰路网格') and resno like '兰州%'";//;
+									query1.outFields = ['F_AREA','RESNAME','RESNO','REPORTTO'];
+									query1.returnGeometry = true;
+									queryTask1.execute(query1, function (results){
+										if(results.features.length==0)
+											return;
+										if(i>=gridList_where.length){
+											i=0;
+										}
+										//var color = colors_temp[i];
+
+										for(var j = 0,m = 0,k = results.features.length;j<k;j++,m++){
+											var geo = results.features[j].geometry;
+											var attr = results.features[j].attributes;
+											//attr.CURRENT_DAY_DEV = grids_dev_num[results.features[j].attributes.RESNAME];
+											if(m>=fill_color_array.length)
+												m=0;
+											var fillsymbol = new esri.symbol.SimpleFillSymbol().setColor(new dojo.Color(fill_color_array[m]));// 42,68,98
+											fillsymbol.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new dojo.Color(fill_color_array[m]),5));
+											var graphic = new esri.Graphic(geo,fillsymbol);
+											graphic.setAttributes(attr);
+											graLayer_wg.add(graphic);
+
+											var area = results.features[j].attributes.F_AREA;
+
+											var grid_name = results.features[j].attributes.REPORTTO;
+											if(grid_name.indexOf("（")>-1)
+												grid_name = grid_name.substr(0,grid_name.indexOf("（"));
+											if(area>500000000){//zoom=3 地图收到很小
+												var font = new Font("11px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(grid_name,font, new Color(grid_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												grid_name_label_symbol5.push(labelGraphic);
+											}else if(area>70000000){ //zoom=4
+												var font = new Font("11px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(grid_name,font, new Color(grid_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												grid_name_label_symbol4.push(labelGraphic);
+											}else if(area>8000000){ //zoom=5
+												var font = new Font("11px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(grid_name,font, new Color(grid_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												grid_name_label_symbol3.push(labelGraphic);
+											}else if(area>300000){ //zoom=6
+												var font = new Font("12px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(grid_name,font, new Color(grid_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												grid_name_label_symbol2.push(labelGraphic);
+											}else{ //zoom>=7 地图放到最大，看最清晰的支局
+												var font = new Font("13px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL);
+												var textSymbol = new TextSymbol(grid_name,font, new Color(grid_name_text_color));
+												var labelGraphic = new esri.Graphic(geo, textSymbol);
+												grid_name_label_symbol1.push(labelGraphic);
+											}
+
+											//top10的点，水波纹图片
+											/*if(grids_rank_in_qx[results.features[j].attributes.RESNAME]<11){
+											 var img = new PictureMarkerSymbol("images/map.gif", 23, 25);
+											 var graphic = new esri.Graphic(geo, img);
+											 graLayer_tops.add(graphic);
+
+											 var font_top = new Font("13px", Font.STYLE_NORMAL, Font.VARIANT_NORMAL, Font.WEIGHT_BOLDER);
+											 var text_top = new TextSymbol(grids_rank_in_qx[results.features[j].attributes.RESNAME],font_top, new Color(tops_text_color));
+											 text_top.setOffset(-1, -5);
+											 var lable_top = new esri.Graphic(geo,text_top);
+											 graLayer_tops.add(lable_top);
+											 }*/
+										}
+										i++;
+									});
+								}
+							},1000
+						);
+						map.addLayer(graLayer_zjname);
+						map.addLayer(graLayer_wg_text);
+
+						//渐变色处理
+						/*setTimeout(function(){
+							//支局渐变色处理
+							var fillsymbol_sub = new esri.symbol.SimpleFillSymbol();//.setColor(new dojo.Color(sub_fill_color));// 42,68,98
+							fillsymbol_sub.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color([255,255,255,0]),0));//sub_line_color
+							var renderer_sub = new ClassBreaksRenderer(fillsymbol_sub, "CURRENT_DAY_DEV");
+							renderer_sub.setColorInfo({
+								field: "CURRENT_DAY_DEV",
+								minDataValue: 0,
+								maxDataValue: Math.max.apply(Math,subs_max_dev_num),
+								colors: [
+									new Color(colorflow[0]),
+									new Color(colorflow[1])
+								]
+							});
+							graLayer_qx.setRenderer(renderer_sub);
+							graLayer_qx.redraw();
+							graLayer_zjname.redraw();
+
+
+							var fillsymbol_grid = new esri.symbol.SimpleFillSymbol();//.setColor(new dojo.Color(sub_fill_color));// 42,68,98
+							fillsymbol_grid.setOutline(new esri.symbol.SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color([255,255,255,0]),0));//grid_line_color
+							var renderer = new ClassBreaksRenderer(fillsymbol_grid, "CURRENT_DAY_DEV");
+							renderer.setColorInfo({
+								field: "CURRENT_DAY_DEV",
+								minDataValue: 0,
+								maxDataValue: Math.max.apply(Math,grids_max_dev_num),
+								colors: [
+									new Color(colorflow_grid[0]),
+									new Color(colorflow_grid[1])
+								]
+							});
+							graLayer_wg.setOpacity(0.5);
+							graLayer_wg.setRenderer(renderer);
+							graLayer_wg.redraw();
+							//graLayer_wg_text.redraw();
+						},3500);*/
+
+						graLayer_qx.on("mouse-over", function(evt){
+							//手型
+							/*map.setMapCursor("pointer");
+							dojo.stopEvent(evt);
+							evt.stopPropagation();*/
+							 graLayer_mouseclick.clear();
+							graLayer_sub_mouseover.clear();
+							 
+							var linesymbol = new SimpleLineSymbol(esri.symbol.SimpleLineSymbol.STYLE_SOLID, new esri.Color(sub_mouse_over_color), 3);
+							//var graphics = new esri.Graphic(evt.graphic.geometry, highlightSymbolzj,evt.graphic.attributes);
+							var graphics = new esri.Graphic(evt.graphic.geometry,linesymbol,evt.graphic.attributes);
+							graLayer_sub_mouseover.add(graphics);
+						});
+
+						graLayer_qx.on("mouse-out", function(evt){
+							//默认
+							map.setMapCursor("default");
+							//graLayer_sub_mouseover.clear();
+						});
+
+						tiled.on("mouse-over",function(){
+							graLayer_sub_mouseover.clear();
+						});
+
+						///默认展示的支局名称
+						setTimeout(
+							function(){
+								var mapZoom = map.getZoom();
+								graLayer_zjname.clear();
+								graLayer_wg_text.clear();
+								zj_name_show_hide(mapZoom);
+								wg_name_show_hide(mapZoom);
+							},3000
+						);
+
+						//营销网点查询，及点击
+
+						/*setTimeout(
+							function(){
+								if(city_name_speical.indexOf(parent_name)>-1)
+									city_name = parent_name.replace(/州/gi,'');
+								else
+									city_name = parent_name.replace(/市/gi,'');
+								$.post(url4Query,{"eaction":"getLatnIdByCityName",city_name: city_name}, function (data) {
+									data = $.parseJSON(data);
+
+									var queryTask = new QueryTask(new_url_point + "/0");
+									var query = new Query();
+									latn_id = data.LATN_ID;
+									query.where = "CLASS4 = '实体渠道' AND LATN_ID = "+ latn_id +"";
+									query.outFields = ['CLASS3_ID'];
+									query.returnGeometry = true;
+									var city_geometry = "";//所展示市级范围的图形对象
+									queryTask.execute(query, function (results) {
+										if(results.features.length==0)
+											return;
+										for(var i = 0,l = results.features.length;i<l;i++){
+											var feature = results.features[i];
+											var geo = feature.geometry;
+											var class3_id = feature.attributes.CLASS3_ID;
+
+											var pointAttributes = {address:'101',city:'Portland',state:'Oregon'};
+											var img = new PictureMarkerSymbol(channel_ico[class3_id], 18, 18);
+											var graphic = new esri.Graphic(geo,img,pointAttributes);
+											graLayer_qx_wd.add(graphic);
+											/!*var pointTemplate = new InfoTemplate("Geocoding Results");
+											 var graphic = new esri.Graphic(geo,img,pointAttributes).setInfoTemplate(pointTemplate);*!/
+										}
+									});
+								});
+
+								graLayer_qx_wd.on("click",function(evt){
+									map.setMapCursor("pointer");
+									var identifyTask = new esri.tasks.IdentifyTask(new_url_point);
+									var identifyParams = new IdentifyParameters();//查询参数
+									identifyParams.tolerance = 5;//容差范围
+									identifyParams.returnGeometry = true;//是否返回图形
+									identifyParams.layerIds = [0];//查询图层
+									identifyParams.where = "CLASS4 = '实体渠道' AND LATN_ID = "+ latn_id +"";
+									identifyParams.layerOption = IdentifyParameters.LAYER_OPTION_VISIBLE;//设置查询的图层
+									identifyParams.geometry = evt.mapPoint;
+									identifyParams.mapExtent = map.extent;
+									identifyTask.execute(identifyParams, function (results) {
+										if(results.length==0){
+											map.infoWindow.hide();
+											return;
+										}
+
+										var feature = results[0].feature;
+
+										map.infoWindow.setTitle("网点信息");
+										map.infoWindow.resize(200,80);
+										map.infoWindow.setContent("<span>店名:</span>"
+										+ feature.attributes.CHANNEL_NA
+										+ "<br>"
+										+ "<span>地址:</span>"
+										+ feature.attributes.CHANNEL_AD);
+										map.infoWindow.show(evt.screenPoint);
+
+										parent.global_current_city_id = latn_id;
+										parent.global_current_flag = 6;
+										parent.global_current_full_area_name = feature.attributes.CHANNEL_NA;
+										parent.global_current_area_name = feature.attributes.CHANNEL_NA;
+										parent.freshIndexContainer();
+									});
+								});
+								graLayer_qx_wd.hide();
+								map.addLayer(graLayer_qx_wd);
+							},3000
+						);*/
+
+						document.oncontextmenu = function(e){
+							e.preventDefault();
+						};
+
+						//地图下钻功能
+						setTimeout(
+								function(){
+									var params = {};
+									params.graLayer_qx = graLayer_qx;
+									params.graLayer_mouseclick = graLayer_mouseclick;
+									//params.graLayer_qx_wd = graLayer_qx_wd;
+									params.graLayer_zj_wd = graLayer_zj_wd;
+									params.graLayer_zjname = graLayer_zjname;
+									params.graLayer_wg = graLayer_wg;
+									params.graLayer_zj_click = graLayer_zj_click;
+									params.graLayer_wg_click = graLayer_wg_click;
+									params.graLayer_wg_text = graLayer_wg_text;
+									params.graLayer_wg_child = graLayer_wg_child;
+									params.graLayer_tops = graLayer_tops;
+									params.graLayer_tops_latn = graLayer_tops_latn;
+									params.graLayer_grid_mouseover = graLayer_grid_mouseover;
+									params.graLayer_wg_wd = graLayer_wg_wd;
+									params.graLayer_sub_mouseover = graLayer_sub_mouseover;
+									params.level = 3;
+									params.new_url_sub_grid = new_url_sub_grid;
+									params.js_map = js_map;
+									params.grid_url = url4Query+'?eaction=grids_in_sub';
+									params.sub_name_text_color = sub_name_text_color;
+									params.area_name_by_sub_name_url = url4Query+'?eaction=getAreaNameBySubName';
+									if(city_name_speical.indexOf(parent_name)>-1)
+										city_name = parent_name.replace(/州/gi,'');
+									else
+										city_name = parent_name.replace(/市/gi,'');
+									params.latn_id = city_ids[city_name];
+									gisSubOperator(params);
+								},4500
+						);
+
+						/*graLayer_tops.on("click",function(){
+						 var infoWindow = new InfoWindowLite(null, domConstruct.create("div", null, null, map.root));
+						 infoWindow.startup();
+						 map.setInfoWindow(infoWindow);
+
+						 var template = new InfoTemplate();
+						 template.setTitle("<b>1 - 2</b>");
+						 template.setContent("3 is in the 4 sub region.");
+
+						 map.addLayer(featureLayer);
+						 });*/
+                        layer.open({
+//								title: ['列表结果', 'line-height:32px;text-size:30px;height:32px;'],
+                            title:false,
+                            type: 1,
+                            shade: 0,
+							/*area: ['30%', '100%'],*/
+                            offset: ['0px', '34px'],
+                            content: $("#list_div")
+                        });
+					});
+
+				}
+		)
+	}
+
+	var backToEchart = function(){
+		//parent.clickFlag = false;
+		var params = new Object();
+
+		params.parent_name = parent_name;
+		params.city_name = city_name;
+		params.city_full_name = city_full_name;
+		params.index_type = index_type;
+		params.flag = flag;
+
+		var city_name = parent.global_position[1];
+		if(city_name_speical.indexOf(city_name)>-1)
+			city_name = city_name.replace(/州/gi,'');
+		else
+			city_name = city_name.replace(/市/gi,'');
+
+		params.parent_name = parent.global_position[0];
+		parent.global_parent_area_name = parent.global_position[0];
+		params.city_name = city_name;
+		parent.global_current_area_name = city_name;
+		params.city_full_name = parent.global_position[1];
+		parent.global_current_full_area_name = parent.global_position[1];
+		params.index_type = index_type;
+		parent.global_current_city_id = city_ids[city_name];
+		parent.global_current_flag = flag-1;
+		params.flag = flag-1;
+		//setDataToEchartMap(params,url4echartmap,url4mapToWhere);
+		//gis返回echarts
+		var url4mapBackTop = '<e:url value="/pages/telecom_Index/sub_grid/viewPlane_city_dev_colorflow.jsp"/>';
+		//setDataToEchartMap(params,url4echartmap,url4mapBackTop);
+		parent.freshMapContainer(url4mapBackTop);
+		parent.freshIndexContainer();
+		parent.toggleModelButton();
+	}
+
+</script>

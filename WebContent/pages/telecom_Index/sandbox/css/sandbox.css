@@ -1,0 +1,495 @@
+/* 大屏下悬浮框样式 */
+@media screen and (max-height: 1080px) {
+    #map_tip_win{
+        width: 180px;
+        margin: 5px 0;
+    }
+    #map_tip_win tr td{
+        font-size: 14px;
+    }
+    #map_tip_win tr:nth-child(1) td:nth-child(1){
+        font-size: 15px;
+    }
+    #map_tip_win tr td:nth-child(1){
+        width: 110px;
+    }
+    #map_tip_win tr td:nth-child(2){
+        padding-left: 12px;
+    }
+    #map_lengend, #map_tip_win, #sub_tip_win{
+        font-size: 14px;
+    }
+    #sub_tip_win tr:nth-child(1) td{
+        font-size: 16px;
+    }
+    #left_bottom_tab_div{
+        max-height:440px;
+        overflow-y: auto;
+    }
+    #left_bottom_float_window .more{
+        width: 110px;
+    }
+    #left_bottom_float_window .more1{
+        width: 110px;
+    }
+    #left_bottom_float_window table th.more_title{
+        width: 124px;
+        padding: 0 15px 0 0;
+    }
+    /* 支局悬浮框 */
+    .esriPopupWrapper{
+        width: 210px;
+    }
+    .esriPopupWrapper .sizer.content{
+        width: 210px;
+    }
+    .esriPopupWrapper .contentPane table tr td:nth-child(1){
+        width: 100px;
+    }
+    /* 查找统计表格 */
+    /*.layui-layer.layui-layer-page.layer-anim{*/
+        /*left: 245px !important;*/
+        /*top: 30% !important;*/
+    /*}*/
+}
+/* 竞争沙盒表格样式 */
+#left_bottom_float_window,#left_bottom_float_window_village {
+    position:absolute;
+    left: 50px;
+    bottom:13px;
+    background-color: #1e7abe;
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+    border:1px solid #1e7abe;
+}
+#left_bottom_float_window_village{
+    display:none;
+    z-index:1;
+}
+.dialog{
+    width:325px;
+    background: #fff;
+    z-index:199;
+    border:solid 1px #1e7abe;
+    border-radius: 4px;
+    overflow: hidden;
+    position:absolute;
+    right:303px;
+    top:216px;
+    display:none;}
+.dialog>div{
+    letter-spacing: 1px;
+}
+.dialog div:nth-child(2){
+    text-align: center;
+    line-height:32px;
+    font-size: 14px;
+    font-weight: 600;
+    background: #1e7abe;
+    color: #fff;
+}
+.dialog .close_table{
+    position: absolute;
+    right: 7px;
+    top: 8px;
+    display: block;
+    width:18px;
+    height:18px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    background: url(../../sub_grid/image/close.png) no-repeat center/12px;
+    z-index: 3;
+}
+/* 小屏下样式 */
+@media screen and (max-height: 768px) {
+    #left_bottom_float_window{
+        max-height:248px;
+    }
+    #left_bottom_float_window #left_bottom_tab_div{
+        overflow-y: auto;
+        max-height: 210px;
+    }
+    #left_bottom_float_window .more{
+        width: 100px;
+    }
+    #left_bottom_float_window .more1{
+        width: 100px;
+    }
+    #left_bottom_float_window table th.more_title{
+        width: 114px;
+        padding: 0 15px 0 5px;
+    }
+    #map_tip_win{
+        width: 152px;
+        margin: 5px 0;
+    }
+    #map_tip_win tr td:nth-child(1){
+        width: 100px;
+    }
+    #map_tip_win tr td:nth-child(2){
+        padding-left: 10px;
+    }
+    #map_lengend, #map_tip_win, #sub_tip_win, #map_tip_win tr td{
+        font-size: 12px;
+    }
+    #sub_tip_win tr:nth-child(1) td, #map_tip_win tr:nth-child(1) td:nth-child(1){
+        font-size: 13px;
+    }
+    /* 支局悬浮框小屏 */
+    .esriPopupWrapper{
+        width: 190px;
+    }
+    .esriPopupWrapper .sizer.content{
+        width: 200px;
+    }
+    .esriPopupWrapper .contentPane table tr td:nth-child(1){
+        width: 85px;
+    }
+    /*.layui-layer.layui-layer-page.layer-anim{*/
+        /*left: 180px !important;*/
+        /*top: 10px !important;*/
+    /*}*/
+}
+#left_bottom_float_window table tbody {
+    background-color: #fafafa;
+}
+/* 收缩按钮 */
+#min_max{
+    position: absolute;
+    left:50px;
+    width: 100%;
+    height: 8px;
+    border-radius: 4px 4px 0 0;
+    background:#1e7abe url('../../common/images/bottom.gif') no-repeat center center;
+}
+#min_max.top{
+    background: url('../../common/images/top.gif') no-repeat center center;
+}
+/* Table Head */
+#left_bottom_float_window table thead th {
+    background-color: #1e7abe;
+    color: #fff;
+    border-bottom-width: 0;
+}
+
+/* Column Style */
+
+#left_bottom_float_window table td {
+    color: #000;
+}
+/* Heading and Column Style */
+#left_bottom_float_window table tr{
+    border-bottom:1px solid #e1ebf2;
+}
+#left_bottom_float_window table th{
+    border:0;
+}
+/* Padding and font style */
+#left_bottom_float_window table td, #left_bottom_float_window table th{
+    padding: 10px 5px;
+    font-size: 12px;
+    font-family: 'Microsoft Yahei';
+}
+#left_bottom_float_window table th {
+    font-weight: bold;
+}
+/* Content table style */
+#left_bottom_tab_div{
+    background: #fff;
+}
+#left_bottom_tab_div table td, #left_bottom_tab_div table th{
+    padding: 0 5px;
+    text-align: center;
+}
+#left_bottom_float_window .less{
+    width: 100px;
+}
+/* 悬浮框样式 */
+#map_tip_win {
+    color: #fff;
+    font-family: 'Microsoft Yahei';
+}
+#map_tip_win tr td{
+    line-height: 24px;
+    height: 24px;
+    font-weight: lighter;
+}
+#map_tip_win tr:nth-child(1) td:nth-child(1){
+    line-height: 28px;
+    font-size: 13px;
+    height:28px;
+    color: rgb(255,233,0);
+    text-align: center;
+    font-weight: bold;
+    text-align-last: auto;
+}
+#map_tip_win tr td:nth-child(1){
+    padding-left: 18px;
+    font-weight: bold;
+    text-align: justify;
+    text-align-last: justify;
+}
+
+/*支局的悬浮窗口样式*/
+.esriPopupWrapper{
+    background: rgba(30, 122, 190, 0.95);
+    border-radius: 4px;
+    max-height:200px;
+    border:1px solid #005a9a;
+}
+.esriPopupWrapper .contentPane{
+    background: transparent!important;
+}
+.esriPopupWrapper .contentPane table{
+    color: #fff;
+}
+.esriPopupWrapper .sizer .actionsPane,.esriPopupWrapper .sizer .titlePane{
+    display: none;
+}
+.esriPopup.esriPopupVisible .outerPointer.left,
+.esriPopupWrapper .pointer.bottom,
+.esriPopupWrapper .pointer.top,
+.esriPopup.esriPopupVisible .outerPointer.right{
+    background: rgba(30, 122, 190, 0.95)!important;
+}
+.esriPopup.esriPopupVisible .outerPointer.left{
+    border-bottom:1px solid #005a9a;
+    border-left:1px solid #005a9a;
+}
+.esriPopupWrapper .pointer.bottom{
+    border-bottom:1px solid #005a9a;
+    border-right:1px solid #005a9a;
+}
+.esriPopupWrapper .pointer.top{
+    border-top:1px solid #005a9a;
+    border-left:1px solid #005a9a;
+}
+.esriPopup.esriPopupVisible .outerPointer.right{
+    border-top:1px solid #005a9a;
+    border-right:1px solid #005a9a;
+}
+.esriPopupWrapper .contentPane table{
+    width: 90%;
+    margin-left: 5%;
+}
+.esriPopupWrapper .contentPane table tr td{
+    line-height: 24px;
+    height: 24px;
+}
+.esriPopupWrapper .contentPane table tr:nth-child(1) td:nth-child(1){
+    text-align: center;
+    font-size: 13px;
+    text-align-last: auto;
+    color: rgb(255,233,0);
+    line-height: 18px;
+    padding: 5px 0;
+}
+.esriPopupWrapper .contentPane table tr td:nth-child(1){
+    font-weight:bold;
+    text-align: justify;
+    text-align-last: justify;
+}
+#sub_tip_win tr td:nth-child(2){
+    padding-left: 8px;
+}
+/* 图例样式 */
+#map_lengend{
+    display: none;
+    position: absolute;
+    right:2px;
+    bottom:2px;
+    z-index:30;
+    background: #fff;
+    padding: 5px;
+    border-radius: 4px;
+    font-size: 12px;
+}
+#map_lengend div{
+    line-height: 28px;
+    padding-left: 24px;
+}
+#map_lengend div:nth-child(1){
+    background: url(../../common/images/channel_ico_new/build1_selected.png) no-repeat center left;
+    background-size: 20px;
+}
+#map_lengend div:nth-child(2){
+    background: url(../../common/images/channel_ico_new/build1.png) no-repeat center left;
+    background-size: 20px;
+}
+/* 导航条图标 */
+#nav_rectangle_collect, #nav_polygon_collect{cursor: pointer;}
+#nav_rectangle_collect span, #nav_polygon_collect span{display:block;width:17px;height:17px;margin:0 auto;}
+#nav_rectangle_collect span{
+    background: url("../images/juxing.png") no-repeat center/cover;
+}
+#nav_polygon_collect span{
+    background: url("../images/duobianxing.png") no-repeat center/cover;
+}
+#nav_polygon_collect{
+    letter-spacing: -2px;
+}
+
+/*沙盘左侧菜单*/
+#nav_summary,#nav_compete,#nav_village,#nav_resource,#nav_yingxiao,#nav_tongji{cursor: pointer;}
+/*概况*/
+#nav_summary span {background:url('../images/gaikuang.png') no-repeat center;width:17px;height:17px;display:block;margin:0px auto;}
+/*竞争*/
+#nav_compete span {background:url('../images/shapan.png') no-repeat center;width:17px;height:17px;display:block;margin:0px auto;}
+/*小区*/
+#nav_village span {background:url('../images/neighbourhood.png') no-repeat center;width:17px;height:17px;display:block;margin:0px auto;}
+/*资源*/
+#nav_resource span {background:url('../images/ziyuan.png') no-repeat center;width:17px;height:17px;display:block;margin:0px auto;}
+/*营销*/
+#nav_yingxiao span {background:url('../images/yingxiao.png') no-repeat center;width:17px;height:17px;display:block;margin:0px auto;}
+/*统计*/
+#nav_tongji span {background:url('../images/rank.png') no-repeat center;width:17px;height:17px;display:block;margin:0px auto;}
+
+/* 查找窗口 */
+#nav_query_table_wrapper{
+    background: #fff;
+    width: 740px;
+    position: absolute;
+    z-index: 100;
+    overflow: hidden;
+    display: none;
+}
+#nav_query_table_wrapper .nav_title{
+    text-align: center;
+    background: #1c6eab;
+    line-height: 34px;
+    height:34px;
+    font-size: 15px;
+    color: #fff;
+    font-weight: bold;
+}
+#nav_query_table_wrapper .nav_title .close_table{
+    display: block;
+    position: absolute;
+    top: 9px;
+    right: 10px;
+    width: 20px;
+    height:20px;
+    background: url(../../sub_grid/image/close.png) no-repeat center/12px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+}
+/* 网格悬浮右上角表格 */
+#grid_info_collect_window, #sub_info_collect_window{
+    border-radius: 4px;
+    overflow: hidden;
+    background: #fff;
+    width: 190px;
+    border: 2px solid #217fc2;
+    padding: 0 0 5px 0;
+    display: none;
+}
+#sub_tip_win{
+    width:100%;
+}
+#sub_tip_win tr:nth-child(1) td:nth-child(1){
+    background: #217fc2;
+    color: #fff;
+    font-weight: bold;
+    font-size: 13px;
+    text-align: center;
+    line-height: 28px;
+    height: 28px;
+    text-align-last: auto;
+}
+#sub_tip_win tr td:nth-child(1){
+    text-align: right;
+    width: 90px;
+}
+#sub_tip_win tr td{
+    line-height: 24px;
+    height:24px;
+}
+/* 框选弹出表格 */
+#draw_info_collect_window{
+    top: 10px;
+    left: 40%;
+    background: #fff;
+    border-radius: 4px;
+    border: 2px solid #217fc2;
+    display: none;
+}
+#closeDrawInfoCollectWin{
+    position: absolute;
+    right: 4px;
+    top: 3px;
+    width:20px;
+    height:20px;
+    border-radius: 4px;
+    z-index: 100;
+    cursor: pointer;
+    border: 1px solid #fff;
+    background: url(../../sub_grid/image/close.png) no-repeat center/12px;
+}
+#draw_info_collect_window table tr:nth-child(1){
+    color: #fff;
+    font-weight: bold;
+    background: #217fc2;
+}
+/* 点击楼宇表格 */
+#standard_info_collect_window{
+    background: #fff;
+    border: 2px solid #217fc2;
+    border-radius: 4px;
+    padding: 0 0 5px 0;
+    display: none;
+}
+#standard_info_collect_window .close_table{
+    display: block;
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    height: 16px;
+    width: 16px;
+    background: url(../../sub_grid/image/close.png) no-repeat center/10px;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    z-index: 10;
+}
+#standard_info_collect_window table tr:nth-child(1) td:nth-child(1){
+    color: #fff;
+    background: #217fc2;
+    padding-right: 30px;
+    font-weight: bold;
+    padding-left: 10px;
+    font-size: 12px;
+    text-align: center;
+    white-space: nowrap;
+}
+#standard_info_collect_window table tr td:nth-child(1){
+    text-align: right;
+}
+#standard_info_collect_window table a{
+    color: #f60;
+    text-decoration: underline;
+}
+/* 收集弹出框 */
+.info_collect .layui-layer-title{
+    border:none;
+    background: #1e7abe;
+    font-size: 14px;
+    line-height: 32px;
+    height: 32px;
+    cursor: move;
+    padding-left: 20px;
+    color:#fff;
+    font-weight: normal;
+}
+.info_collect .close_table{
+    top: 12px;
+}
+.info_collect .close_table a{
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 18px;
+    width: 18px;
+    background: url(../../sub_grid/image/close.png) no-repeat center/10px !important;
+    border-radius: 4px;
+    border: 1px solid #fff;
+}

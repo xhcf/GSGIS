@@ -1,0 +1,33 @@
+#nav_index_enterprise_summary span {
+    background:url("../images/shichang.png")no-repeat center/contain;
+}
+#nav_index_enterprise_detail span {
+    background:url("../images/kuandai.png") no-repeat center/contain;
+}
+
+/* Ðü¸¡¿òÑùÊ½ */
+.tips_table_wrapper{
+    padding: 0 20px 8px;
+}
+.tips_table_wrapper table{
+    color: #fff;
+}
+.tips_table_wrapper table td{
+    font-size: 12px;
+}
+.tips_table_wrapper table tr:nth-child(1){
+    border-bottom: 1px solid rgba(0,0,0,.8);
+}
+.tips_table_wrapper table tr th{
+    text-align: justify;
+    text-align-last: justify;
+    font-weight:bold;
+    width:80px;
+}
+.tips_table_wrapper table tr td{
+    text-align: left;
+    text-align-last: left;
+    font-size: 12px;
+    white-space: nowrap;
+    width:15px;
+}

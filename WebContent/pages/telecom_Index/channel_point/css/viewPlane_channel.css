@@ -1,0 +1,130 @@
+html,body {margin:0; padding:0;height:100%;width:100%;border:none;background:none; }
+.main{width:100%;height:100%;text-align:left;background:none!important;}
+.picBox {
+    width:9px;
+    background:url('../../common/images/right.gif') no-repeat center center;
+}
+#pagemap div {text-align:center;margin:auto;}
+#pagemap canvas {text-align:center;margin:auto;width:100%;}
+#pagemap {background:none!important;}
+#nav_fanhui {display:none;top:0px;right:0px;}
+.tools_n{display:none;}
+.target_wrap:first-child{height: 32%;}
+.target_wrap h3{margin-bottom: 0.46rem;}
+
+/* 搜索 */
+#query_div{
+    position:absolute;
+    z-index:99999;
+    display:none;
+    padding: 4px 6px 4px 10px;
+    background: #051961;
+    margin-left:3px;
+    margin-top:5px;
+}
+
+#location_type{height:28px !important;color:#333; }
+#location_name{width:19%;background: #fff;border:none;color:#333; height:22px !important;}
+#query_div .location_name1{width:128px !important;background: #fff !important;border:none;color:#333;height:28px !important; }
+.button{width:36px;background: #299beb; color:#fff;border:none; text-align: center; cursor: pointer;height: 22px !important;}
+.button1{width:46px;background: #299beb; color:#fff;border:none; text-align: center; cursor: pointer;}
+/*发展排名表格*/
+.datagrid-htable td{border:none;}
+.datagrid-header, .datagrid-td-rownumber{ background: none;}
+.datagrid-header td.datagrid-header-over{background: none;cursor: pointer;}
+.datagrid-htable{background:  #02004f;}
+.datagrid-header{height:30px !important; line-height: 30px;}
+.datagrid-body td, .datagrid-footer td{border:none;}
+.datagrid-btable, .datagrid-ftable{border:none;background-color: none}
+.datagrid-row{height:24px !important;}
+.datagrid-cell-rownumber {color: #fff;}
+.datagrid-header .datagrid-cell span{color: #00deff;}
+.datagrid-cell, .datagrid-cell-group, .datagrid-header-rownumber, .datagrid-cell-rownumber{font-size:12px;}
+.datagrid-pager .pagination {display:none;}
+/*--------适配1920x1080分辨率-------*/
+@media screen and (min-height: 750px) {
+    .datagrid-row{height:28px !important;}
+    .datagrid-header{height:36px !important; line-height: 36px;}
+    .target_wrap h3{margin-bottom: 1rem !important; font-size: 16px;}
+    .target_wrap:last-child {
+        padding: 1.2rem 0.4rem 0.2rem;}
+    .target_wrap {
+        padding: 1.2rem 0.4rem;
+        height: 34% !important;}
+    .datagrid-cell{padding: 10px 6px;height:auto;}
+    .datagrid-cell-rownumber{padding: 10px 6px; height:auto;}
+    .target_list p.channel_title {padding: 2px 20px;  font-size: 15px;}
+    .point_rank_tab th {padding:10px 0;}
+    .point_rank_tab td{padding:8px 0;}
+    .target_list{padding-top:20px;}
+}
+.date_container {position:absolute;z-index:99999;right:65%;padding:0 12px;}
+.date {right:65%;padding:0 12px;color:#fff;height:28px;line-height:28px;}
+.date span {color:#ffd200;}
+
+#draw_result_container {display:none;height: 90%;width: 100%;overflow-y: scroll}
+#draw_result_total {backgroud: none;padding-left: 20px;color: #fff;position: absolute;bottom: 0px;right: 20px;font-size: 12px;}
+#layui-layer1{left:160px}
+#res_in_view {    width: 100%;
+    height: 30px;
+    line-height: 30px;
+    color: #000;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 0px 12px 0px 4px;
+    background: #e6e6e6;;
+    z-index: 999;
+    text-align: right;
+    border-top: 2px solid #2070dc;
+}
+#res_in_view div {
+    width: 20px;
+    height: 20px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-bottom: -5px;
+}
+#clear_draw_menu{
+    display:none;
+    position:absolute;
+    background: #fff;
+    color:#000;
+    z-index:100;
+    cursor:pointer;
+}
+#pop_res_win_layer{
+    display:none;
+    position:absolute;
+    background: #fff;
+    color:#000;
+    z-index:100;
+    cursor:pointer;
+}
+/*layer样式个性化*/
+.layui-layer-setwin .layui-layer-close1{
+    top:-5;
+}
+::-webkit-scrollbar {
+    padding-left: 1px;
+    background-color: transparent;
+    overflow: visible;
+    width: 14px;
+    height: 14px;
+}
+.esriPopup .contentPane {
+    position: relative;
+    max-height: 300px;
+    overflow: auto;
+    padding: 5px 6px 6px 10px;
+    background-color: #F7F7F7;
+    color: #333333;
+}
+.tab_right{cursor:pointer; position: absolute;top:0; right:0; display: block; width: 14px; height: 28px; background:url(../../common/images/tab.png) #1c3cb0 no-repeat center; }
+.tab_left{cursor:pointer; position: absolute;top:0; right:0; display: block; width: 14px; height: 28px; background:url(../../common/images/tabna.png) #1c3cb0 no-repeat center; }
+.point_rank_tab td {
+    font-size: 11px;
+    text-align: center;
+    padding: 3px 0;
+    border-bottom: 1px solid #120f4b;
+}

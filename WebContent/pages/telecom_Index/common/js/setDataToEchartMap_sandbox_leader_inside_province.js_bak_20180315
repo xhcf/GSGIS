@@ -1,0 +1,400 @@
+/**
+ * Created by admin on 2017/3/31.
+ */
+/*
+ 区域块染色
+ params echart的option参数
+ url4echartmap chartClickAction方法使用 下钻后数据从这里查询
+ url4mapToWhere chartClickAction方法使用 下钻后加载的地图，省到市是viewPlane_city(echarts)，市到区县是viewPlane_area(gis)
+ */
+var chart_map = "";
+var series_name_array = ["市场渗透率","住户数","光宽数","政企宽带数","政企住户数"];
+//地市 区域块
+function setDataToEchartMap(params,url4realTimeSubList,url4mapToWhere){
+    //chart.showLoading();
+    //wait();
+
+    var fullCityName = params.city_full_name;
+    if(params.flag == 3){
+        if(city_name_speical.indexOf(fullCityName)>-1)
+            params.city_name = fullCityName.replace(/州/gi,'');
+        else
+            params.city_name = fullCityName.replace(/市/gi,'');
+    }
+    /*if(params.flag ==2 && params.city_name != params.parent_name){//flag是2，查询的却不是省名称，则返回
+        return;
+    }*/
+    /*if(global_backToEcharts){
+     global_backToEcharts = false;
+     if(city_name_speical.indexOf(fullCityName)>-1)
+     fullCityName += '州';
+     else
+     fullCityName += '市';
+     }*/
+
+    var series_name = "累计到达渗透率";
+    //表格数据
+
+    //var color = ['#4aad01','#f4d003','#f4430c','#b80303'];
+    var color = ['#f04144', '#f67d7f', '#fcb666','#ff9c2b','#8ae9b0','#42c877'];//从小到大
+    //var color = ['#4575b4','#74add1','#abd9e9','#81ee51'];
+    //地图数据展示用,最大值最小值
+    var datas = new Array();
+    var datas2 = new Array();
+
+    var min = 0;
+    var max = 0;
+
+    $.ajax({
+        type:"POST",
+        url:url4realTimeSubList,
+        data:params,
+        success:function(data){
+            var data_temp = $.parseJSON(data);
+            var d = data_temp.rows;
+            if(d.length==0)
+                layer.msg('暂无数据');
+            else {
+                //地图数据展示用
+                var vals = new Array();
+
+                for (var i = 0; i < d.length; i++) {
+                    var obj = {};
+
+                    var org_name = d[i].AREA_DESC;
+                    if(d[i].AREA_NO=='999')
+                        continue;
+                    obj.name = org_name;
+
+                    var stl = d[i].USE_RATE;
+                    if(stl=="--")
+                        stl = "0";
+                    obj.value = parseFloat(stl.replace("%",''));
+
+                    vals.push(obj.value);
+
+                    datas.push(obj);
+                    datas2[org_name] = [d[i].USE_RATE,d[i].GZ_ZHU_HU_COUNT,d[i].GZ_H_USE_CNT,d[i].GOV_H_USE_CNT,d[i].GOV_ZHU_HU_COUNT];
+                }
+
+                if (vals.length > 0) {
+                    max = Math.ceil(Math.max.apply(null, vals));
+                    min = Math.floor(Math.min.apply(null, vals));
+                    if (min == max)
+                        min = 0;
+                }
+            }
+        },
+        error:function(){
+            layer.msg('查询出错');
+        },
+        complete:function(){
+            echartMapReset(min,max,params,series_name,color,datas,datas2);
+            chart_map.hideLoading();
+        }
+    });
+}
+//地市 区域块
+function echartMapReset(min_num,max_num,params,series_name,color,data,data2){
+    var city_name = params.city_name;
+    try{
+        min_num = parseInt(min_num);
+    }catch(e){
+        min_num = 0;
+    }
+    try{
+        max_num = parseInt(max_num);
+    }catch(e){
+        max_num = 0;
+    }
+
+    if(max_num==0)
+        color = ['#A8A8A8'];
+
+    var symbol_size_temp = (max_num+min_num)/2;
+    var step = 15;
+    if(max_num>5000)
+        step = 5;
+    else if(max_num>1000)
+        step = 8;
+    else if(max_num>500)
+        step = 12;
+
+    var isShowLabel = true;
+
+    if(params.flag == 3) {
+        isShowLabel = false;
+    }
+    if(chart_map!=""){
+        chart_map.dispose();
+        chart_map = "";
+    }
+
+    chart_map = echarts.init(document.getElementById('pagemap'),"dark");
+
+    var option = {
+        tooltip: {
+            trigger: 'item',
+            backgroundColor: 'rgba(0,0,0,0.7)',
+            padding: 0,
+            formatter: function(params) {
+                city_name = params.name;
+                var res = "<table id=\"map_tip_win\"><tr><td colspan='2'>"+params.name+"</td></tr>";
+                for (var i = 0; i < option.series[0].data.length; i++) {
+                    if(params.name==option.series[0].data[i].name){
+                        res+="<tr><td>"+series_name_array[0] +":</td><td>"+data2[params.name][0]+"</td></tr>";
+                        res+="<tr><td>"+series_name_array[1] +":</td><td>"+data2[params.name][1]+"</td></tr>";
+                        res+="<tr><td>"+series_name_array[2] +":</td><td>"+data2[params.name][2]+"</td></tr>";
+                        res+="<tr><td>"+series_name_array[3] +":</td><td>"+data2[params.name][3]+"</td></tr>";
+                        res+="<tr><td>"+series_name_array[4] +":</td><td>"+data2[params.name][4]+"</td></tr>";
+                    }
+                }
+                res += "</table>";
+                return res;
+            }
+        },
+        series: [
+            //series 0
+            {
+                layoutCenter: ['50%', '50%'],
+                layoutSize: '120%',
+                name: series_name_array[0],
+                type: 'map',
+                //stack:series_name_array[0],
+                mapType: city_name,
+                selectedMode: false,
+                showLegendSymbol:true,
+
+                itemStyle: {
+                    normal: {
+                        borderColor: '#fff',
+                        borderWidth: 1.5,
+                        areaStyle: {
+                            color: 'transparent'
+                        },
+                        label: {
+                            show: isShowLabel,
+                            textStyle: {
+                                color: '#fff',
+                                fontSize: 14,
+                                fontFamliy: '微软雅黑',
+                                fontWeight: 500
+                            }
+                        }
+                    },
+                    emphasis:{
+                        color:'transparent'
+                    }
+                },
+                /*nameMap: {
+                    '甘南州': '甘南',
+                    '临夏州': '临夏',
+                    '酒泉市': '酒泉',
+                    '嘉峪关市': '嘉峪关',
+                    '张掖市': '张掖',
+                    '金昌市': '金昌',
+                    '武威市': '武威',
+                    '白银市': '白银',
+                    '定西市': '定西',
+                    '庆阳市': '庆阳',
+                    '平凉市': '平凉',
+                    '天水市': '天水',
+                    '陇南市': '陇南',
+                    '兰州市': '兰州'
+                },*/
+                data:data
+            }
+        ],
+        /*legend: {
+            orient: 'vertical',
+            left: 'left',
+            data:['市场渗透率']
+        },*/
+        visualMap:{
+            type:"piecewise",
+            splitNumber:6,
+            bottom:20,
+            left:135,
+            //selectedMode:'single',
+            //dimension:0,
+            seriesIndex:0,
+            pieces: [
+                {min: 80,color:'#42c877'}, // 不指定 max，表示 max 为无限大（Infinity）。
+                {min: 50, max: 80,color:'#8ae9b0'},
+                {min: 30, max: 50,color:'#ff9c2b'},
+                {min: 10, max: 30,color:'#fcb666'},
+                {min: 5, max: 10,color:'#f67d7f'},
+                {min: 0,max:5,color:'#f04144'}     // 不指定 min，表示 min 为无限大（-Infinity）。
+            ],
+            textStyle:{
+                color:"#fff"
+            }/*,
+            formatter:function(value,name){
+                var myseries = option.series;
+                var market_percent = myseries[0];
+                var listdata = market_percent.data;
+                for(var i= 0,l = listdata.length;i<l;i++){
+                    ///'收集数'判断
+                    if(listdata[i].name == city_name){
+                        return listdata[i].value;
+                    }
+                }
+            }*/
+        }
+    };
+    chart_map.setOption(option,true);
+
+    chartClickAction(params.url4mapInsideWhere);
+}
+
+function chartClickAction(url4mapInsideWhere){
+    chart_map.on('click', function (params_evt){
+        var cityFull = params_evt.name;//点击后获得的名字
+        parent.global_current_full_area_name = cityFull;
+        parent.global_current_flag = parseInt(flag)+1;
+
+        //var jsonNo = cityMap[cityFull];
+
+        /*var city = "";
+        if(city_name_speical.indexOf(cityFull)>-1)
+            city = cityFull.replace(/州/gi,'');
+        else
+            city = cityFull.replace(/市/gi,'');
+
+        parent.global_current_city_id = city_ids[city];*/
+        parent.global_current_area_name = city;//城关区
+
+        parent.global_position.splice(1,1,cityFull);
+        if(zxs[cityFull]!=undefined){
+            parent.global_position.splice(2,1,cityFull);
+        }
+
+        //echarts地图刷新和gis都要重新加载地图和指标侧边，执行下面两句
+        parent.freshMapContainer(url4mapInsideWhere);
+        //if(zxs[cityFull] && parent.global_current_flag==3){//直辖市的特殊处理，到地市一层，点区县下钻时右侧不刷新
+
+        //}else{
+        //    parent.freshIndexContainer(url4devTabToWhere);
+        //}
+    });
+}
+
+var convertData = function (data) {
+    var res = [];
+    for (var i = 0; i < data.length; i++) {
+        var city_name_full = "";
+        if(city_name_speical.indexOf(data[i].name)>-1)
+            city_name_full = data[i].name+'州';
+        else
+            city_name_full = data[i].name+'市';
+        var geoCoord = geoCoordMap[city_name_full];
+        if (geoCoord) {
+            res.push({
+                name: data[i].name,
+                value: geoCoord.concat(data[i].value)
+            });
+        }
+    }
+    return res;
+};
+
+var geoCoordMap_bureau = {
+    "安宁区": [103.724038,36.10329],
+    "七里河区": [103.784326,36.06673],
+    "西固区": [103.622331,36.100369],
+    "城关区": [103.841032,36.049115],
+    "红古区": [102.861814,36.344177],
+    "榆中县": [104.114975,35.84443],
+    "皋兰县": [103.94933,36.331254],
+
+    "秦州区":[105.724477,34.578645],
+    "清水县":[106.139878,34.75287],
+    "秦安县":[105.6733,34.862354],
+    "武山县":[104.891696,34.721955],
+    "麦积区":[105.897631,34.563504],
+    "张家川回族自治县":[106.212416,34.993237],
+
+    "平川区":[104.819207,36.72921],
+    "白银区":[104.17425,36.545649],
+    "会宁县":[105.054337,35.692486],
+    "景泰县":[104.066394,37.193519],
+    "靖远县":[104.686972,36.561424],
+
+    "肃州区":[98.511155,39.743858],
+    "金塔县":[98.902959,39.983036],
+    "瓜州县":[95.780591,40.516525],
+    "玉门市":[97.037206,40.28682],
+    "敦煌市":[94.664279,40.141119],
+    "阿克塞哈萨克族自治县":[94.337642,39.631642],
+    "肃北蒙古族自治县":[94.87728,39.51224],
+
+    "甘州区":[100.454862,38.931774],
+    "民乐县":[100.816623,38.434454],
+    "临泽县":[100.166333,39.152151],
+    "山丹县":[101.088442,38.784839],
+    "高台县":[99.81665,39.376308],
+    "肃南裕固族自治县":[99.617086,38.837269],
+
+    "古浪县":[102.898047,37.470571],
+    "民勤县":[103.090654,38.624621],
+    "凉州区":[102.634492,37.93025],
+    "天祝藏族自治县":[103.142034,36.971678],
+
+    "金川区":[102.187683,38.513793],
+    "永昌县":[101.971957,38.247354],
+
+    "嘉峪关市":[98.277304,39.786529],
+
+    "通渭县":[105.250102,35.208922],
+    "安定区":[104.62577,35.579764],
+    "渭源县":[104.211742,35.133023],
+    "陇西县":[104.637554,35.003409],
+    "临洮县":[103.862186,35.376233],
+    "漳县":[104.466756,34.848642],
+    "岷县":[104.039882,34.439105],
+
+    "泾川县":[107.365218,35.335283],
+    "崇信县":[107.031253,35.304533],
+    "灵台县":[107.620587,35.064009],
+    "华亭县":[106.649308,35.215342],
+    "庄浪县":[106.041979,35.203428],
+    "崆峒区":[106.684223,35.54173],
+    "静宁县":[105.733489,35.525243],
+
+    "正宁县":[108.361068,35.490642],
+    "庆城县":[107.885664,36.013504],
+    "合水县":[108.019865,35.819005],
+    "华池县":[107.986288,36.457304],
+    "环县":[107.308754,36.569322],
+    "宁县":[107.921182,35.50201],
+    "镇原县":[107.195706,35.677806],
+    "西峰区":[107.638824,35.733713],
+
+    "成县":[105.734434,33.739863],
+    "康县":[105.609534,33.328266],
+    "西和县":[105.299737,34.013718],
+    "文县":[104.682448,32.942171],
+    "武都区":[104.929866,33.388155],
+    "宕昌县":[104.394475,34.042655],
+    "徽县":[106.085632,33.767785],
+    "两当县":[106.306959,33.910729],
+    "礼县":[105.181616,34.189387],
+
+    "永靖县": [103.319871,35.938933],
+    "临夏市": [103.211634,35.59941],
+    "康乐县": [103.709852,35.371906],
+    "临夏县": [102.993873,35.49236],
+    "广河县": [103.576188,35.481688],
+    "和政县": [103.350357,35.425971],
+    "东乡族自治县": [103.389568,35.66383],
+    "积石山保安族东乡族撒拉族自治县": [102.877473,35.712906],
+
+    "舟曲县": [	104.370271,	33.782964],
+    "合作市": [	102.91149,	34.985973],
+    "迭部县": [	103.221009,	34.055348],
+    "卓尼县": [	103.508508,	34.588165],
+    "临潭县": [	103.353054,	34.69164],
+    "玛曲县": [	102.075767,	33.998068],
+    "碌曲县": [	102.488495,	34.589591],
+    "夏河县": [	102.520743,	35.200853]
+};

@@ -1,0 +1,164 @@
+div.tab_menu a {
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    height: 22px;
+    line-height: 22px;
+    width: 60px;
+    border-radius: 2px;
+    text-align: center;
+    color: #a7d9ff;
+    text-decoration: none;
+}
+
+div.tab_menu a.selected {
+    background-color: #025aac;
+    color: #fff;
+}
+
+div.tab_box {
+    clear: both;
+}
+
+input {
+    line-height: 22px !important;
+    height: 22px !important;
+
+    border-radius: none;
+    border: none;
+    padding: 0;
+    outline: none;
+}
+
+input[type="button"]::-moz-focus-inner {
+    border: none;
+    padding: 0;
+    margin-top: -8px;
+}
+
+/*屏幕高度最大为1080px*/
+@media screen and (max-height: 1080px) {
+    .target_wrap {
+        width: 100%;
+        height: 30%;
+        overflow:hidden;
+        position:relative;
+        /*min-height:200px;*/
+    }
+
+    .btn_c {
+        height: 30px;
+        width: 100%;
+        margin: auto;
+        cursor: hand;
+        position: absolute;
+        top: 30px;
+        z-index: 9999999;
+        text-align: center;
+    }
+
+    .figure {
+        width: 100%;
+        height: 98%;
+        margin-top: 28px
+    }
+
+    .clearfix {
+        margin-top: 15px;
+    }
+
+    .target_list dd {
+        font-size: 16px;
+        margin-top: 4px;
+        text-align: left;
+        height: 1.2rem;
+        padding-left: 20px;
+        margin-bottom: 10px;
+    }
+
+}
+
+/*屏幕高度最大为768px*/
+@media screen and (max-height: 768px) {
+    .target_wrap {
+        height: 26%;
+    }
+
+    .btn_c {
+        height: 30px;
+        width: 100%;
+        margin: auto;
+        cursor: hand;
+        position: absolute;
+        top: 30px;
+        z-index: 9999999;
+        text-align: center;
+    }
+
+    .figure {
+        width: 100%;
+        height: 96%;
+        margin-top: 28px
+    }
+
+    .clearfix {
+        margin-top: 15px;
+    }
+    .target_list dt {
+        font-size: 30px;
+        margin: 20px 0;
+    }
+
+    .target_list dd {
+        font-size: 12px;
+        margin-top: 2px;
+        text-align: left;
+        height: 1.2rem;
+        padding-left: 10px;
+        margin-bottom: 2px;
+    }
+}
+
+/*屏幕高度最大为600px*/
+@media screen and (max-height: 600px) {
+    .target_wrap {
+        height: 27%;
+    }
+
+    .btn_c {
+        height: 30px;
+        width: 100%;
+        margin: auto;
+        cursor: hand;
+        position: absolute;
+        top: 30px;
+        z-index: 9999999;
+        text-align: center;
+    }
+
+    .figure {
+        width: 100%;
+        height: 98%;
+        margin-top: 28px
+    }
+
+    .clearfix {
+        margin-top: 10px;
+    }
+
+    .target_list dd {
+        font-size: 11px;
+        height: 1.5rem;
+        padding-left: 10px;
+        margin-top: -4px;
+        margin-bottom: 2px;
+
+    }
+    .target_list dt {
+        font-size: 30px;
+        margin: 20px 0;
+        margin-bottom: 10px;
+    }
+
+
+}

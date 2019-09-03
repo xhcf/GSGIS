@@ -1,0 +1,1220 @@
+/* 左侧导航 */
+#nav_market span{
+    background: url(../images/shichang.png) no-repeat center/cover;
+    width: 17px;
+    height: 17px;
+    display: block;
+    margin: 0px auto;
+}
+#nav_cover span{
+    background: url(../images/guangwang.png) no-repeat center/cover;
+    width: 17px;
+    height: 17px;
+    display: block;
+    margin: 0px auto;
+}
+#nav_village_pop_win span{
+    background: url(../images/village.png) no-repeat center/cover;
+    width: 17px;
+    height: 17px;
+    display: block;
+    margin: 0px auto;
+}
+#nav_stock span{
+    background: url(../images/cunliang.png) no-repeat center/cover;
+    width: 17px;
+    height: 17px;
+    display: block;
+    margin: 0px auto;
+}
+#nav_village span{
+    background: url(../images/village.png) no-repeat center/cover;
+    width: 17px;
+    height: 17px;
+    display: block;
+    margin: 0px auto;
+}
+#nav_village_pop_win span{
+    background: url(../images/new_village.png) no-repeat center/cover;
+    width: 17px;
+    height: 17px;
+    display: block;
+    margin: 0px auto;
+}
+/* 总览表格 */
+.sub_summary_div, .summary_market, .sub_collect_div,
+.yxzx_div, .info_collect_edit_div{
+    -webkit-border-radius:8px;
+    -moz-border-radius:8px;
+    border-radius:8px;
+    border: 1px solid #1479c0;
+    overflow: hidden;
+}
+span{
+    margin-left: 0;
+}
+#sub_summary_div{
+    padding: 0 20px;
+}
+.sub_summary_div_name{
+    color:#1e7abe;
+    font-size: 28px;
+    line-height: 60px;
+    vertical-align: middle;
+    font-weight: bold;
+    text-align: center;
+}
+.sub_summary_div_name span{
+    position: relative;
+    padding-right: 60px;
+}
+.sub_summary_div_name span:after{
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 50%;
+    width: 41px;
+    height: 22px;
+    margin-top: -10px;
+    background: url(../images/tar_bg1.png) no-repeat center;
+}
+.sub_summary_total_nums {
+    border-bottom: 1px solid #bfbfbf;
+    height: 50px;
+    margin-bottom: 15px;
+    background-color: #d7e6f6;
+    text-align: center;
+}
+.sub_summary_total_nums li {
+    display:inline-block;
+    color:#02225e;
+    font-size: 18px;
+    font-weight: bold;
+    line-height: 50px;
+    margin-left: 20px;
+}
+.sub_summary_total_nums li>span:last-child{
+    color: #b15418;
+    padding-left: 5px
+}
+.sub_summary_tabs{
+    display: flex;
+    width:94%;
+    margin:11px auto 10px auto;
+}
+
+.sub_summary_tabs>div{
+    flex:1;
+}
+.sub_summary_tabs>span{
+    display: block;
+    width: 10px;
+}
+.sub_summary_tabs_title{
+    background: #0066ff;
+    height:14%;
+    line-height: 80px;
+    text-align: center;
+    font-size: 22px;
+    color: #fff;
+    font-weight: bold;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border-radius: 5px 5px 0px 0px;
+}
+
+
+.sub_summary_index_content{
+    border: 1px solid #0066ff;
+    height: 79%;
+    color: #000;
+    padding: 15px 0 10px 15px;
+}
+.sub_summary_index_content ul{
+    margin-bottom: 15px;
+}
+.sub_summary_index_content ul:last-child{
+    margin-bottom: 0;
+}
+.sub_summary_index_content li{
+    display: list-item;
+    height: auto;
+    line-height: 38px;
+    color: #000;
+    font-size: 16px;
+    padding-left: 14px;
+    position: relative;
+}
+
+.sub_summary_tip{
+    margin-top: 11px;
+    font-size: 20px;
+}
+.summary_index_important{
+    font-size: 18px;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    vertical-align: middle;
+}
+.summary_index_important span{
+    color:#B35406;
+}
+.summary_index_clickable{
+    cursor:pointer;
+    color: #1479c0;
+    text-decoration:underline;
+}
+.layui-layer-title{
+    line-height: 60px;
+    height: 60px;
+    font-size: 26px;
+    background-color: #1069c9;
+    font-weight: bold;
+    border-bottom: none;
+}
+.layui-layer-setwin{
+    top: 24px;
+    right: 24px;
+}
+.layui-layer-setwin a{
+    width: 24px;
+    height: 24px;
+}
+.layui-layer.layui-layer-page.layer-anim .layui-layer-setwin .layui-layer-close1{
+    background: url(../images/close.png) no-repeat center/24px;
+}
+/* 市场 */
+/* 统计 */
+.tab_head{
+    border-bottom: 2px solid #68a9d7;
+    padding-left: 10px;
+}
+.tab_head span:hover, .tab_accuracy_head span:hover{
+    color: #ee7008;
+}
+.sub_name{
+    line-height: 60px;
+    vertical-align: middle;
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+}
+.tab_head span{
+    font-weight: bold;
+    position: relative;
+    padding: 0 10px;
+    font-size: 18px;
+}
+.tab_head span:after, .tab_accuracy_head span:after{
+    content: "";
+    position: absolute;
+    right: -2px;
+    top: 15%;
+    height: 80%;
+    width: 2px;
+    background: #000;
+}
+.tab_accuracy_head span:after{
+    right: -1px;
+    width: 1px;
+}
+.tab_head span:last-child:after, .tab_accuracy_head span:last-child:after{
+    width: 0;
+}
+.tab_head .active, .tab_accuracy_head .active{
+    color: #ee7008;
+}
+.summary_content{
+    padding: 0 50px;
+}
+#summary_left{
+    float: left;
+    width: 25%;
+    height: 80%;
+}
+.summary_left_title{
+    font-size: 20px;
+    font-weight: bold;
+    margin: 30px 0 50px;
+}
+.summary_left_cont ul li:nth-child(1){
+    list-style-type: disc;
+}
+.summary_left_cont ul{
+    padding-left: 16px;
+    margin-bottom: 40px;
+}
+.summary_left_title span{
+    font-size: 26px;
+    color: #ee7008;
+}
+.summary_left_top{
+    margin-bottom: 50px;
+}
+.p_date{
+    line-height: 33px;
+    font-size: 20px;
+    color: #000;
+    display: list-item;
+    font-weight: bold;
+}
+.p_date span{
+    font-weight: normal;
+}
+#summary_right{
+    float: left;
+    width: 75%;
+    height: 72%;
+    margin-top: 5%;
+}
+/* 网格 */
+.grid_count_title{
+    font-size: 20px;
+    height: 50px;
+    line-height: 50px;
+    vertical-align: middle;
+    padding-left: 20px;
+}
+.grid_count_title span{
+    color: #000;
+}
+.head_table_wrapper{
+    padding-right: 17px;
+}
+.head_table{
+    width: 100%;
+}
+.head_table tr{
+    background: #1e6ee7;
+    height: 40px;
+    color:#fff;
+    font-weight: bold;
+}
+.head_table tr th{
+    font-size: 14px;
+    border: 1px solid #fff;
+}
+.head_table_sort{
+    cursor: pointer;
+    position: relative;
+    padding-right: 8px;
+}
+table.content_table .head_table_color{
+    color: #ee7008;
+}
+.head_table_sort i{
+    position: absolute;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    top: 13px;
+    background: url(../images/sort.png)no-repeat center/contain;
+}
+.grid_m_tab{
+    height: 372px;
+}
+.village_m_tab{
+    width: 100%;
+}
+/* 小区，楼宇，住户 */
+.resident_wrapper{
+    padding: 20px 0 20px 20px;
+    border-bottom: 2px solid #68a9d7;
+    font-size: 16px;
+    line-height: 30px;
+}
+.resident_wrapper select,
+.collect_new_choice select{
+    margin-left: 20px;
+    margin-right: 80px;
+    width: 153px;
+    height: 24px!important;
+    line-height: 24px!important;
+}
+input{
+    border: 1px solid rgb(221,221,221);
+}
+.resident_wrapper input[type="text"],
+.collect_new_choice input[type="text"]{
+    margin-left: 20px;
+    margin-right: 60px;
+    background: #fff;
+    height: 24px!important;
+    line-height: 24px!important;
+}
+.resident_wrapper span{
+    font-size: 14px;
+}
+.village_m_tab, .build_m_tab{
+    height: 270px;
+    padding-right: 0;
+}
+.village_m_tab2, .build_m_tab2{
+    height: 300px;
+    padding-right: 0;
+    width: 100%;
+}
+.build_m_tab tr td:nth-child(2), .build_m_tab2 tr td:nth-child(2),
+.resident_m_tab tr td:nth-child(2), .info_m_tab tr td:nth-child(2),
+.dispatch_m_tab tr td:nth-child(2){
+    text-align: left;
+}
+table.content_table td, table.content_table td a{
+    font-size: 13px;
+}
+.button_click{
+    padding: 5px 15px;
+    background: #1069c9;
+    -webkit-border-radius:5px;
+    -moz-border-radius:5px;
+    border-radius: 5px;
+    border:none;
+    outline: none;
+    color: #fff;
+}
+.margin_button{
+    margin: 0 40px;
+}
+/* 住户 */
+.house_detail{
+    font-size: 16px;
+}
+.house_detail div{
+    display: inline-block;
+}
+.house_detail div:nth-child(1){
+    margin-right: 50px;
+}
+.house_detail input{
+    margin-left: 5px;
+}
+#resident{
+    margin-bottom: 10px;
+}
+.resident_m_tab{
+    height: 269px;
+}
+#resident_info_list tr td{
+    line-height: 20px;
+}
+/* 资源 */
+.grid_obd_m_tab{
+    height: 262px;
+}
+/* 竞争 */
+.info_village{
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    line-height: 40px;
+    height: 40px;
+    vertical-align: middle;
+    background: #d7e6f6;
+}
+.info_village>span>span{
+    color: red;
+}
+#info_m_tab{
+    height: 289px;
+}
+#collect_new1_table_content{
+    height: 228px;
+}
+.grid_count_title_small{
+    font-size: 16px;
+    padding-left:15px;
+}
+#collect_bselect{
+    margin-left: 50px;
+}
+.small_padding span span{
+    color: red;
+}
+.small_padding .active span{
+    color: #ee7008;
+}
+/* 营销 */
+/* 考核统计 */
+.tab_accuracy_head{
+    height: 40px;
+    line-height: 40px;
+    padding-left: 10px;
+    font-size: 15px;
+    border-bottom: 2px solid #68a9d7;
+}
+.tab_accuracy_head>span{
+    padding: 0 3px;
+    position: relative;
+    cursor: pointer;
+}
+.tab_accuracy_head .active{
+    font-weight: normal;
+}
+.summary_day_head, .summary_month_head2{
+    padding-left: 15px;
+    padding-right: 20px;
+    line-height: 40px;
+    height: 40px;
+    vertical-align: middle;
+    font-weight: bold;
+    font-size: 14px;
+    border-bottom: none;
+}
+.summary_day_head_other{
+    padding-left: 20px;
+}
+.summary_day_head>p>span, .summary_day_head>span,
+.summary_month_head2>p>span{
+    cursor: pointer;
+    font-weight: normal;
+    padding-left: 5px;
+}
+.summary_day_head>p>span, .summary_month_head2>p>span{
+    padding: 0 8px;
+}
+.summary_day_head>p>span:nth-child(1),
+.summary_month_head2>p>span:nth-child(1){
+    padding-left: 30px;
+}
+.summary_day_head .active, .summary_month_head2 .active{
+    color: #ee7008;
+}
+.summary_day_head>p>span:hover, .summary_day_head>span:hover,
+.summary_month_head2>p>span:hover{
+    color: #ee7008;
+}
+.summary_day_left{
+    float: left;
+}
+.summary_day_right{
+    float: right;
+}
+/*#div_all{
+    height: 470px;
+}*/
+#div_all>div:nth-child(1){
+    height: 205px;
+}
+.summary_month__m_tab{
+    height: 230px;
+}
+#div_all table{
+    width: 100%;
+}
+.summary_day_m_tab, .summary_month__m_tab{
+    height: 145px;
+    overflow-y: scroll;
+}
+.summary_month_head p{
+    font-weight: bold;
+    padding-left: 18px;
+}
+/* 当日派单 */
+#dispatch_count{
+    padding-left: 8px;
+    color: #ee7008;
+}
+#dispatch_date{
+    float: right;
+    padding-right: 10px;
+    color: #000;
+}
+.dispatch_m_tab{
+    height: 375px;
+}
+#dispatch_info_list td a,
+#info_collect_info_list tr a:last-child,
+#collect_new_bulid_info_list tr a:last-child{
+    color: #025b9a;
+    text-decoration: underline;
+    cursor: pointer;
+}
+#dispatch_info_list td span,#follow_info_list td span{
+    color: #025b9a;
+    font-weight: bold;
+}
+/* 营销执行 */
+.yxzx_div .layui-layer-title{
+    line-height: 40px;
+    height: 40px;
+    font-size: 20px;
+}
+.yxzx_div .layui-layer-setwin{
+    top: 16px;
+    right: 12px;
+}
+.yxzx_div .layui-layer-setwin a{
+    width: 16px;
+    height: 16px;
+}
+.yxzx_div.layui-layer.layui-layer-page.layer-anim .layui-layer-setwin .layui-layer-close1{
+    background: url(../images/close.png) no-repeat center/16px;
+}
+.yxzx_div .exec_tab_head{
+    padding-left: 0;
+}
+.yxzx_div .market_exe_info{
+    height: auto;
+}
+.yxzx_div .wrap_a{
+    border-left:3px solid #0681d8;
+}
+.market_exe_info input{
+    margin-left:15px;
+}
+.user_messages{
+    margin: 0 20px;
+}
+.user_messages>div{
+    display: inline-block;
+    line-height: 20px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+.user_messages>div:nth-child(odd){
+    width: 36%;
+}
+.user_messages>div:nth-child(even){
+    width: 63%;
+}
+.user_messages>div.user_address{
+    width: 90%;
+}
+.user_messages div div{
+    display: inline-block;
+    width: 80px;
+    font-weight: bold;
+}
+.yxzx_div .exe_user_info{
+    padding-left: 20px;
+}
+.exec_tab_body_wrapper{
+    display: none;
+}
+.exec_tab_body_wrapper .head_table tr {
+    height: 28px;
+}
+.exec_history_list_m_tab{
+    height: 280px;
+}
+.exec_history_list_m_tab table{
+    width: 100%;
+    text-align: center;
+}
+.exec_history_list_m_tab table td{
+    border: 1px solid #c9c9ca;
+}
+/* 跟踪用户 */
+.follow_head{
+    border-bottom: none;
+}
+.follow_head>span{
+    font-weight: normal;
+}
+/* 竞争收集单页面 */
+.collect_new_choice{
+    padding-top: 15px;
+    height: 40px;
+}
+.collect_contain_choice{
+    width: 230px;
+    float: left;
+    position: relative;
+    overflow: visible;
+    font-size: 16px;
+    margin: 0 40px;
+}
+.collect_contain_choice input, .collect_contain_choice select,
+.collect_contain_choice ul{
+    position: absolute;
+    left: 40px;
+    top: 0;
+}
+.collect_contain_choice input[type="text"]{
+    z-index:3;
+    border-right: 0;
+    width: 135px;
+}
+.collect_contain_choice ul{
+    top: 24px;
+    left: 40px;
+    width: 304px;
+    max-height: 100px;
+    overflow-y: scroll;
+    border:1px solid #7b9dd4;
+    overflow-x: hidden;
+    display: none;
+    background: #fff;
+    z-index:1;
+    width:92%;
+}
+.collect_contain_choice ul::-webkit-scrollbar{
+    width: 0;
+}
+.collect_contain_choice ul li{
+    display: list-item;
+    background: #fff;
+    color: #666;
+    line-height: 20px;
+    height: 20px;
+    font-size: 12px;
+    vertical-align: middle;
+    padding-left: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: default;
+}
+.collect_contain_choice ul li:hover{
+    background: #1e90ff;
+    color: #fff;
+}
+.collect_new_state_wrapper{
+    padding-left: 5px;
+    margin-right: 18px;
+}
+.collect_new_state_wrapper div{
+    display: inline-block;
+    font-size: 16px;
+}
+.collect_new_state_wrapper div span{
+    font-size: 14px;
+}
+.grid_count_other{
+    padding-left: 15px;
+}
+#collect_new_table_content,#collect_new_table_content1{
+    height: 200px;
+}
+.info_collect_win_new{
+    width: 100%;
+    height: 100%;
+}
+.info_collect_win_new iframe{
+    border: none;
+}
+/* 存量维系 */
+/* 网格 */
+#stock_grid_table_content{
+    height: 375px;
+}
+/* 小区、楼宇 */
+#stock_village_table_content,
+#stock_build_table_content{
+    height: 300px;
+}
+/* 小区编辑 */
+.layui-layer{
+    background: #fff;
+}
+.layui-layer.layui-layer-msg{
+    background: rgba(0,0,0,.7);
+}
+.nav_query_table.layui-layer{
+    background: #fff;
+}
+.tab_menu{
+    position: relative;
+}
+.exec_tab_head .active{
+    font-weight: bold;
+}
+.tab_menu:before{
+    content: "";
+    width: 3px;
+    height: 20px;
+    background: #ffa22e;
+    position: absolute;
+    left: 0;
+    top: 3px;
+}
+#buildInVillage_review_win .wrap_a,
+#buildInVillage_review_win_edit_new .wrap_a{
+    color: #ffa22e;
+    font-size: 14px;
+    margin-top: 10px;
+    margin-bottom: 5px!important;
+    border-left: 3px solid #ffa22e;
+}
+#buildInVillage_review_win .base1 span,
+#buildInVillage_review_win_edit_new .base1 span{
+    margin-right: 0;
+}
+#buildInVillage_review_win .base1 .jx,
+#buildInVillage_review_win_edit_new .base1 .jx{
+    margin-right: 40px;
+}
+#execute_win .wrap_a{
+    margin-bottom: 10px!important;
+    margin-left: 10px;
+}
+.wrap_a span.selected{
+    color: #ffa22e;
+    font-weight: bold;
+}
+#buildInVillage_review_win_edit_new .target_a {
+    height: auto;
+    overflow: hidden;
+    width: 95%;
+    margin: 2px 0px 0px 10px;
+}
+#buildInVillage_review_win,
+#buildInVillage_review_win_edit_new{
+    width: 682px;
+    height: 595px;
+    margin-top: -400px;
+    margin-left: -250px;
+}
+#buildInVillage_review_win .base1, .base1,
+#buildInVillage_review_win_edit_new .base1{
+    height: auto;
+}
+.message_cont{
+    display: flex;
+}
+.message_cont>div{
+    flex: 1;
+}
+.message_cont>div:nth-child(3){
+    flex: 1.2;
+}
+.jx input{
+    margin-left: 10px;
+}
+#xqrzl{
+    height: 24px!important;
+}
+#buildInVillage_review_win select,
+#buildInVillage_review_win_edit_new select{
+    height: 24px!important;
+    line-height: 24px!important;
+    font-size: 12px;
+}
+#buildInVillage_review_win .build_village_layout,
+#buildInVillage_review_win_edit_new .build_village_layout{
+    height: 202px;
+}
+/* 导航栏小区 */
+#v_village_name{
+    font-size: 12px;
+    height: 26px !important;
+    line-height: 26px!important;
+    width: 170px;
+    background: #fff;
+}
+.list_select{
+    width: 170px;
+}
+/* 滚动条样式问题 */
+.t_table::-webkit-scrollbar{
+    width: 17px;
+}
+/*
+.t_table::-webkit-scrollbar-track,
+.t_table::-webkit-scrollbar-thumb,
+.exec_tab_body::-webkit-scrollbar-track,
+.exec_tab_body::-webkit-scrollbar-thumb{
+    border: none;
+}
+.t_table::-webkit-scrollbar-thumb,
+.exec_tab_body::-webkit-scrollbar-thumb{
+    background: #999;
+}*/
+@media screen and (max-height: 800px){
+    div.a1{
+        top: 4px;
+        right: 38%;
+    }
+    .sub_summary_div_name{
+        font-size: 20px;
+        line-height: 45px;
+        height: 45px;
+    }
+    .layui-layer-title{
+        font-size: 14px;
+        height: 36px;
+        line-height: 36px;
+    }
+    .sub_summary_total_nums{
+        height: 34px;
+        margin-bottom: 10px;
+    }
+    .sub_summary_total_nums li{
+        line-height: 34px;
+        font-size: 14px;
+    }
+    .sub_summary_tabs_title{
+        font-size: 18px;
+        height: 14%;
+        line-height: 52px;
+        margin-bottom: 0px;
+        font-weight:bold;
+    }
+    .sub_summary_index_content{
+        padding: 0px;
+        height: 79%;
+    }
+    .sub_summary_index_content ul{
+        width:90%;
+        margin:0px auto 10px 0px;
+        font-size:13px;
+
+    }
+    .sub_summary_index_content li{
+        line-height: 20px;
+        font-size: 12px;
+        padding-left: 10px;
+    }
+    .summary_index_important{
+        font-size: 12px;
+        height: 35px;
+        line-height: 35px;
+    }
+    .sub_summary_tip{
+        font-size: 12px;
+        margin-top: 4px;
+    }
+    .layui-layer-setwin{
+        top: 15px;
+        right: 15px;
+    }
+    .layui-layer-setwin a{
+        width: 16px;
+        height: 16px;
+    }
+    .layui-layer.layui-layer-page.layer-anim .layui-layer-setwin .layui-layer-close1{
+        background: url(../images/close.png) no-repeat center/14px;
+    }
+    /* 市场 */
+    /* 统计 */
+    .sub_name{
+        line-height: 30px;
+        font-size: 15px;
+    }
+    .tab_head span{
+        font-size: 14px;
+        padding: 0 4px;
+        cursor: pointer;
+    }
+    .summary_content{
+        padding: 0 20px;
+    }
+    .summary_day_head, .summary_month_head2{
+        padding-left: 15px;
+        padding-right: 15px;
+        font-size: 12px;
+        line-height: 34px;
+        height: 34px;
+    }
+    .summary_day_head>span{
+        padding-right: 10px;
+    }
+    .summary_left_title{
+        font-size: 15px;
+        margin: 20px 0 25px;
+    }
+    .summary_left_title span{
+        font-size: 18px;
+    }
+    .summary_left_top{
+        margin-bottom: 25px;
+    }
+    .p_date{
+        line-height: 25px;
+        font-size: 14px;
+    }
+    .summary_left_cont ul{
+        margin-bottom: 20px;
+    }
+    /* 网格 */
+    .grid_count_title{
+        font-size: 14px;
+        height: 36px;
+        line-height: 36px;
+        padding-left: 15px;
+    }
+    .head_table tr{
+        height: 30px;
+    }
+    .head_table tr th{
+        font-size: 12px;
+        font-weight: bold;
+    }
+    .head_table_sort i{
+        height: 10px;
+        width: 10px;
+        top: 9px;
+    }
+    .grid_m_tab{
+        height: 260px;
+    }
+    /* 小区，楼宇，住户 */
+    .resident_wrapper{
+        padding: 10px 0 10px 15px;
+        font-size: 14px;
+        line-height:26px;
+    }
+    .resident_wrapper select,.collect_new_choice select{
+        margin-right: 20px;
+        margin-left: 0;
+        height: 20px!important;
+        line-height: 20px!important;
+    }
+    .resident_wrapper input[type="text"],
+    .collect_new_choice input[type="text"]{
+        margin-right: 20px;
+        margin-left: 0;
+        height: 20px!important;
+        line-height: 20px!important;
+    }
+    .village_m_tab, .build_m_tab{
+        height: 169px;
+    }
+    .village_m_tab2, .build_m_tab2{
+        height: 197px;
+    }
+    table.content_table td, table.content_table td a{
+        font-size: 12px;
+        line-height: 20px;
+    }
+    /* 住户 */
+    #resident{
+        margin-bottom: 0;
+    }
+    .house_detail{
+        font-size: 14px;
+        margin-right: 25px;
+    }
+    .resident_m_tab{
+        height: 169px;
+    }
+    /* 资源 */
+    .grid_obd_m_tab{
+        height: '';
+    }
+    /* 竞争 */
+    .info_village{
+        line-height:30px;
+        height:30px;
+        font-size: 13px;
+    }
+    #info_m_tab{
+        height: 169px;
+    }
+    #collect_new1_table_content{
+        height: 140px;
+    }
+    #collect_bselect{
+        margin-left: 15px;
+    }
+    .margin_button{
+        margin: 0 20px;
+    }
+    /* 营销 */
+    /* 考核统计 */
+    .tab_accuracy_head{
+        height: 28px;
+        line-height: 28px;
+        padding-left: 0px;
+        font-size: 12px;
+        margin-top:2px;
+    }
+    .tab_accuracy_other span:nth-child(1){
+        padding-left: 5px;
+    }
+    .summary_month_head p{
+        font-size: 12px;
+    }
+    .summary_day_m_tab, .summary_month__m_tab{
+        height: 100px;
+    }
+    #div_all>div:nth-child(1){
+        height: 130px;
+    }
+    .marketing_day_record tr:nth-child(1) td{
+        background: #fffec9;
+    }
+    /* 当日派单 */
+    .dispatch_m_tab{
+        height: '';
+    }
+    .dispatch_head{
+        font-size: 12px;
+    }
+    /* 营销执行 */
+    #buildInVillage_review_win,
+    #buildInVillage_review_win_edit_new{
+        height: 500px;
+        margin-top: -341px;
+    }
+    .tab_menu:before{
+        top: 0;
+    }
+    #execute_win .wrap_a{
+        margin-bottom: 5px!important;
+    }
+    #buildInVillage_review_win .build_village_layout,
+    #buildInVillage_review_win_edit_new .build_village_layout{
+        height: 117px;
+    }
+    .yxzx_div .layui-layer-title{
+        line-height: 30px;
+        height: 30px;
+        font-size: 14px;
+    }
+    .yxzx_div .layui-layer-setwin{
+        top: 12px;
+    }
+    .exec_history_list_m_tab{
+        height: 260px;
+    }
+    /* 跟踪用户 */
+    .follow_m_tab{
+        height: 270px;
+    }
+    /* 成功用户 */
+    .succ_m_tab{
+        height: 260px;
+    }
+    /* 竞争收集单页 */
+    .collect_new_choice{
+        height: 24px;
+        padding-top: 2px;
+    }
+    .collect_contain_choice{
+        width: 205px;
+        font-size: 12px;
+        margin: 0 0px;
+    }
+    .collect_new_state_wrapper div{
+        font-size: 14px;
+    }
+    .collect_new_state_wrapper div span{
+        font-size: 12px;
+    }
+    #collect_new_table_content,collect_new_table_content1{
+        height: 166px;
+    }
+    .grid_count_other{
+        padding-left: 20px;
+    }
+    .small_padding>span{
+        padding: 0 3px;
+    }
+    /* 存量维系 */
+    #stock_grid_table_content{
+        height: 260px;
+    }
+    /* 小区、楼宇 */
+    #stock_village_table_content,
+    #stock_build_table_content{
+        height: 210px;
+    }
+}
+
+/* 楼宇表格问题 */
+.tab_box .deve_ta, .tab_box .deve_tb{
+    border: 1px solid #ccc;
+    height: 60px;
+}
+.competition .quota{
+    color: #000;
+}
+#village_info_win .tab_menu{
+    margin: 5px 0 5px 3px!important;
+}
+@media screen and (min-height: 800px){
+    #village_info_win{
+        height: 495px;
+    }
+    /*.tab_box .deve_ta, .tab_box .deve_tb{
+        height: 60px;
+    }*/
+    #village_info_win .village_new_base .deve_ta.info_base{
+        height: 70px;
+        padding-top: 20px;
+    }
+    #village_info_win .village_new_base .deve_tb.info_base{
+        height: 70px;
+        padding-top: 6px;
+        width: 81.8%;
+    }
+    #village_info_win .quota{
+        margin-top: 0;
+    }
+    #village_info_win .deve_ta{
+        height: 60px;
+        margin: 0 5px 16px 7px;
+    }
+    #village_info_win .info_base{
+        height: 70px;
+    }
+    #village_info_win .deve_tb{
+        width: 81.8%;
+    }
+}
+
+/* 新页面-网格信息 */
+.sub_summary_div_name .wgtb:after{
+    background: url(../images/tar_bg2.png) no-repeat center;
+}
+
+.village_summary_percent {width:100%;height:57px;border-bottom:solid 1px #0066ff;}
+.village_summary_percent_num {
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fe6c00;
+    line-height:36px;
+}
+
+.sub_summary_tabs ul li,.sub_summary_tabs ul {list-style: none;}
+.sub_summary_tabs.tabs_suvery ul{
+    width:82%;
+    margin:3px auto 0px 3px;
+    font-size:13px;
+}
+.resident_wrapper select, .collect_new_choice select {margin-right: 20px;
+    margin-left: 0;
+    height: 24px!important;
+    line-height: 24px!important;}
+#collect_new_build_list4,#collect_new_build_name4 {height:24px;line-height:24px;}
+.tab_accuracy_head.follow_head small_padding {margin-top:6px;}
+.collect_new_choice input[type=text]{background: #fff;}
+.tab_accuracy_head {height:24px!important;line-height: 24px!important;}
+.resident_wrapper input[type="text"], .collect_new_choice input[type="text"] {height:22px!important;line-height: 24px!important;}
+#build_obd_m_tab2 {height:240px;}
+.village_m_tab7.yhzt_exec_tab_body {height:56%;}
+.yhzt_exec_tab_body table tr td:first-child {width:40px!important;}
+.yhzt_exec_tab_body table tr td:nth-child(2) {width:350px!important;}
+.yhzt_exec_tab_body table tr td:nth-child(3) {width:140px!important;text-align: left;padding-left: 10px;}
+.yhzt_exec_tab_body table tr td:nth-child(4) {width:100px!important;}
+.yhzt_exec_tab_body table tr td:nth-child(5) {width:100px!important;}
+.yhzt_exec_tab_body table tr td:nth-child(6) {width:100px!important;}
+
+/*2018-06-22 by shenruijie*/
+.grid_obd_m_tab {height:58%;}
+.dispatch_m_tab {height:58%;}
+
+/*2018-12-10 大屏工作台兼容性*/
+@media screen and (min-width:1500px)  {
+    .resident_wrapper select, .collect_new_choice select {height:30px!important;line-height:30px!important;font-size:14px!important;}
+}
+
+/*兼容1440x900分辨率   2018-12-23 by shenruijie*/
+@media screen and (min-height:540px) and (max-height: 660px){
+    .sub_summary_tabs.tabs_suvery ul {margin-top:12px;}
+    .sub_summary_index_content li {width:90%;margin-left:6%;font-size:13px;line-height: 28px;}
+    .desk_tab {height:67%!important;}
+    #collect_new_table_content{height:67%!important;}
+    .grid_obd_m_tab {height:67%!important;}
+    .dispatch_m_tab {height:67%!important;}
+    .yhzt_exec_tab_body {height:67%!important;}
+    .sub_summary_index_content {height:85%!important;}
+    .sub_summary_tabs_title {line-height: 60px;}
+    .village_summary_percent_num {line-height: 42px;}
+    .village_summary_percent {height:70px;}
+
+}

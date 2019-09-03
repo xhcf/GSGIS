@@ -1,0 +1,813 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="e" uri="http://www.bonc.com.cn/easy/taglib/e"%>
+<%@ taglib prefix="c" uri="http://www.bonc.com.cn/easy/taglib/c"%>
+<e:q4o var="last_month">
+    select to_char(last_day(add_months(sysdate,-1)),'yyyymm') val from dual
+</e:q4o>
+<e:set var="initTime">${last_month.VAL}</e:set>
+<e:q4o var="acctDayobj">
+    select to_char(to_date(const_value,'yyyymmdd'),'yyyy-mm-dd') ACCT_DAY from easy_data.sys_const_table where const_type = 'var.dss31' AND data_type = 'day' AND model_id = '16'
+</e:q4o>
+<e:set var="initDay">${acctDayobj.ACCT_DAY}</e:set>
+<e:description>划小组织机构</e:description>
+<e:description>地市</e:description>
+<e:q4l var="areaList">
+    SELECT T.latn_id CODE, T.latn_name TEXT,city_order_num FROM ${gis_user}.db_cde_grid T
+    WHERE T.latn_id IS NOT NULL
+    and t.branch_type='b1'
+    <e:if condition="${param.city_id !=null && param.city_id ne ''}">
+        and T.latn_id = '${param.city_id}'
+    </e:if>
+    group by T.latn_id, T.latn_name,city_order_num
+    ORDER BY city_order_num
+</e:q4l>
+
+<e:description>区县</e:description>
+<e:q4l var="cityList">
+    SELECT T.latn_id PID, T.bureau_no CODE, T.bureau_name TEXT,t.region_order_num FROM ${gis_user}.db_cde_grid T
+    WHERE T.latn_id IS NOT NULL
+    and t.branch_type='b1'
+    <e:if condition="${param.bureau_id !=null && param.bureau_id ne ''}">
+        and T.latn_id = '${param.city_id}'
+        and T.bureau_no = '${param.bureau_id}'
+    </e:if>
+    group by T.latn_id,T.bureau_no,T.bureau_name,t.region_order_num
+    ORDER BY T.region_order_num
+</e:q4l>
+
+<e:description>支局</e:description>
+<e:q4l var="centerList">
+    SELECT T.bureau_no PID, T.branch_no CODE, T.branch_name TEXT FROM ${gis_user}.db_cde_grid T
+    WHERE T.union_org_code IS NOT NULL
+    and t.branch_type='b1'
+    <e:if condition="${param.branch_id !=null && param.branch_id ne ''}">
+        and T.latn_id = '${param.city_id}'
+        and T.bureau_no = '${param.bureau_id}'
+        and T.union_org_code = '${param.branch_id}'
+    </e:if>
+    group by T.bureau_no, T.branch_no, T.branch_name
+    ORDER BY T.branch_no
+</e:q4l>
+
+<e:description>网格</e:description>
+<e:q4l var="gridList">
+    SELECT T.branch_no PID, T.grid_id CODE, T.grid_name TEXT FROM ${gis_user}.db_cde_grid T
+    WHERE T.grid_id IS NOT NULL
+    and t.branch_type='b1' and t.grid_union_org_code is not null
+    <e:if condition="${param.grid_id !=null && param.grid_id ne ''}">
+        and T.latn_id = '${param.city_id}'
+        and T.bureau_no = '${param.bureau_id}'
+        and T.branch_no = '${param.branch_id}'
+        and T.grid_id = '${param.grid_id}'
+    </e:if>
+    group by t.branch_no,t.grid_id,t.grid_name
+    ORDER BY T.grid_id
+</e:q4l>
+
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>渠道份额统计</title>
+    <script src='<e:url value="/resources/component/echarts_new/echarts/js/jquery-1.7.2.min.js"/>'></script>
+    <e:script value="/resources/layer/layer.js"/>
+    <c:resources type="easyui" style="b"/>
+    <link href='<e:url value="/resources/themes/common/css/reset.css"/>' rel="stylesheet" type="text/css" media="all" />
+    <script src='<e:url value="/resources/component/echarts_new/echarts/js/echarts.min.js"/>'></script><!-- echarts 3.2.3 -->
+    <script src='<e:url value="/pages/telecom_Index/common/js/js_constant.js"/>' charset="utf-8"></script>
+    <script src='<e:url value="/pages/telecom_Index/common/js/getTableRowSizeByScreen.js"/>' charset="utf-8"></script>
+    <%--秦智宏：新加下拉框js--%>
+    <script src='<e:url value="resources/app/areaSelect.js"/>' charset="utf-8"></script>
+    <link href='<e:url value="/pages/telecom_Index/channel_sandtable/css/viewPlane_table.css?version=New Date()"/>' rel="stylesheet" type="text/css"
+          media="all"/>
+    <link href='<e:url value="/pages/telecom_Index/channel_sandtable/css/lead_tab.css?version=New Date()" />'  rel="stylesheet" type="text/css"
+          media="all">
+    
+    <script src='<e:url value="/pages/telecom_Index/channel_leader/js/dataFormat.js?version=New Date()"/>' charset="utf-8"></script>
+    <link href='<e:url value="/pages/telecom_Index/common/css/big_tab_option.css?version=New Date()" />'  rel="stylesheet" type="text/css" media="all">
+    <style>
+        #tools{height:95%;}
+        #query_div{width:120px;height:47px;padding:0;position:absolute;display:none;}
+        #query_div div{float:left;line-height:29px;color:#fff;cursor:pointer;padding-left:0px;}
+        .ico{width:17px;height:17px;margin-right:7px;margin-top: -20px;}
+        #query_div span{height:18px;line-height:18px;width:30px;font-size:12px;display:inline-block;margin-top:2px;}
+        @media screen and (max-height: 1080px){
+            .search{width:97.5%;margin:0px auto;left:0px;position:relative;top:0px;margin-bottom:18px;}
+            .backup{right:1.4%;top:2.5%;}
+            .tab_box{margin-top:18px;}
+        }
+        @media screen and (max-height: 768px){
+            .search{width:97.5%;margin:0px auto;left:0px;position:relative;top:0px;}
+            .tab_box{margin-top:7px;}
+        }
+        .datagrid-header {height:auto;line-height:auto;}
+        .bureau_select a {display: block;
+            float: left;
+            margin-right: 20px;width:auto;}
+        .bureau_select a.selected {background-color: #ff8a00;
+            width: auto;
+            height: auto;
+            text-align: center;
+            border-radius: 4px;
+            color: #fff;
+        }
+        #tab_div .table1 tr td{
+            width: 80px;
+        }
+        .search{
+            background: #043572;
+            width: 100%;
+            color: #fff;
+            border: 1px solid #1851a9;
+        }
+        .search a{
+
+        }
+        #village_count{
+            font-size:12px;
+            padding-top:2px;
+        }
+        #village_count span{
+            color:#f00;
+        }
+        .sub_b {
+            border-left: 0px solid #aaa;
+            border-right: 0px solid #aaa;
+        }
+        .text-left{
+            text-align:left!important;
+        }
+        .text-center{
+            text-align:center!important;
+        }
+        .text-right{
+            text-align:right!important;
+            padding-right:15px!important;
+        }
+        /*.slt_select,.fgl_select{display:inline-block;}
+        .fgl_select{margin-left:30px;}*/
+        .table1 tr:nth-child(1) td{background:none;}
+        .important td{color:#fa8513!important;}
+        #table_head,#big_tab_info_list{border-color:#aaa;}
+
+        .table1, .table1 th, .table1 td{
+            border-color:#092e67;
+        }
+        #table_head, #big_tab_info_list tr td:last-child {padding-right: 0px;}
+        /*.long_message{
+            display: block;
+            text-overflow:ellipsis;
+            overflow:hidden;
+            white-space:nowrap;
+        }*/
+        .area_select_bq span{
+            display: block;
+            width: auto;
+            height: 20px;
+            line-height: 20px;
+            padding: 0px 0px;
+            border-radius: 3px;
+            background: none!important;
+            margin-left: 5px;
+        }
+        .search_head{
+            width:80px;
+            text-align:center;
+            font-weight:bold;
+        }
+        .search_head span {
+            background:none;
+            text-align:right;
+            display:inline-block;
+            font-weight:bold;
+        }
+        .textbox,.textbox-text{background:none!important;border:0px;}
+
+        /*2018.9.21 新样式*/
+        .text-important {color:#00FFFF!important;}
+        .text-important-a {color:#4CB9F9!important;}
+        .area_select_bq a.selected, .line_select_bq a.selected{
+            color:#FFCC33;
+        }
+        /*数据列表表头*/
+        #table_head th, #big_table_content th{background:none;}
+        #table_head thead tr th{
+            border:1px solid #333399;
+            border-bottom-color:transparent;
+        }
+        /*数据列表表体*/
+        .table1 td {border:1px solid #333366;}
+
+        /*本页标题*/
+        .sub_box .big_table_title {height:28px;}
+        .sub_box .big_table_title h4 {font-size:20px;}
+        .select_width {width:100%;color:#aaa;}
+        #big_table_info_div {overflow-y: scroll;}
+        /*记录数*/
+        .rows_num {height:32px;line-height:32px;}
+        /*表头内边框填补*/
+        .border_fix {border-bottom-color:#333399!important;}
+        /*表格背景*/
+        .sub_box {background: none;}
+        .sub_b {margin-top:5px;}
+        /*去除表格边框*/
+        .table1 {border:none;}
+        /*标签页选中效果*/
+        .inner_tab .active, .inner_tab span:hover {color:#FFCC33;}
+
+        .panel-body {
+            background:white;
+            border: none;
+            font-family: 微软雅黑;
+        }
+        .databox_ {margin-left:28px;}
+
+        input {color:#fff;}
+        .databox_ .textbox.combo.datebox {margin-top:7px;}
+        .textbox.combo.datebox {border:1px solid #3E4997;}
+        .search a{margin:0px;}
+        .textbox.combo {border:1px solid #3E4997;}
+        .all_count {left:5px!important;height:22px!important;position:relative;top:0px;}
+        .tab_scroll_x {width:100%;height:auto;overflow-x: scroll;overflow-y: hidden;border-right:solid 1px #092e67;}
+        
+        .combobox-item, .combobox-group, .combobox-stick {padding:2px 3px!important;font-size:13px;}
+        .textbox .textbox-text {font-size:13px;}
+        .l-btn-text {line-height:26px;}
+
+        #areaNo,#cityNo,#centerNo,#gridNo {width:100%;}
+
+        /*表格样式*/
+
+        .tab_head1 {width:1920px;}
+        .tab_head1 tr:first-child th:first-child {width:2%!important;}
+        /*.tab_head1 tr:first-child th:nth-child(2) {width:12%!important;}*/
+
+        /*.tab_head1 tr:first-child th:nth-child(3) {width:5%!important;} 网点总数 列*/
+
+        /*.tab_head1 tr:first-child th:nth-child(5) {width:28%!important;}
+        .tab_head1 tr:first-child th:nth-child(6) {width:28%!important;}
+        .tab_head1 tr:first-child th:nth-child(7) {width:28%!important;}*/
+        .index_row1 {width:28%;}
+        .index_row2_item1 {width:5%;}
+        .index_row2_item2 {width:7%;}
+        .index_row2_item3 {width:4%;}
+        .index_row2_item4 {width:4%;}
+        .index_row2_item5 {width:4%;}
+        .index_row2_item6 {width:4%;}
+
+        .t_body {width:1920px;}
+        .tab_comm {width:1920px;}
+        .tab_comm tr td:first-child {width:2%!important;color:#fff!important;}/*text-align:center;*/
+
+
+        /*查询区 名称 下拉框*/
+        .search_head div {display:inline-block;}
+        .search_title {width:9%;}
+        .search_component {text-align:left;}
+        /*组织机构控件样式*/
+        .div2_hx,.div2,.div3_hx,.div3,.div4_hx,.div4,.div5_hx {width:20%;}
+        #org_hx_sel_1,#org_hx_sel_2,#org_hx_sel_3,#org_hx_sel_4,
+        #org_sel_1,#org_sel_2,#org_sel_3 {width:75%;}
+
+        .left {position:relative;line-height:30px;top:0px;}
+
+        /*划小 行政 切换开关 按钮样式 切换按钮*/
+        .swith_btn{background:#003399 ; position: absolute; right:15px; top:50px; width: 120px; height: 22px; line-height: 22px; border-radius: 20px;}
+        .swith_btn span{cursor: pointer; width: 56%;text-align: center; color:#fff;display: block; position: absolute;height: 22px; line-height: 22px; border-radius: 20px;}
+        .s_fl{left: 0;}
+        .s_fr{right: 0;}
+        .swith_btn .now{background:#00ccff!important;}
+        
+        /*默认隐藏县局、支局*/
+        .org_name {width:12%;}
+        .org_name1 {width:4%;}
+        .org_name2 {width:8%;}
+        
+        /*表格样式*/
+        .tab_head1 tr th{
+        	padding: 0;
+			    text-align: center;
+			    border-color: #333399;
+    			line-height: 28px!important;
+    			background: none;
+    			color: #fff;
+        }
+        .tab_comm tr td{
+			    border: 1px solid #092e67;
+			    color: #fff;
+			    line-height: 18px;
+			    text-align: center;
+			    height: 26px;
+			    font-size: 12px;	
+        }
+        .orange {color:#ee7008!important;}
+        .area_select a{margin-right:15px!important;font-size:13px!important;color:#f7e1e1!important;}
+        
+        #resident_detail_list0 tr:nth-child(2) td:nth-child(2){width:3%!important;}
+        @media screen and (max-width: 1920px){
+            .tab_scroll_x{height:81%;}
+        }
+        @media screen and (max-width: 1366px){
+            .tab_scroll_x{height:73%;}
+        }
+        
+        #import_tab tr th{line-height:28px;}
+        #resident_detail_list0 tr th{line-height:28px;}
+        
+        /* 表格字体颜色#f7e1e1 灰白 */
+        #import_tab tr th,#resident_detail_list0 tr td,.search td,#beginDate,.big_table_title h4,.all_count,.textbox .textbox-text{color:#f7e1e1!important;}
+        #import_tab tr th,#resident_detail_list0 tr td{line-height:28px;}
+        
+        @media screen and (max-height: 1080px){
+            .t_body{height:80%;}
+        }
+        @media screen and (max-height: 768px){
+            .t_body{height:90%;}
+        }
+    </style>
+</head>
+<body>
+<div class="sub_box grab_tab">
+    <div class="close_button" id="closeTab"></div>
+    <div style="height:98%;width:100%;margin:0.3% auto;" id="tab_div">
+        <div class="big_table_title"><h4>渠&nbsp;道&nbsp;份&nbsp;额&nbsp;统&nbsp;计</h4></div>
+
+        <table cellspacing="0" cellpadding="0" class="search" style="background:transparent!important;">
+            <tr style="height: 40px;">
+                <td class="search_head"><span>账&nbsp;&nbsp;&nbsp;期：</span></td>
+                <td>
+                    <div style="color:#FFFFFF; width:230px;">
+                        <span style ="font-weight:700;font-size:14px;"></span>
+                        <!-- <input id="accDate" type="text" style="color:#ffffff; width:120px;height:28px;line-height:28px;"/> -->
+                    	<c:datebox required='false' format='yyyy-mm-dd' name='acct_day' id='acct_day'  defaultValue='${initDay}'/>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 40px;">
+                <td class="search_head"><span>分公司:</span></td>
+                <td class="area_select">
+                    <a href="javascript:void(0)" onclick="citySwitch(999)">全省</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(931)">兰州</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(938)">天水</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(943)">白银</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(937)">酒泉</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(936)">张掖</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(935)">武威</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(945)">金昌</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(947)">嘉峪关</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(932)">定西</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(933)">平凉</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(934)">庆阳</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(939)">陇南</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(941)">甘南</a>
+                    <a href="javascript:void(0)" onclick="citySwitch(930)">临夏</a>
+                </td>
+            </tr>
+        </table>
+        <table cellspacing="0" cellpadding="0" class="search" style="border:none;background: none;display:none;">
+            <tr><td class="search_head">网点数:</td>
+                <td id="village_count" style="border-right:none;">
+
+                </td>
+            </tr>
+        </table>
+        <div class="tab_box table_cont_wrapper">
+            <div class="sub_">
+                <div class="sub_b">
+                    <div class="all_count" style="font-size:13px;">总记录数：<span id="all_count">0</span></div>
+                    <e:if condition="${!empty sessionScope.UserInfo.CAN_DOWNLOAD_PERMISSIONS && sessionScope.UserInfo.LEVEL eq '1'}">
+                        <%--<div class="download_btn" id ="download_div"><a href="javascript:doExcel()"><span style ="color:#FFFFFF;">报表导出</span></a></div>--%>
+                    </e:if>
+                    <div class="tab_scroll_x" style="">
+                        <div id="big_table_content">
+                            <div id="big_table_content_0" style="margin-right: 14px;display:block;">
+                                <table cellspacing="0" cellpadding="0" class="table1 tab_head1" id="import_tab">
+                                    <thead>
+                                        <tr>
+                                            <th rowspan="2" style='width:2%'>序号</th>
+                                            <th rowspan="2" id="org1" style='width:3%'>分公司</th>
+                                            <th rowspan="2" id="org2" style='width:6%'>县局</th>
+                                            <!--<th rowspan="2">网点总数</th>-->
+                                            <th colspan="6" class="index_row1">电信网点</th>
+                                            <th colspan="6" class="index_row1">移动网点</th>
+                                            <th colspan="6" class="index_row1">联通网点</th>
+                                        </tr>
+                                        <tr>
+                                            <!--电信-->
+                                            <th class="index_row2_item1" style='width:3%'>网点数量</th>
+                                            <th class="index_row2_item2" style='width:3%'>网点份额</th>
+                                            <th class="index_row2_item3" style='width:3%'>核心厅店</th>
+                                            <th class="index_row2_item4" style='width:3%'>城市商圈</th>
+                                            <th class="index_row2_item5" style='width:3%'>城市社区</th>
+                                            <th class="index_row2_item6" style='width:3%'>农村乡镇</th>
+
+                                            <!--移动-->
+                                            <th class="index_row2_item1" style='width:3%'>网点数量</th>
+                                            <th class="index_row2_item2" style='width:3%'>网点份额</th>
+                                            <th class="index_row2_item3" style='width:3%'>核心厅店</th>
+                                            <th class="index_row2_item4" style='width:3%'>城市商圈</th>
+                                            <th class="index_row2_item5" style='width:3%'>城市社区</th>
+                                            <th class="index_row2_item6" style='width:3%'>农村乡镇</th>
+
+                                            <!--联通-->
+                                            <th class="index_row2_item1" style='width:3%'>网点数量</th>
+                                            <th class="index_row2_item2" style='width:3%'>网点份额</th>
+                                            <th class="index_row2_item3" style='width:3%'>核心厅店</th>
+                                            <th class="index_row2_item4" style='width:3%'>城市商圈</th>
+                                            <th class="index_row2_item5" style='width:3%'>城市社区</th>
+                                            <th class="index_row2_item6" style='width:3%'>农村乡镇</th>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="t_body" style="overflow-y:scroll;display:block;">
+                            <table cellspacing="0" cellpadding="0" class="tab_comm">
+                                <tbody id="resident_detail_list0" class="zd">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var user_level = '${sessionScope.UserInfo.LEVEL}';
+    var roleName='';
+
+    var sql_url = '<e:url value="pages/telecom_Index/channel_sandtable/bigTab/tab_channel_count_tabData.jsp" />';
+    var seq_num = 0, begin_scroll = 0, page = 0, eaction = "list";
+    var acct_day = '${initDay}'.replace(/-/g,"");
+    var city_id_temp = '${param.city_id}';
+    var bureau_id_temp = '${param.bureau_id}';
+
+    if(city_id_temp==""){
+        city_id_temp ='999';
+    }
+
+    var init_tab_height = 0;
+
+    var table_rows_array = "";
+    var table_rows_array_small_screen = [25,35,45];
+    var table_rows_array_big_screen = [35,45,55];
+
+    if(window.screen.height<=768){
+        table_rows_array = table_rows_array_small_screen;
+    }else{
+        table_rows_array = table_rows_array_big_screen;
+    }
+
+    var areaJSON=${e:java2json(areaList.list)};
+    var cityJSON = ${e:java2json(cityList.list)};
+
+    function initAreaSelect() {
+        if(user_level=='1'){
+            roleName='all';
+        }
+        if(user_level=='2'){
+            roleName='areaValue';
+        }
+        if(user_level=='3'){
+            roleName='cityValue';
+        }
+        //区域控制 js 加载
+        var areaSelect=new AreaSelect();
+        areaSelect.areaJSON=areaJSON;
+        areaSelect.cityJSON=cityJSON;
+        areaSelect.areaName='org_hx_sel_1';
+        areaSelect.cityName='org_hx_sel_2';
+        areaSelect.isDivDis=false;
+        areaSelect.isNoDis=true;
+        areaSelect.role=roleName;
+        areaSelect.area='${sessionScope.UserInfo.AREA_NO}';
+        areaSelect.city='${sessionScope.UserInfo.CITY_NO}';
+        areaSelect.initAreaSelect();
+        $('.combo-panel,.panel-body,.panel-body-noheader').each(function(i){
+            $(this).css("background","#fff");
+        });
+    }
+
+    /*function resetAreaSelect(){
+        $("select[name='org_hx_sel_4']").bind("change",function(){
+            query();
+        });
+    }
+
+    function resetAreaSelect1(){
+        $("select[name='org_sel_3']").bind("change",function(){
+            query();
+        });
+    }*/
+    
+    function citySwitch(city_id){
+    		var width = $("#resident_detail_list0").width();
+        if(user_level>1)
+            return;
+        city_id_temp = city_id;
+        citySelectCss(city_id);
+        city_id_temp = city_id;
+        clear_data();
+        
+      	if(city_id!="999"){
+      		$("#org1").removeClass("org_name").addClass("org_name1");
+      		$("#org2").addClass("org_name2");
+      		$("#org2").show();
+      	}else{
+      		$("#org1").removeClass("org_name1").addClass("org_name");
+      		$("#org2").hide();
+      	}
+      	query();
+        //showTotal();
+    }
+    function showTotal(){
+        $("#village_count").empty();
+        var params = {
+            fgl:fgl,
+            stl:stl,
+            "jzcd_flag":jzcd_flag,
+            "villageMode_flag":villageMode_flag,
+            "portLv_flag":portLv_flag,
+            "line_flag":line_flag,
+            city_id: city_id_temp,
+            acct_mon:acct_mon
+        }
+        if(city_id_temp=='999'){
+            params.eaction='province';
+            $.post(url4data, params, function (data) {
+                data = $.parseJSON(data);
+                for (var i = 0, l = data.length; i < l; i++) {
+                    var d = data[i];
+                    var newSpan=d.LATN_NAME+"(<span onclick='citySwitch(\""+ d.LATN_ID+"\")' class='city"+ d.LATN_ID+"'>"+d.TOTAL+"</span>) ";
+                    if(i<l-1)
+                        newSpan += ",";
+                    $("#village_count").append(newSpan);
+                }
+                citySelectCss("999");
+            });
+        }else{
+            params.eaction='city';
+            $.post(url4data,params, function (data) {
+                data = $.parseJSON(data);
+                for (var i = 0, l = data.length; i < l; i++) {
+                    var d = data[i];
+                    var newSpan=d.BUREAU_NAME+"(<span onclick='bureauSwitch(\""+ d.BUREAU_NO +"\")' class='bureau"+d.BUREAU_NO+"'>"+d.TOTAL+"</span>) ";
+                    if(i<l-1)
+                        newSpan += ",";
+                    $("#village_count").append(newSpan);
+                }
+                if(user_level>2){
+                    bureauSelectCss(bureau_id_temp);
+                }else{
+                    bureauSelectCss("999");
+                }
+            });
+        }
+    }
+    
+    function initCitySelect(user_level){
+        if(user_level>1){
+            $(".area_select").children().css({"cursor":"default"});
+            $(".area_select").children().attr("disabled","disabled");
+        }
+    }
+    function citySelectCss(city_id_temp){
+        $(".area_select a[onclick='citySwitch("+city_id_temp+")']").addClass("selected");
+        $(".area_select a[onclick='citySwitch("+city_id_temp+")']").siblings().removeClass("selected");
+
+        $(".city"+bureau_id_temp).addClass("span_selected");
+        $(".city"+bureau_id_temp).siblings().removeClass("span_selected");
+    }
+
+		function initBureauCountBar(){
+        if(user_level>3){
+            $(".search").eq(1).empty();
+            $(".search").eq(1).append("<tr><td style='padding-left:15px;'><span style=\"color:white;\">记录数：</span><span id=\"total_num\" style='color:red;'></span></td></tr>");
+        }
+    }
+    //var long_message_width = 0;
+    $(function(){
+    		$("#org2").hide();
+    		$("#org1").addClass("org_name");
+        initCitySelect(user_level);
+        citySelectCss(city_id_temp);
+
+        initBureauCountBar();
+
+        query();
+
+        $("#acct_day").datebox({
+            onChange: function(date){
+                query();
+            }
+        });
+        //initAreaSelect();
+
+        //resetAreaSelect();
+
+        //表格外层滚动框的高度
+        $(".t_body").css("max-height", $("#tab_div").height()-$(".big_table_title").height()-$(".all_count").height()+140);
+		
+        init_tab_height = $("#tab_div").height()-$(".big_table_title").height()-$(".all_count").height()+142;
+        //init_tab_height = $("#tab_div").height() - 108 - $(".big_table_title").height() - $(".search").eq(0).height() - $(".search").eq(1).height();
+        initTabHeight_province();
+        //当有横向滚动条时，需要此js，时内容滚动头部也能滚动。
+        $('.t_body').scroll(function () {
+            //alert($(this).scrollLeft());
+            $('#import_tab').css('margin-left', -($('.t_body').scrollLeft()));
+
+            var viewH = $(this).height();
+            var contentH = $(this).get(0).scrollHeight;
+            var scrollTop = $(this).scrollTop();
+
+            if (scrollTop / (contentH - viewH) >= 0.95) {
+                if (new Date().getTime() - begin_scroll > 500) {
+                    ++page;
+                    listCollectScroll(0);
+                }
+                begin_scroll = new Date().getTime();
+            }
+        });
+
+        //$("#big_table_collect_type span").eq(0).click();
+
+        resetSelectFunc();
+        $("#closeTab").on("click",function(){
+            load_map_view();
+            $("div[id^='mask_div']").remove();
+        });
+    });
+
+    function resetSelectFunc(){
+        if(user_level==2){
+            $("#cityNo").removeAttr("disabled");
+            $("#centerNo").removeAttr("disabled");
+            $("#gridNo").removeAttr("disabled");
+        }else if(user_level==3){
+            $("#centerNo").removeAttr("disabled");
+            $("#gridNo").removeAttr("disabled");
+        }else if(user_level==4){
+            $("#gridNo").removeAttr("disabled");
+        }
+    }
+
+    function initTabHeight_province(){
+        $(".t_body").css("max-height", init_tab_height);
+        var screen_widht = document.body.clientWidth;//window.screen.height;
+        if(screen_widht >= 1920){
+        	alert("1920");
+        	$(".t_body").css("max-height", init_tab_height+630);
+        	$(".tab_scroll_x").css("height","81%");
+        }else{
+        	alert("1366");
+        	$(".t_body").css("max-height", init_tab_height+220);
+        	$(".tab_scroll_x").css("max-height","53%");
+        }
+    }
+    function initTabHeight_city(){
+        $(".t_body").css("max-height", init_tab_height-22);
+    }
+
+    function query(){
+        clear_data();
+        listCollectScroll(1);
+    }
+
+    function listCollectScroll(flag) {
+        var $list = $("#resident_detail_list0");
+        var params = getParams();
+        $.post(sql_url, params, function (data) {
+            var objs = $.parseJSON(data);
+            /*if(data.length)
+             $("#download_div").show();
+             else
+             $("#download_div").hide();*/
+            if(page==0){
+                if(objs.length){
+                    $("#all_count").html(objs[0].C_NUM);
+                }else{
+                    $("#all_count").html('0');
+                }
+            }
+
+            for (var i = 0, l = objs.length; i < l; i++) {
+                var d = objs[i];
+                /*if(d.LATN_NAME == '全省'){
+                 var newRow = "<tr style=\"background-color:#043572 \"><td>" + (++seq_num) + "</td>";
+                 }else {
+                 var newRow = "<tr><td>" + (++seq_num) + "</td>";
+                 }*/
+
+                var newRow = "<tr>";
+                
+                newRow += "<td style='width:2%'>"+ (++seq_num) +"</td>";
+                
+                if(params.flg=="1"){
+                	newRow += "<td class=\"org_name\" style='width:3%'>"+ d.REGION_NAME +"</td>";	
+                }
+                if(params.flg=="2"){
+                	if(i==0)
+                		newRow += "<td class=\"org_name1\" colspan=2 >"+ d.REGION_NAME +"</td>";
+                	else{
+                		newRow += "<td class=\"org_name1\" style='width:3%'>"+ d.REGION_NAME +"</td>";
+                		newRow += "<td class=\"org_name2\" style='width:6%'>"+ d.BUREAU_NAME +"</td>";
+                	}
+                }
+                	
+                newRow += "<td class=\"index_row2_item1\" style='width:3%'>"+ d.DX_CNT +"</td>";
+                newRow += "<td class=\"index_row2_item2 orange\" style='width:3%;color: #ee7008!important;'>"+ d.DX_PERCENT +"</td>";
+                newRow += "<td class=\"index_row2_item3\" style='width:3%'>"+ d.DX_CNT1 +"</td>";
+                newRow += "<td class=\"index_row2_item4\" style='width:3%'>"+ d.DX_CNT2 +"</td>";
+                newRow += "<td class=\"index_row2_item5\" style='width:3%'>"+ d.DX_CNT3 +"</td>";
+                newRow += "<td class=\"index_row2_item6\" style='width:3%'>"+ d.DX_CNT4 +"</td>";
+                                                             
+                newRow += "<td class=\"index_row2_item1\" style='width:3%'>"+ d.YD_CNT +"</td>";
+                newRow += "<td class=\"index_row2_item2 orange\" style='width:3%;color: #ee7008!important;'>"+ d.YD_PERCENT +"</td>";
+                newRow += "<td class=\"index_row2_item3\" style='width:3%'>"+ d.YD_CNT1 +"</td>";
+                newRow += "<td class=\"index_row2_item4\" style='width:3%'>"+ d.YD_CNT2 +"</td>";
+                newRow += "<td class=\"index_row2_item5\" style='width:3%'>"+ d.YD_CNT3 +"</td>";
+                newRow += "<td class=\"index_row2_item6\" style='width:3%'>"+ d.YD_CNT4 +"</td>";
+                                                             
+                newRow += "<td class=\"index_row2_item1\" style='width:3%'>"+ d.LT_CNT +"</td>";
+                newRow += "<td class=\"index_row2_item2 orange\" style='width:3%;color: #ee7008!important;'>"+ d.LT_PERCENT +"</td>";
+                newRow += "<td class=\"index_row2_item3\" style='width:3%'>"+ d.LT_CNT1 +"</td>";
+                newRow += "<td class=\"index_row2_item4\" style='width:3%'>"+ d.LT_CNT2 +"</td>";
+                newRow += "<td class=\"index_row2_item5\" style='width:3%'>"+ d.LT_CNT3 +"</td>";
+                newRow += "<td class=\"index_row2_item6\" style='width:3%'>"+ d.LT_CNT4 +"</td>";
+
+                "</tr>";
+                $list.append(newRow);
+            }
+            //只有第一次加载没有数据的时候显示如下内容
+            if (objs.length == 0 && flag) {
+                $list.empty();
+                $list.append("<tr><td style='text-align:center' colspan=21 >没有查询到数据</td></tr>")
+            }
+        });
+    }
+
+    function getParams(){
+        var a = "";//,b = "";
+
+        acct_day = $('#acct_day').datebox('getValue').replace(/-/g, "");
+
+        var params = {};
+
+        var flag = 1;
+        var region_id = 999;
+
+        //a = $("#org_hx_sel_1 option:selected").val();
+        //b = $("#org_hx_sel_2 option:selected").val();
+        
+        if(city_id_temp==undefined)
+        	city_id_temp = "";
+        //if(b==undefined)
+        //	b = "";
+
+        //if(city_id_temp=="")
+        //    city_id_temp = 999;
+
+        /*if(b!=""){
+            region_id = b;
+            flag = 3;
+        }else if(a!="" && a!="999"){
+            region_id = a;
+            flag = 2;
+        }else if(a=="999"){
+            region_id = a;
+            flag = 1;
+        }*/
+        
+        if(city_id_temp!="" && city_id_temp!="999"){
+        		flag = 2;
+        }
+        
+        params.eaction = eaction;
+        params.acct_day = acct_day;
+        if(region_id=='999')
+        	region_id = "";
+        if(city_id_temp=='999')
+        	city_id_temp = "";
+        	
+        params.region_id = region_id;
+        params.city_id = city_id_temp;
+
+        params.flg = flag;
+        params.page = page;
+        params.pageSize = table_rows_array[0];
+        return params;
+    }
+
+    function clear_data() {
+        seq_num = 0, begin_scroll = 0, page = 0;
+        $("#all_count").text("");
+        $("#resident_detail_list0").empty();
+        //$("#download_div").hide();
+    }
+
+</script>

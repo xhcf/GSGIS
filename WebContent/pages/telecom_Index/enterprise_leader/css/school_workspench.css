@@ -1,0 +1,9 @@
+/*数字选项样式*/
+.cnt_div span,b {cursor:pointer;}
+.active {color:#ee7008;}
+#recode_cnt {color:red;}
+
+/*条件区样式重写*/
+.resident_wrapper select, .collect_new_choice select{margin-right:0px;}
+.collect_contain_choice input, .collect_contain_choice select, .collect_contain_choice ul {position:relative;left:0px;}
+.collect_contain_choice select,.collect_contain_choice div {float:left;}

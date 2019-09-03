@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>人员位置信息服务-甘肃-终端监控</title>
+
+		<link rel="stylesheet" href="css/emergencystyle.css" />
+		<link rel="stylesheet" href="css/styles.css?version=new Date()" />
+		<script src="js/echarts.js"></script>
+		<script src="js/bmap.js"></script>
+		<script type="text/javascript" src="js/jquery-1.11.0.min.js" ></script>
+		<!--<script src="//hm.baidu.com/hm.js?4bad1df23f079e0d12bdbef5e65b072f"></script>-->
+		<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=stQmOlGexTFAkGX7uNqjgtNM3EVbj22d"></script>
+		<style>
+			.userbox-son-gray{cursor:not-allowed;}
+			.userbox-son-gray div,.userbox-son-gray b,.userbox-son-gray span{cursor:not-allowed;}
+		</style>
+	</head>
+	<body>
+		<div class="content">
+		    <!--顶部导航-->
+			<div class="nav">
+				<div class="logo"></div>
+				<b class="bigtitle">人员位置信息服务</b>
+				<div class="navbox">
+					<a href="index.html">人流分布</a>
+					<a href="analysis.html">应急指挥</a>
+					<a href="#" class="selected">终端监控</a>
+					<a href="Report center.html">报表中心</a>
+					<a href="Terminal management.html">终端管理</a>
+
+					<a href="#">系统管理</a>
+				</div>
+			</div>
+			<!--数据统计栏-->
+			<table cellpadding="0" cellpadding="0" class="data">
+			  <tr>
+			    <td width="22%">时间：2019年5月25日 12:10:10</td>
+				<td>
+				  <span>总人数</span> <span class="big_data">2920</span>
+				  <span class="ico_light">在线人数</span> <span class="big_data">2785</span>
+				  <span class="ico_gray">离线人数</span> <span class="big_data">135</span>
+				</td>
+				<td>
+				  <span class="ico_orange">执勤人数</span> <span class="big_data">1637</span>
+				  <span class="ico_blue">空闲人数</span> <span class="big_data">1148</span>
+
+				</td>
+			  </tr>
+			</table>
+			<!--用户列表-->
+			<div class="user-list">
+				<p class="userlist-title">用户列表</p>
+				<div class="select_box">
+				  状态：<select class="time" name="state" onchange="stateCh()">
+								<option>全部</option>
+								<option>在线</option>
+								<option>离线</option>
+								<option>执勤</option>
+								<option>空闲</option>
+							</select>
+				</div>
+				<div class="inputbox">
+					<input class="user-search" placeholder="请输入用户名" />
+					<a href="#" class="button-search">搜索</a>
+				</div>
+				<div class="user-listbox" style="clear:both;">
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p1">赵钱孙</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p2">赵钱孙</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p3">赵钱孙</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p4">赵钱孙</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p5">赵钱孙</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p6">朱秦尤</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p7">朱秦尤</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p8">朱秦尤</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p9">朱秦尤</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox">
+						<div class="userbox-son">
+							<div class="icon-personblue"></div>
+							<b class="personname" id="p10">朱秦尤</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messageblue"></div>
+
+					</div>
+					<div class="userbox-gray">
+						<div class="userbox-son-gray">
+							<div class="icon-persongray"></div>
+							<b class="personname" id="p11">朱秦尤</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messagegray"></div>
+
+					</div>
+					<div class="userbox-gray">
+						<div class="userbox-son-gray">
+							<div class="icon-persongray"></div>
+							<b class="personname" id="p12">朱秦尤</b>
+							<span class="personphone">189****1234</span>
+							<span class="personstate">在线/空闲</span>
+						</div>
+						<div class="icon-messagegray"></div>
+
+					</div>
+				</div>
+				<img class="sanjiao2" src="img/img-sanjiao-blue.png"/>
+				<div class="messagebox2">
+					<span class="timeword">时间：2019-04-02</span>
+					<span class="timeword">接收号码：18996566543</span>
+					<div class="icon-cancel2"></div>
+					<textarea class="wordbox" rows="4" style="">请输入发送内容...</textarea>
+					<a class="btn-send" href="#">发送</a>
+				</div>
+				<img class="sanjiao3" src="img/img-sanjiao-blue.png"/>
+				<div class="infobox">
+					<b class="whitebig">刘宁</b>
+					<span class="icon-positioning"></span>
+					<span class="icon-cancel3"></span>
+					<p class="infoword">组织：应急管理厅/兰州消防2支队</p>
+					<p class="infoword">岗位：大队长</p>
+					<p class="infoword">状态：在线</p>
+					<p class="infoword">经度：120.11743</p>
+					<p class="infoword">纬度：30.28977</p>
+					<p class="infoword">地址：甘肃省兰州市城关区平凉路20号</p>
+					<p class="infoword">时间：2019-04-01  17:23:22</p>
+				</div>
+			</div>
+			<!--地图区域-->
+			<div class="map" >
+			  <div class="map_toolbar">
+			    <span class="area">当前区域：  甘肃省      兰州市     城关区</span>
+				<span class="operate">
+				 <button class="map_move">移动</button>
+				 <button class="map_zoomin">放大</button>
+				 <button class="map_zoomout">缩小</button>
+				</span>
+				<span class="search_top">
+				  <input type="text"/>
+				  <button class="search_btn">搜索</button>
+				</span>
+			  </div>
+			  <div id="map"></div>
+			</div>
+
+
+			<div id="u1097" class="ax_default" data-label="用户信息" style="display: none;">
+
+				<!-- Unnamed (矩形) -->
+
+
+				<!-- Unnamed (组合) -->
+
+
+				<!-- Unnamed (组合) -->
+
+
+				<!-- Unnamed (组合) -->
+
+
+				<!-- Unnamed (图片) -->
+
+
+				<!-- Unnamed (图片) -->
+
+				<div id="u1098" class="ax_default flow_shape" style="left: 940px;top:388px;">
+					<div id="u1098_div" class=""></div>
+					<!-- Unnamed () -->
+					<div id="u1099" class="text" style="display: none; visibility: hidden">
+						<p><span></span></p>
+					</div>
+				</div><div id="u1100" class="ax_default">
+
+				<!-- Unnamed (组合) -->
+
+
+				<!-- Unnamed (组合) -->
+
+				<div id="u1101" class="ax_default">
+
+					<!-- Unnamed (矩形) -->
+
+					<div id="u1102" class="ax_default label" style="left: 576px; top: 312px;">
+						<div id="u1102_div" class=""></div>
+						<!-- Unnamed () -->
+						<div id="u1103" class="text" style="visibility: visible;">
+							<p><span>刘宁</span></p>
+						</div>
+					</div></div><div id="u1104" class="ax_default">
+
+				<!-- Unnamed (矩形) -->
+
+				<div id="u1105" class="ax_default label" style="left: 576px; top: 340px;">
+					<div id="u1105_div" class=""></div>
+					<!-- Unnamed () -->
+					<div id="u1106" class="text" style="visibility: visible;">
+						<p><span>189****1234</span></p>
+					</div>
+				</div></div></div><div id="u1107" class="ax_default">
+
+				<!-- Unnamed (矩形) -->
+
+
+				<!-- Unnamed (矩形) -->
+
+
+				<!-- Unnamed (矩形) -->
+
+
+				<!-- Unnamed (矩形) -->
+
+
+				<!-- Unnamed (矩形) -->
+
+
+				<!-- Unnamed (矩形) -->
+
+
+				<!-- Unnamed (矩形) -->
+
+				<div id="u1108" class="ax_default label" style="left: 494px; top: 405px;">
+					<div id="u1108_div" class=""></div>
+					<!-- Unnamed () -->
+					<div id="u1109" class="text" style="visibility: visible;">
+						<p><span>组织：应急管理厅/兰州消防2支队</span></p>
+					</div>
+				</div><div id="u1110" class="ax_default label" style="left: 648px; top: 374px;">
+				<div id="u1110_div" class=""></div>
+				<!-- Unnamed () -->
+				<div id="u1111" class="text" style="visibility: visible;">
+					<p><span>岗位：大队长</span></p>
+				</div>
+			</div><div id="u1112" class="ax_default label" style="left: 494px; top: 375px;">
+				<div id="u1112_div" class=""></div>
+				<!-- Unnamed () -->
+				<div id="u1113" class="text" style="visibility: visible;">
+					<p><span>状态：在线/空闲</span></p>
+				</div>
+			</div><div id="u1114" class="ax_default label" style="left: 494px; top: 464px;">
+				<div id="u1114_div" class=""></div>
+				<!-- Unnamed () -->
+				<div id="u1115" class="text" style="visibility: visible;">
+					<p><span>经度：120.11743</span></p>
+				</div>
+			</div><div id="u1116" class="ax_default label" style="left: 647px; top: 464px;">
+				<div id="u1116_div" class=""></div>
+				<!-- Unnamed () -->
+				<div id="u1117" class="text" style="visibility: visible;">
+					<p><span>纬度：30.28977</span></p>
+				</div>
+			</div><div id="u1118" class="ax_default label" style="left: 494px; top: 494px;">
+				<div id="u1118_div" class=""></div>
+				<!-- Unnamed () -->
+				<div id="u1119" class="text" style="visibility: visible;">
+					<p><span>时间：2019-04-01&nbsp; 17:23:22</span></p>
+				</div>
+			</div><div id="u1120" class="ax_default label" style="left: 494px; top: 435px;">
+				<div id="u1120_div" class=""></div>
+				<!-- Unnamed () -->
+				<div id="u1121" class="text" style="visibility: visible;">
+					<p><span>位置：甘肃省兰州市城关区平凉路20号邮电大楼</span></p>
+				</div>
+			</div></div><div id="u1122" class="ax_default">
+
+				<!-- Unnamed (图片) -->
+
+
+				<!-- 轨迹查询 (矩形) -->
+
+				<div id="u1123" class="ax_default _图片" style="cursor: pointer; left: 820px; top: 340px;">
+					<img id="u1123_img" class="img " src="img/u1123.png" tabindex="0">
+					<!-- Unnamed () -->
+					<div id="u1124" class="text" style="display: none; visibility: hidden">
+						<p><span></span></p>
+					</div>
+				</div><div id="u1125" class="ax_default label ax_default_hidden" data-label="轨迹查询" style="display: none; visibility: hidden; left: 769px; top: 312px;">
+				<div id="u1125_div" class=""></div>
+				<!-- Unnamed () -->
+				<div id="u1126" class="text" style="visibility: visible;">
+					<p><span>位置轨迹查询</span></p>
+				</div>
+			</div></div><div id="u1127" class="ax_default _图片" style="cursor: pointer; left: 842px; top: 296px;">
+				<img id="u1127_img" class="img " src="img/u1086.png" tabindex="0">
+				<!-- Unnamed () -->
+				<div id="u1128" class="text" style="display: none; visibility: hidden">
+					<p><span></span></p>
+				</div>
+			</div><div id="u1129" class="ax_default _图片" style="left: 494px; top: 301px;">
+				<img id="u1129_img" class="img " src="img/u1129.png">
+				<!-- Unnamed () -->
+				<div id="u1130" class="text" style="display: none; visibility: hidden">
+					<p><span></span></p>
+				</div>
+			</div>
+		</div>
+		<script type="text/javascript">
+
+		    //创建和初始化地图函数：
+		    function initMap(){
+		      createMap();//创建地图
+		      setMapEvent();//设置地图事件
+		      addMapControl();//向地图添加控件
+		      addMapOverlay();//向地图添加覆盖物
+				addPoint();
+		    }
+		    function createMap(){
+		      map = new BMap.Map("map");
+		      map.centerAndZoom(new BMap.Point(103.845554,36.060875),12);
+				map.addEventListener("click",function(e){
+				});
+		    }
+		    function setMapEvent(){
+		      map.enableScrollWheelZoom();
+		      map.enableKeyboard();
+		      map.enableDragging();
+		      map.enableDoubleClickZoom()
+		    }
+		    function addClickHandler(target,window){
+		      target.addEventListener("click",function(){
+		        target.openInfoWindow(window);
+		      });
+		    }
+		    function addMapOverlay(){
+		    }
+		    //向地图添加控件
+		    function addMapControl(){
+		      var scaleControl = new BMap.ScaleControl({anchor:BMAP_ANCHOR_BOTTOM_LEFT});
+		      scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+		      map.addControl(scaleControl);
+		      var navControl = new BMap.NavigationControl({anchor:BMAP_ANCHOR_TOP_LEFT,type:BMAP_NAVIGATION_CONTROL_LARGE});
+		      map.addControl(navControl);
+		      var overviewControl = new BMap.OverviewMapControl({anchor:BMAP_ANCHOR_BOTTOM_RIGHT,isOpen:true});
+		      map.addControl(overviewControl);
+		    }
+			function addMarker(point,id){
+				var myIcon = new BMap.Icon("img/icon-orange2.png", new BMap.Size(300,157));
+				var marker = new BMap.Marker(point,{icon:myIcon});
+				marker.diy_id = id;
+				map.addOverlay(marker);
+				marker.addEventListener("click",function(){
+					getAttr($(this)[0].diy_id);
+				});
+			}
+			function getAttr(id){
+				//var p = marker.getPosition();       //获取marker的位置
+				//alert("marker的位置是" + p.lng + "," + p.lat);
+				showPerson(id);
+			}
+			function addPoint(){
+				// 随机向地图添加25个标注
+				var bounds = map.getBounds();
+				var sw = bounds.getSouthWest();
+				var ne = bounds.getNorthEast();
+				var lngSpan = Math.abs(sw.lng - ne.lng);
+				var latSpan = Math.abs(ne.lat - sw.lat);
+
+				var point1 = new BMap.Point(103.871641,36.05361);
+				var point2 = new BMap.Point(103.86467,36.059533);
+				var point3 = new BMap.Point(103.879726,36.057257);
+				var point4 = new BMap.Point(103.853279,36.053143);
+				var point5 = new BMap.Point(103.84214,36.068606);
+				var point6 = new BMap.Point(103.856873,36.039719);
+				var point7 = new BMap.Point(103.828702,36.060846);
+				var point8 = new BMap.Point(103.831001,36.042521);
+				var point9 = new BMap.Point(103.921982,36.051509);
+				var point10 = new BMap.Point(103.874695,36.03108);
+				addMarker(point1,1);
+				addMarker(point2,2);
+				addMarker(point3,3);
+				addMarker(point4,4);
+				addMarker(point5,5);
+				addMarker(point6,6);
+				addMarker(point7,7);
+				addMarker(point8,8);
+				addMarker(point9,9);
+				addMarker(point10,10);
+
+				/*for (var i = 0; i < 25; i ++) {
+					var point = new BMap.Point(sw.lng + lngSpan * (Math.random() * 0.7), ne.lat - latSpan * (Math.random() * 0.7));
+					addMarker(point);
+				}*/
+			}
+
+			var map_zoom = 21;//点击后的放大级别
+		    var map;
+		      initMap();
+
+			function stateCh(){
+				var val = $('select[name="state"]').val();
+
+				if(val == "全部"){
+					$(".userbox").show();
+					$(".userbox-gray").show();
+				}
+
+				if(val == "在线"){
+					$(".userbox").show();
+					$(".userbox-gray").hide();
+				}
+
+				if(val == "离线"){
+					$(".userbox-gray").show();
+					$(".userbox").hide();
+				}
+			}
+
+
+		    //消息弹框点击事件
+			$(function  () {
+				$(".icon-messageblue").click(function(){
+					$(".messagebox2").show();
+				});
+				$(".icon-cancel2").click(function  () {
+					$(".messagebox2").hide();
+				  });
+				  $(".icon-messageblue").click(function(){
+					$(".sanjiao2").show();
+				});
+				$(".icon-cancel2").click(function  () {
+					$(".sanjiao2").hide();
+				  });
+				});
+
+				//信息弹框点击事件
+			$(function  () {
+				$(".icon-moreblue").click(function(){
+					$(".infobox").show();
+				});
+				$(".icon-cancel3").click(function  () {
+					$(".infobox").hide();
+				  });
+				  $(".icon-moreblue").click(function(){
+					$(".sanjiao3").show();
+				});
+				$(".icon-cancel3").click(function  () {
+					$(".sanjiao3").hide();
+				  });
+				});
+
+			$(function(){
+				/*map.addEventListener("click",function(e){
+					//alert(e.point.lng + "," + e.point.lat);
+				});*/
+				//打开人
+				$(".userbox-son").bind("click",function(index){
+					var id = $(this).children().eq(1).attr("id").replace("p","");
+					showPerson(id);
+				});
+				$("#u1127").click(function(){
+					$("#u1097").hide()
+				});
+				$("#u1123").click(function() {
+					$("#u1097").hide();
+					//路径
+					var myP1 = new BMap.Point(103.786625,36.065543);    //起点
+					var myP2 = new BMap.Point(103.86237,36.041733);    //终点
+					var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
+						//offset: new BMap.Size(0, -5),    //相当于CSS精灵
+						imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+					});
+					var driving2 = new BMap.DrivingRoute(map, {renderOptions: {map: map, autoViewport: true}});    //驾车实例
+					driving2.search(myP1, myP2);    //显示一条公交线路
+
+					var driving = new BMap.DrivingRoute(map);    //驾车实例
+					driving.search(myP1, myP2);
+					driving.setSearchCompleteCallback(function () {
+						var pts = driving.getResults().getPlan(0).getRoute(0).getPath();    //通过驾车实例，获得一系列点的数组
+						var paths = pts.length;    //获得有几个点
+
+						var carMk = new BMap.Marker(pts[0], {icon: myIcon});
+						map.addOverlay(carMk);
+						i = 0;
+						function resetMkPoint(i) {
+							carMk.setPosition(pts[i]);
+							if (i < paths) {
+								setTimeout(function () {
+									i++;
+									resetMkPoint(i);
+								}, 100);
+							}
+						}
+
+						setTimeout(function () {
+							resetMkPoint(5);
+						}, 100)
+					});
+				});
+			});
+
+			function showPerson(index){
+				var p_data = {
+					"p1":{"pos":[103.871641,36.05361],"pos_name":"兰州大学4栋校区"},
+					"p2":{"pos":[103.86467,36.059533],"pos_name":"盛达金城广场"},
+					"p3":{"pos":[103.879726,36.057257],"pos_name":"东湖广场"},
+					"p4":{"pos":[103.853279,36.053143],"pos_name":"兰州汽车东站"},
+					"p5":{"pos":[103.84214,36.068606],"pos_name":"市民广场"},
+					"p6":{"pos":[103.856873,36.039719],"pos_name":"兰州站"},
+					"p7":{"pos":[103.828702,36.060846],"pos_name":"甘肃阳光大酒店"},
+					"p8":{"pos":[103.831001,36.042521],"pos_name":"五泉山公园"},
+					"p9":{"pos":[103.921982,36.051509],"pos_name":"兰州财经大学长青学院"},
+					"p10":{"pos":[103.874695,36.03108],"pos_name":"火车站派出所"}
+				};
+				var person = p_data["p"+index];
+				var pos = person.pos;
+				map.centerAndZoom(new BMap.Point(pos[0],pos[1]),map_zoom);
+				$("#u1103 p span").text($(".userbox-son").eq(index-1).children().eq(1).text());
+				$("#u1121 p span").text("位置："+person.pos_name);
+				$("#u1119 p span").text('时间：2019-05-31 15:05:38');
+				$("#u1115 p span").text("经度："+pos[0]);
+				$("#u1117 p span").text("纬度："+pos[1]);
+				$("#u1109 p span").text("组织：应急管理厅/兰州消防"+index+"支队");
+				$("#u1097").show();
+			}
+		</script>
+	</body>
+</html>

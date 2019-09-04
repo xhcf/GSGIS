@@ -21,7 +21,7 @@
         <!--<e:script value="/resources/layer/layer.js"/>-->
         <link href='<e:url value="/resources/themes/common/css/reset.css?version=1.0"/>' rel="stylesheet" type="text/css"
               media="all"/>
-        <link href='<e:url value="/pages/telecom_Index/enterprise_leader/css/student_view_reset.css?version=New Date()"/>' rel="stylesheet" type="text/css"
+        <link href='<e:url value="/resources/themes/common/css/big_tab_option.css?version=1.0"/>' rel="stylesheet" type="text/css"
               media="all"/>
         <title>学生信息</title>
         <style>
@@ -549,7 +549,7 @@
                     }
                 });
 
-                $.post(url4sql,{"eaction":"getBaseInfo2","prod_inst_id":'500849995188'},function(data){
+                $.post(url4sql,{"eaction":"getBaseInfo2","prod_inst_id":'931000510599'},function(data){
                     var obj = $.parseJSON(data);
                     if(obj!=null){
                         $("#desc2").text(obj.COMBO_VAL);

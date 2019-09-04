@@ -154,3 +154,5 @@ input[type="radio"] {height:12px!important;line-height:20px!important;}
 .user_base_info span {display: block;height:29px;float:left;box-sizing: border-box;}
 .user_base_info span:nth-child(2) {padding-top:8px;height:29px;font-size:14px;}
 .user_base_info span:last-child {height:22px;line-height: 22px;clear:both;}
+
+.too_long {white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;}

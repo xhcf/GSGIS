@@ -130,15 +130,15 @@
       nvl(a.bed_name,' ') BED_NO,
       nvl(a.dept_name,' ') COLLEGE_NAME,
       nvl(a.grade_name,' ') GRADE_NAME,
-      c.business_name
-      from 
-      (select * from ${gis_user}.tb_mkt_info 
+      c.business_name SCHOOL_NAME
+      from
+      (select * from ${gis_user}.tb_mkt_info
       where prod_inst_id = '${param.prod_inst_id}'
       )d,
       ${gis_user}.tb_gis_school_user_ref a,
       ${gis_user}.TB_GIS_BUSINESS_ADDR4 b,
       ${gis_user}.TB_GIS_BUSINESS_BASE c
-      where 
+      where
       d.address_id = a.segm_id_2
       and a.segm_id = b.segm_id
       and b.business_id = c.business_id

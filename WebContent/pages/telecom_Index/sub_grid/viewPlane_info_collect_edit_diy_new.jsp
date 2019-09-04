@@ -55,7 +55,7 @@
     <c:resources type="easyui,app" style="b" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <e:script value="/resources/layer/layer.js"/>
-    <link href='<e:url value="/pages/telecom_Index/sub_grid/css/custom_view.css?version=1.0.2"/>' rel="stylesheet" type="text/css"
+    <link href='<e:url value="/pages/telecom_Index/sub_grid/css/custom_view.css?version=New Date()"/>' rel="stylesheet" type="text/css"
           media="all"/>
     <script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js"/>' charset="utf-8"></script>
     <title>竞争收集编辑页面</title>
@@ -76,7 +76,7 @@
                 <td class="icon"></td>
                 <td class="border_bot user_base_info">
                     <span class="cus_name_font" id="accnbr_custname"></span><span id="b"></span><span id="c"></span><br/>
-                    <span class="cus_address_font" id="collect_edit_addr"></span>
+                    <span class="cus_address_font too_long" id="collect_edit_addr"></span>
                 </td>
             </tr>
         </table>

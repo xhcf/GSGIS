@@ -274,6 +274,7 @@
 	</style>
 	<script type="text/javascript"
 			src='<e:url value="/resources/component/echarts_new/echarts/js/jquery-1.7.2.min.js"/>'></script>
+	<script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
 	<script>
 		$(function(){
 			var obj = ${e:java2json(owe_info.list)};
@@ -312,7 +313,7 @@
 				$("#owe_inet_dur").text(d.INET_MONTH);
 
 				$("#owe_address").text(d.ADDRESS_DESC);
-				$("#owe_address1").text(d.ADDRESS_DESC);
+				$("#owe_address1").text(addr(d.ADDRESS_DESC));
 				$("#owe_constact_nbr").text(d.USER_CONTACT_NBR);
 
 				$("#owe_sub").text(d.BRANCH_NAME==' '?'':d.BRANCH_NAME);

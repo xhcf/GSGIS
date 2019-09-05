@@ -493,19 +493,19 @@
                                             row += "<td style='text-align:left;padding-left:5px;'>"+(item.MT==' '?'无终端信息':'终端：'+item.MT)+"</td>";
                                             pro_ord++;
                                         }else if(item.PRODUCT_ORD=='3'){
-                                            row += "<td >"+(pro_ord)+"</td><td >电视</td><td >"+item.ACC_NBR+"</td>";
+                                            row += "<td >"+(pro_ord)+"</td><td >电视</td><td >"+phoneHide(item.ACC_NBR)+"</td>";
                                             row += "<td >"+item.FLOW+"</td><td >"+item.ONLINE_TIME+"</td>";
                                             row += "<td >"+item.LAST_FLOW+"</td><td >"+item.LAST_ONLINE_TIME+"</td>";
                                             row += "<td style='text-align:left;padding-left:5px;'>"+(item.EPON_TYPE==' '?'':'接入方式：'+item.EPON_TYPE)+"</td>";
                                             pro_ord++;
                                         }else if(item.PRODUCT_ORD=='2'){
-                                            row += "<td >"+(pro_ord)+"</td><td >宽带</td><td >"+item.ACC_NBR+"</td>";
+                                            row += "<td >"+(pro_ord)+"</td><td >宽带</td><td >"+phoneHide(item.ACC_NBR)+"</td>";
                                             row += "<td >"+item.FLOW+"</td><td ></td>";
                                             row += "<td >"+item.LAST_FLOW+"</td><td ></td>";
                                             row += "<td style='text-align:left;padding-left:5px;'>"+(item.EPON_TYPE==' '?'':'接入方式：'+item.EPON_TYPE)+"</td>";
                                             pro_ord++;
                                         }else if(item.PRODUCT_ORD=='4'){
-                                            row += "<td >"+(pro_ord)+"</td><td >固话</td><td >"+item.ACC_NBR+"</td>";
+                                            row += "<td >"+(pro_ord)+"</td><td >固话</td><td >"+phoneHide(item.ACC_NBR)+"</td>";
                                             row += "<td ></td><td>"+item.VOICE_DURA+"</td>";
                                             row += "<td ></td><td>"+item.LAST_VOICE_DURA+"</td>";
                                             row += "<td style='text-align:left;padding-left:5px;'>"+(item.EPON_TYPE==' '?'':'接入方式：'+item.EPON_TYPE)+"</td>";

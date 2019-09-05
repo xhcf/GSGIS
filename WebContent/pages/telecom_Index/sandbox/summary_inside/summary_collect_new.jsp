@@ -272,7 +272,7 @@
 
                   checkDefaultOption();
 
-                  load_build_info(true);
+                  //load_build_info(true);
 	          }
 	      })
 	  }
@@ -392,7 +392,6 @@
   }
 
   var load_build_info = function (flag) {
-      debugger;
 	  //选中文本回写进 input
 	  var text = $("#collect_new_build_list1").find("option:selected").text();
 	  $("#collect_new_build_name1").val(text);

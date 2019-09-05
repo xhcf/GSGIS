@@ -268,7 +268,7 @@
 
                   checkDefaultOption();
 
-                  load_build_info(true);
+                  //load_build_info(true);
 	          }
 	      })
 	  }

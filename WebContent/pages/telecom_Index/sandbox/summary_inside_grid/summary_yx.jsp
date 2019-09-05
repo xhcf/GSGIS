@@ -631,7 +631,7 @@
 			for (var i = 0, l = data.length; i < l; i++) {
 				var d = data[i];
 				var newRow = "<tr><td style='width:35'>" + (++seq_num) + "</td>";
-				newRow += "<td style='width:210'>" + d.CONTACT_ADDS + "</td><td style='width:90'><span>"+d.CONTACT_TEL +"</span></br>"+ d.SERV_NAME + "</td><td style='width:90'><a onclick=\"exec_agent('" + d.PROD_INST_ID + "','" + d.ORDER_ID + "','"+d.ADDRESS_ID+"','',0,1,'"+ d.SCENE_ID_NUM+"','','1','','','"+ d.ACCEPT_TYPE +"')\">" + d.ACC_NBR
+				newRow += "<td style='width:210'>" + addr(d.CONTACT_ADDS) + "</td><td style='width:90'><span>"+phoneHide(d.CONTACT_TEL) +"</span></br>"+ d.SERV_NAME + "</td><td style='width:90'><a onclick=\"exec_agent('" + d.PROD_INST_ID + "','" + d.ORDER_ID + "','"+d.ADDRESS_ID+"','',0,1,'"+ d.SCENE_ID_NUM+"','','1','','','"+ d.ACCEPT_TYPE +"')\">" + phoneHide(d.ACC_NBR)
 				+ "</a></td><td style='width:210;text-align: left;'><span>【" + d.SCENE_NAME+"】</span></br>"+d.MKT_REASON+"</td><td style='width:35'><a href='javascript:void(0);' onclick=\"exec_agent('" + d.PROD_INST_ID + "','" + d.ORDER_ID + "','"+d.ADDRESS_ID+"','',2,1,'"+ d.SCENE_ID_NUM+"','','1','','','"+ d.ACCEPT_TYPE +"')\">执行</a>";
 				if(d.SCENE_ID_NUM=='10' || d.SCENE_ID_NUM=='11' || d.SCENE_ID_NUM=='1491' || d.SCENE_ID_NUM=='999')//20181204装逼用
 					newRow += "<a style='display:none;' id=\"crm_"+d.PROD_INST_ID+"\" onclick=\"execute_crm('${sessionScope.UserInfo.EXT30}','"+d.SERV_NAME+"','"+ d.CONTACT_ADDS+"','"+ d.CONTACT_TEL +"','"+ d.ACC_NBR +"','"+ d.SCENE_ID_NUM+"','"+ d.PROD_INST_ID+"','"+ d.MKT_CARCATE_ID+"','"+ d.ACCEPT_TYPE+"','"+ d.CONTACT_CHL_ID +"','"+ d.PROD_OFFER_ID+"','"+d.PROD_OFFER_NAME +"')\">受理</a>";//原本倒数第二个参数 SCENE_ID_CRM

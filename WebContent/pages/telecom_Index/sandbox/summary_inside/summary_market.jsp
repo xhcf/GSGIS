@@ -16,6 +16,7 @@
     <title>市场标签</title>
     <link href='<e:url value="/pages/telecom_Index/common/css/room_zq_flag.css?version=1.1"/>' rel="stylesheet" type="text/css"
           media="all"/>
+    <script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
     <style>
         .clickable_room a {
             color: blue;
@@ -606,17 +607,17 @@
             	d.KD_DQ_DATE=' ';
             }
             var newRow = "<tr><td style='width:50px'>" + (++seq_num) + "</td>";
-            newRow += "<td style='width:210px'>" + d.STAND_NAME_1 + "</td>";
+            newRow += "<td style='width:210px'>" + addr(d.STAND_NAME_1) + "</td>";
             if(d.KD_BUSINESS=='电信'){
                 if(d.SERIAL_NO==2)//政企
-                    newRow += "<td style='width:60px;font-weight: bold;color:blue' class='clickable_room'><span class='zhengqi_flag'>政</span><a onclick='openNewWinInfoCollectEdit(\""+ d.SEGM_ID_2 +"\")'>" + d.SEGM_NAME_2 + "</a></td>";
+                    newRow += "<td style='width:60px;font-weight: bold;color:blue' class='clickable_room'><span class='zhengqi_flag'>政</span><a onclick='openNewWinInfoCollectEdit(\""+ d.SEGM_ID_2 +"\")'>" + (d.SEGM_NAME_2) + "</a></td>";
                 else if(d.SERIAL_NO==1 || d.SERIAL_NO==4)//普通住户
-                    newRow += "<td style='width:60px;font-weight: bold;color:blue' class='clickable_room'><a onclick='openNewWinInfoCollectEdit(\""+ d.SEGM_ID_2 +"\")'>" + d.SEGM_NAME_2 + "</a></td>";
+                    newRow += "<td style='width:60px;font-weight: bold;color:blue' class='clickable_room'><a onclick='openNewWinInfoCollectEdit(\""+ d.SEGM_ID_2 +"\")'>" + (d.SEGM_NAME_2) + "</a></td>";
             }else{
                 if(d.SERIAL_NO==2)//政企
-                    newRow += "<td style='width:60px;font-weight: bold;color:blue' class='clickable_room'><span class='zhengqi_flag'>政</span>" + d.SEGM_NAME_2 + "</td>";
+                    newRow += "<td style='width:60px;font-weight: bold;color:blue' class='clickable_room'><span class='zhengqi_flag'>政</span>" + (d.SEGM_NAME_2) + "</td>";
                 else if(d.SERIAL_NO==1 || d.SERIAL_NO==4)//普通住户
-                    newRow += "<td style='width:60px;font-weight: bold;color:blue' class='clickable_room'>" + d.SEGM_NAME_2 + "</td>";
+                    newRow += "<td style='width:60px;font-weight: bold;color:blue' class='clickable_room'>" + (d.SEGM_NAME_2) + "</td>";
             }
 
             newRow += "<td style='width:100px'>" + d.CONNECT_INFO + "</td><td style='width:70px'>" + d.H_NET + "</td>";

@@ -16,6 +16,7 @@
 <head>
 	<title>营销清单</title>
 	<link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" />
+	<script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
     <style>
         #select_tab2,#content2{
             display:none;
@@ -737,8 +738,8 @@
 						var row = "<tr>";
 						row += "<td>"+ (++order)+"</td>";
 						row += "<td>"+ d.SERV_NAME +"</td>";
-						row += "<td><a class='link' href='javascript:void(0);' onclick='exec_agent(\""+ d.SEGM_ID+"\",\""+ d.TARGET_OBJ_NBR+"\",\""+ d.ADDRESS_ID+"\",\""+ d.MKT_CAMPAIGN_ID +"\",\""+ d.PA_DATE +"\")'>"+ d.ACC_NBR + "</a></td>";
-						row += "<td>"+ d.STAND_NAME_2 + "</td>";
+						row += "<td><a class='link' href='javascript:void(0);' onclick='exec_agent(\""+ d.SEGM_ID+"\",\""+ d.TARGET_OBJ_NBR+"\",\""+ d.ADDRESS_ID+"\",\""+ d.MKT_CAMPAIGN_ID +"\",\""+ d.PA_DATE +"\")'>"+ phoneHide(d.ACC_NBR) + "</a></td>";
+						row += "<td>"+ addr(d.STAND_NAME_2) + "</td>";
 						row += "<td>"+ d.SCENE_NAME + "</td>";
 						row += "<td>"+ d.EXE_STATE + "</td>";
 						row += "</tr>";

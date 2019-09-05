@@ -67,6 +67,7 @@
 		}
 		b {font-size:12px;font-weight: normal;color:#666;}
 	</style>
+	<script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
 </head>
 <body>
     <a href="#" id="lsyh_win" style="display: none;position: absolute;right:28px;top:80px;">流失用户</a>
@@ -211,9 +212,9 @@
 				else
 					newRow += "<tr class=\"heji\"><td>";
 				newRow += "</td>";
-				newRow += "<td style='text-align:left;padding-left:10px;'>" + (obj.STAND_NAME) + "</td>";
+				newRow += "<td style='text-align:left;padding-left:10px;'>" + addr(obj.STAND_NAME) + "</td>";
 				newRow += "<td style='text-align:center;'>" + (obj.USER_CONTACT_PERSON) + "</td>";
-				newRow += "<td class='toViewWin'><span onclick='openOwnView(\""+obj.PROD_INST_ID+"\")'>"+(obj.ACC_NBR==' '?'':(obj.ACC_NBR))+"</span></td>";
+				newRow += "<td class='toViewWin'><span onclick='openOwnView(\""+obj.PROD_INST_ID+"\")'>"+phoneHide(obj.ACC_NBR==' '?'':(obj.ACC_NBR))+"</span></td>";
 
 				/*if(obj.SCENE_TEXT=="拆机")
 					newRow += "<td>" + (obj.REMOVE_DATE) + "</td><td></td>";

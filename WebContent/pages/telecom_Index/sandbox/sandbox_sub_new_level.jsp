@@ -75,8 +75,8 @@
     	
     <script src='<e:url value="pages/telecom_Index/common/js/datebox_month.js?version=1.2"/>' charset="utf-8"></script>
     <e:script value="/resources/My97DatePicker/WdatePicker.js"/>
-    <script src='<e:url value="/pages/telecom_Index/common/js/order_exec.js?version=New Date()"/>' charset="utf-8"></script>
-    <script src='<e:url value="/pages/telecom_Index/common/js/info_collect.js?version=New Date()"/>' charset="utf-8"></script>
+    <script src='<e:url value="/pages/telecom_Index/common/js/order_exec.js?version=1.0"/>' charset="utf-8"></script>
+    <script src='<e:url value="/pages/telecom_Index/common/js/info_collect.js?version=1.0"/>' charset="utf-8"></script>
     </head>
 <style>
     html, body, #map {

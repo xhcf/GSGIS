@@ -2,6 +2,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="e" uri="http://www.bonc.com.cn/easy/taglib/e"%>
 <%@ taglib prefix="c" uri="http://www.bonc.com.cn/easy/taglib/c"%>
+<e:q4o var="acct_month">
+    select min(const_value) val from SYS_CONST_TABLE where const_name = 'calendar.curdate' and data_type = 'mon' and model_id = '6'
+</e:q4o>
 <!DOCTYPE>
 <html>
 <head>
@@ -45,7 +48,7 @@
     })
 
     function initProdList(){
-        $.post(prod_list_url,{"eaction":"prod_list","segment_id":'${param.segment_id}',"acct_month":'${param.acct_month}'},function(data){
+        $.post(prod_list_url,{"eaction":"prod_list","segment_id":'${param.segment_id}',"acct_month":'${acct_month.VAL}'},function(data){
             var prod_list = $.parseJSON(data);
             for(var i = 0,l = prod_list.length;i<l;i++){
                 var prod = prod_list[i];

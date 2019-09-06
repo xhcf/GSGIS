@@ -8,6 +8,7 @@
           media="all"/>
     <link href='<e:url value="/pages/telecom_Index/common/css/room_zq_flag.css?version=1.1"/>' rel="stylesheet" type="text/css"
           media="all"/>
+    <script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
     <style>
         .red_font {color:red;}
 
@@ -285,8 +286,8 @@
               var d = objs[i];
               var row = "<tr>";
               row += "<td>"+ (++seq_num) +"</td>";
-              row += "<td><a href=\"javascript:exec_agent('"+ d.VILLAGE_ID+"','"+ d.BRIGADE_ID+"','"+ d.ADDRESS_ID +"',1)\">"+ name_hide(d.CUST_NAME) +"</a></td>";
-              row += "<td>"+ d.USER_CONTACT_NBR +"</td>";
+              row += "<td><a href=\"javascript:exec_agent('"+ d.VILLAGE_ID+"','"+ d.BRIGADE_ID+"','"+ d.ADDRESS_ID +"',1)\">"+ name(d.CUST_NAME) +"</a></td>";
+              row += "<td>"+ phoneHide(d.USER_CONTACT_NBR) +"</td>";
               row += "<td>"+ d.PLATE_NUMBER +"</td>";//门牌号
               row += "<td>"+ d.COLLECT_TYPE +"</td>";//类型
               row += "<td>"+ d.BUSSNESS_TYPE +"</td>";

@@ -15,6 +15,7 @@
 </e:q4o>
 <head>
 	<title>异常用户 流失用户</title>
+	<script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
 	<style>
 		.tip {
 			margin-left:18px;
@@ -224,11 +225,11 @@
 				else
 					newRow += "<tr class=\"heji\"><td>";
 				newRow += "</td>";
-				newRow += "<td >" + name_hide(obj.SERV_NAME) + "</td>";
-				newRow += "<td ><a href=\"javascript:cust_agent('"+ obj.PROD_INST_ID+"','"+ obj.BRIGADE_ID+"',0)\" class='clickable'>" + (obj.ACC_NBR) + "</a></td>";
-				newRow += "<td >" + (obj.USER_CONTACT_NBR) + "</td>";
+				newRow += "<td >" + name(obj.SERV_NAME) + "</td>";
+				newRow += "<td ><a href=\"javascript:cust_agent('"+ obj.PROD_INST_ID+"','"+ obj.BRIGADE_ID+"',0)\" class='clickable'>" + phoneHide(obj.ACC_NBR) + "</a></td>";
+				newRow += "<td >" + phoneHide(obj.USER_CONTACT_NBR) + "</td>";
 				newRow += "<td >" + obj.EQP_NO + "</td>";
-				newRow += "<td >" + obj.ADDRESS + "</td>";
+				newRow += "<td >" + addr(obj.ADDRESS) + "</td>";
 				newRow += "<td >" + obj.REMOVE_DATE + "</td>";
 				newRow += "<td >" + obj.REMOVE_DUR + "</td>";
 				//newRow += "<td class='toViewWin'><span onclick='openOwnView(\""+obj.PROD_INST_ID+"\")'>"+(obj.ACC_NBR==' '?'':(obj.ACC_NBR))+"</span></td>";

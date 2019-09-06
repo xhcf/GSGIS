@@ -624,9 +624,9 @@
     <e:case value="getMktReasonByProdInstId">
         <e:q4o var="dataObject">
             <e:description>
-            select CONTACT_SCRIPT from ${gis_user}.VIEW_GIS_ORDER_LIST_MON where TARGET_OBJ_NBR = '${param.prod_inst_id}'
+            select nvl(CONTACT_SCRIPT,' ') CONTACT_SCRIPT from ${gis_user}.VIEW_GIS_ORDER_LIST_MON where TARGET_OBJ_NBR = '${param.prod_inst_id}'
             </e:description>
-            select mkt_reason CONTACT_SCRIPT from ${sql_part_tab1} where prod_inst_id = '${param.prod_inst_id}'
+            select nvl(mkt_reason,' ') CONTACT_SCRIPT from ${sql_part_tab1} where prod_inst_id = '${param.prod_inst_id}'
         </e:q4o>${e:java2json(dataObject)}
     </e:case>
 </e:switch>

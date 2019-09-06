@@ -16,6 +16,7 @@
     <title>市场标签</title>
     <link href='<e:url value="/pages/telecom_Index/common/css/room_zq_flag.css?version=1.1"/>' rel="stylesheet" type="text/css"
           media="all"/>
+    <script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
     <style>
         .clickable_room a {
             color: blue;
@@ -442,12 +443,12 @@
                 var d = objs[i];
                 var row = "<tr>";
                 row += "<td>"+ (++seq_num3) +"</td>";
-                row += "<td>"+ d.SERV_NAME +"</td>";
-                row += "<td>"+ d.ACC_NBR +"</td>";
+                row += "<td>"+ name(d.SERV_NAME) +"</td>";
+                row += "<td>"+ phoneHide(d.ACC_NBR) +"</td>";
                 row += "<td>"+ d.STOP_TYPE_NAME +"</td>";
-                row += "<td>"+ d.USER_CONTACT_NBR +"</td>";
+                row += "<td>"+ phoneHide(d.USER_CONTACT_NBR) +"</td>";
                 row += "<td>"+ d.EQP_NO +"</td>";
-                row += "<td>"+ d.ADDRESS +"</td>";
+                row += "<td>"+ addr(d.ADDRESS) +"</td>";
                 row += "</tr>";
                 $list.append(row);
             }

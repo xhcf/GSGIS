@@ -478,7 +478,7 @@
 <!-- 楼宇详情弹窗 shenruijie -->
 <div class="build_more_win" id="detail_more" style="display:none;">
     <div class="titlea">
-        <div id="detail_more_draggable" style='text-align:center;width:90%;display: inline-block'>楼宇视图</div>
+        <div id="detail_more_draggable" style='text-align:center;width:90%;display: inline-block'>社队视图</div>
 
         <div class="win_operate">
             <div class="village_full_screen2" id="building_full"></div>
@@ -13495,7 +13495,7 @@
                                     }
 
                     /* lixiaofeng 楼宇 详情页7.21.15.12↓*/
-                    showBuildDetail = function (res_id, str, visible, page, c, query_id) {
+                    showBuildDetail = function (res_id, str, village_id) {
                         layer.closeAll()
                         if (res_id == "null") {
                             layer.msg("暂无“" + str + "”的楼宇信息");
@@ -13509,16 +13509,18 @@
                         tmpy_v = '1';
                         $("#detail_more").show();
 
-                        if (page == 0) {
+                        $("#detail_more > iframe").attr("src", '<e:url value="/pages/telecom_Index/sub_grid/viewPlane_she_dui_view_details_new.jsp" />?res_id=' + res_id + '&village_id=' + village_id);
+
+                        /*if (page == 0) {
                             //$(".build_more_win").html(" <div class=\"titlea\"><div id=\"build_more_title\" style='text-align:left;width:90%;display: inline-block;padding-bottom:5px'>楼宇视图</div><div  class=\"titlec\" id='build_more_close'></div></div>")
-                            $("#detail_more > iframe").attr("src", "<e:url value='pages/telecom_Index/sub_grid/viewPlane_build_view_details_new.jsp' />?res_id=" + res_id + "&vis=" + visible + "&village_id=" + query_id);
+                            $("#detail_more > iframe").attr("src", '<e:url value="/pages/telecom_Index/sub_grid/viewPlane_she_dui_view_details_new.jsp" />?res_id=' + res_id + '&vis=' + visible + '&village_id=' + query_id);
                         } else if (page == 1) {
-                            $("#detail_more > iframe").attr("src", "<e:url value='pages/telecom_Index/sub_grid/viewPlane_build_view_details_new.jsp' />?res_id=" + res_id + "&vis=" + visible + "&yx_id=" + query_id);
+                            $("#detail_more > iframe").attr("src",'<e:url value="/pages/telecom_Index/sub_grid/viewPlane_she_dui_view_details_new.jsp" />?res_id=' + res_id + '&vis=' + visible + '&village_id=' + query_id);
                             //$(".build_more_win").html(" <div class=\"titlea\"><div id=\"build_more_title\" style='text-align:left;width:90%;display: inline-block;padding-bottom:5px'>营销详情</div><div  class=\"titlec\" id='build_more_close'></div></div>")
-                            // $("#detail_more > iframe").attr("src","viewPlane_buildings_view_details.jsp?res_id="+res_id+"&vis="+visible)
+                            // $("#detail_more > iframe").attr("src","/pages/telecom_Index/sub_grid/viewPlane_she_dui_view_details_new.jsp" />?res_id="+res_id+"&vis="+visible)
                         } else if (page == 4) {
-                            $("#detail_more > iframe").attr("src", "<e:url value='pages/telecom_Index/sub_grid/viewPlane_build_view_details_new.jsp' />?res_id=" + res_id + "&vis=" + visible + "&tab_flag=4" + "&village_id=" + query_id);
-                        }
+                            $("#detail_more > iframe").attr("src", '<e:url value="/pages/telecom_Index/sub_grid/viewPlane_she_dui_view_details_new.jsp" />?res_id=' + res_id + '&vis=' + visible + '&tab_flag=4' + '&village_id=' + query_id);
+                        }*/
                         $("#build_more_close").unbind();
                         $("#build_more_close").on("click", function () {
                             $(".build_more_win").hide()

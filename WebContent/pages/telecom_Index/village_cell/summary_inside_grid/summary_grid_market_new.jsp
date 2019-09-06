@@ -438,12 +438,12 @@
                 var d = objs[i];
                 var row = "<tr>";
                 row += "<td>"+ (++seq_num3) +"</td>";
-                row += "<td>"+ d.SERV_NAME +"</td>";
-                row += "<td>"+ d.ACC_NBR +"</td>";
+                row += "<td>"+ name(d.SERV_NAME) +"</td>";
+                row += "<td>"+ phoneHide(d.ACC_NBR) +"</td>";
                 row += "<td>"+ d.STOP_TYPE_NAME +"</td>";
-                row += "<td>"+ d.USER_CONTACT_NBR +"</td>";
+                row += "<td>"+ phoneHide(d.USER_CONTACT_NBR) +"</td>";
                 row += "<td>"+ d.EQP_NO +"</td>";
-                row += "<td>"+ d.ADDRESS +"</td>";
+                row += "<td>"+ addr(d.ADDRESS) +"</td>";
                 row += "</tr>";
                 $list.append(row);
             }

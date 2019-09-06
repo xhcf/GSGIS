@@ -309,7 +309,7 @@
 					console.log("data1:"+data1);
 					var mkt_reason = $.parseJSON(data1);
 					if(mkt_reason!=null)
-						$("#advise_content").text(mkt_reason.CONTACT_SCRIPT);
+						$("#advise_content").text(mkt_reason.CONTACT_SCRIPT=='null'?'':mkt_reason.CONTACT_SCRIPT);
 				});
 			}else{
 				$.post(url4Query_sandBox,{"eaction":"getMktReasonByOrderId","prod_inst_id":prod_inst_id,"scene_id":scene_id,"is_track":is_track},function(data){
@@ -318,7 +318,7 @@
 					else{
 						var d = $.parseJSON(data);
 						if(d!=null)
-							$("#advise_content").text(d.MKT_REASON);
+							$("#advise_content").text(d.MKT_REASON=='null'?'':d.MKT_REASON);
 					}
 				});
 			}

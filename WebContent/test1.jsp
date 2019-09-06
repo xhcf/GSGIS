@@ -27,7 +27,17 @@
     <br/>
     <hr/>
     <button id="d" v-on:click="getFloorPlan">3)获取户型图列表</button><br/>
-    户型列表：<br/><div style="border:1px solid #eee;min-width:200px;height:auto;" id="res">{{msg}}</div>
+    户型列表：<br/>
+    <div style="border:1px solid #eee;min-width:200px;height:auto;" id="res">
+      <template v-for="(item,index) in floorPlan">
+        <div>
+          <input type='radio' name='obsPlanId' value="{{item.obsPlanId}}" />({{index}}+1)+"&nbsp;
+          {{item.commName}}&nbsp;{{item.specName}}&nbsp;{{item.srcArea}}平米<br/>
+          <img src='{{item.smallPics.replace("118.180.8.227","135.148.41.51")}}' style='width:auto;height:auto;' /><br/>
+          <img src='{{item.pics.replace("118.180.8.227","135.148.41.51")}}' style='width:auto;height:auto;' /><br/>
+        </div>
+      </template>
+    </div>
     <hr/>
     <button id="e" @click="ActionFloorPlan">4)获取户型图大图</button><br/>
     户型大图：<br/><div style="border:1px solid #eee;min-width:200px;height:auto;" id="res1">{{msg1}}</div>
@@ -43,6 +53,7 @@
       msg:"",
       msg1:"",
       cities:"",
+      floorPlan:"",
       query:"中海河山郡"
     },
     methods:{
@@ -97,7 +108,8 @@
               //$("#res").empty();
               debugger;
               var respJson = $.parseJSON(res.respJson);
-              $.each(respJson,function(index,item){
+              this.floorPlan = respJson;
+              /*$.each(respJson,function(index,item){
                 var html = "<div><input type='radio' name='obsPlanId' value='"+item.obsPlanId+"' />";
                 html+=(index+1)+"&nbsp;";//item.obsPlanId
                 html+=item.commName+"&nbsp;"+item.specName+"&nbsp;"+item.srcArea+"平米<br/>";
@@ -107,7 +119,7 @@
                 this.msg += html;
                 if(index>10)
                   return;
-              });
+              });*/
             }else{
               //$("#res").empty().append(res.resultMsg);
               this.msg = res.resultMsg;

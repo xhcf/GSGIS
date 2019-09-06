@@ -389,9 +389,12 @@
                 });
                 try{
                     if(index==0){//基本信息
+                        debugger;
                         if(prod_inst_id=='undefined'){
-                            layer.close(layer_index);
-                            layer.msg("未查到客户信息");
+                            if("${param.from_village_cell}"!="1"){
+                                layer.close(layer_index);
+                                layer.msg("未查到客户信息");
+                            }
                             return;
                         }
 

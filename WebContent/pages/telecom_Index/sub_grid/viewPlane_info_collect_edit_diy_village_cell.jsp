@@ -58,6 +58,7 @@
     <e:script value="/resources/layer/layer.js"/>
     <link href='<e:url value="/pages/telecom_Index/sub_grid/css/custom_view.css?version=1.0.0"/>' rel="stylesheet" type="text/css"
           media="all"/>
+    <script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
     <title>竞争收集编辑页面</title>
     <style>
         #info_collect_tab_content,#execute_tab_content{display:none;}
@@ -221,6 +222,7 @@
     var tab_id = '${param.tab_id}';
     var prod_inst_id = '${param.prod_inst_id}';
     var brigade_id = '${param.brigade_id}';
+    var is_vc = '${param.is_vc}';
 
     $.fn.datebox.defaults.cleanText = '清空';
 
@@ -472,7 +474,7 @@
             $.post(url_cust_view,{"eaction":"getOBDAdress","prod_inst_id":prod_inst_id},function(data){
                 var d = $.parseJSON(data);
                 if(d!=null)
-                    $("#collect_edit_addr").text(d.ADDRESS);
+                    $("#collect_edit_addr").text(addr(d.ADDRESS));
             });
         }else{
             $("#collect_edit_addr").text("");

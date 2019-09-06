@@ -67,7 +67,7 @@
 		.head_table_yx2 tr th:nth-child(5){width:15%;}
 
 		#dispatch_info_list2 tr td:first-child{width:5%;}
-		#dispatch_info_list2 tr td:nth-child(2){width:50%;text-align:center;}
+		#dispatch_info_list2 tr td:nth-child(2){width:50%;text-align:left;}
 		#dispatch_info_list2 tr td:nth-child(3){width:15%;}
 		#dispatch_info_list2 tr td:nth-child(4){width:15%;}
 		#dispatch_info_list2 tr td:nth-child(5){width:15%;}
@@ -433,7 +433,7 @@
 					newRow += d.BUILD_NAME  + "</td>";
 
 					if(yx_list_page==0 && i==0){
-						newRow += "<td style='width:15%;'>";
+						newRow += "<td style='width:15%;text-align:center;'>";
 					}else{
 						newRow += "<td>";
 					}
@@ -752,7 +752,7 @@
 						row += "<td>"+ (++order)+"</td>";
 						row += "<td>"+ d.SEGM_NAME_2 +"</td>";
 						row += "<td>"+ d.SERV_NAME +"</td>";
-						row += "<td><a class='link' href='javascript:void(0);' onclick='exec_agent(\""+ d.SEGM_ID+"\",\""+ d.TARGET_OBJ_NBR+"\",\""+ d.ADDRESS_ID+"\",\""+ d.MKT_CAMPAIGN_ID +"\",\""+ d.PA_DATE +"\")'>"+ d.ACC_NBR + "</a></td>";
+						row += "<td><a class='link' href='javascript:void(0);' onclick='exec_agent(\""+ d.SEGM_ID+"\",\""+ d.TARGET_OBJ_NBR+"\",\""+ d.ADDRESS_ID+"\",\""+ d.MKT_CAMPAIGN_ID +"\",\""+ d.PA_DATE +"\")'>"+ phoneHide(d.ACC_NBR) + "</a></td>";
 						row += "<td>"+ d.SCENE_NAME + "</td>";
 						row += "<td>"+ d.EXE_STATE + "</td>";
 						row += "</tr>";

@@ -394,7 +394,7 @@
   <e:description>获取营销术语</e:description>
   <e:case value="getMktReasonByOrderId">
     <e:q4o var="dataObject">
-      SELECT DISTINCT mkt_reason FROM ${gis_user}.view_gis_order_list_tmp t
+      SELECT DISTINCT nvl(mkt_reason,' ') mkt_reason FROM ${gis_user}.view_gis_order_list_tmp t
       WHERE t.prod_inst_id = '${param.prod_inst_id}'
       and t.scene_id = '${param.scene_id}'
       <e:if condition="${empty param.is_track}">

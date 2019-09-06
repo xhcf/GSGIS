@@ -368,7 +368,7 @@
 			FROM (SELECT A.*, ROWNUM RN
 			FROM (SELECT *
 			FROM (SELECT t.add4 segm_id,
-			t.STAND_NAME_1 BUILD_NAME,
+			nvl(t.STAND_NAME_1,'无地址') BUILD_NAME,
 			t.STAND_NAME_1 ORD,
 			COUNT(ORDER_ID) USER_NUM,
 			COUNT(DECODE(T.EXEC_STAT,
@@ -497,7 +497,7 @@
 			substr(nvl(t.serv_name, ' '), 1, 1) || '**'SERV_NAME,
 			t.ACC_NBR,
 			t.ADDRESS_ID,
-			t.segm_name_2 SEGM_NAME_2,
+			nvl(t.segm_name_2,' ') SEGM_NAME_2,
 			decode(nvl(t.exec_stat,0),0,' ','已执行') EXE_STATE
 			from ${sql_part_tab2} t
 			where

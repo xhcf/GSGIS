@@ -49,6 +49,7 @@
               media="all"/>
         <link href='<e:url value="/pages/telecom_Index/common/css/room_zq_flag.css?version=1.2"/>' rel="stylesheet" type="text/css"
               media="all"/>
+        <script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
     </head>
     <body>
         <div id="collect_new_body">
@@ -405,8 +406,8 @@
                   if(d.SERIAL_NO==2)//政企
                     newRow += "<span class='zhengqi_flag'>政</span>";
 
-                  newRow += d.STAND_NAME_2 + "</td>";
-                  newRow += "<td>" + d.CONTACT_PERSON + "</td>"+"<td class='num_blue'>" + d.CONTACT_NBR + "</td>";
+                  newRow += addr(d.STAND_NAME_2) + "</td>";
+                  newRow += "<td>" + name(d.CONTACT_PERSON) + "</td>"+"<td class='num_blue'>" + phoneHide(d.CONTACT_NBR) + "</td>";
                   if(d.KD_BUSINESS!='电信')
                       newRow += "<td class='buss_red'>" + d.KD_BUSINESS + "</td>";
                   else

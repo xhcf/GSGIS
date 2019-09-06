@@ -16,6 +16,7 @@
 <head>
 	<title>营销清单</title>
 	<link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" /><link href='<e:url value="/pages/telecom_Index/common/css/layer_win.css?version=1.0" />' rel="stylesheet" type="text/css" media="all" />
+	<script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
     <style>
         #select_tab2,#content2{
             display:none;
@@ -346,17 +347,17 @@
 				var newRow = "<tr><td>" + (++yx_seq_num) + "</td>";
 				newRow +=
 					"<td style=''>" + name_hide(d.SERV_NAME)  + "</td>"+
-					"<td style=''><a class='clickable' href=\"javascript:exec_agent('"+ d.BRIGADE_ID +"','"+d.PROD_INST_ID+"','','"+ d.MKT_CAMPAIGN_ID+"','',0)\">" + d.ACC_NBR + "</a></td>"+
-					"<td style=''>" + d.USER_CONTACT_NBR + "</td>";
+					"<td style=''><a class='clickable' href=\"javascript:exec_agent('"+ d.BRIGADE_ID +"','"+d.PROD_INST_ID+"','','"+ d.MKT_CAMPAIGN_ID+"','',0)\">" + phoneHide(d.ACC_NBR) + "</a></td>"+
+					"<td style=''>" + phoneHide(d.USER_CONTACT_NBR) + "</td>";
 				//if(d.USER_NUM>0)
 				//	newRow +="<td style='width:100px'><a class='link' href='javascript:void(0);' onclick='showYXListByScene(\""+ d.MKT_CAMPAIGN_ID +"\")'>" + d.USER_NUM + "</a></td>";
 				//else
 					newRow += "<td style=''>";
-				newRow += "<span style='color:#1c69b9;font-weight: bolder;'>【"+ d.MKT_CAMPAIGN_NAME+"】</span><br/>";
-				newRow += "<span style='font-weight: bolder;font-size:+1'>原因：</span>"+d.CONTACT_SCRIPT;
+				newRow += "<span style='color:#1c69b9;font-weight: bolder;'>【"+ d.MKT_CAMPAIGN_NAME+"】</span>";//<br/>";
+				//newRow += "<span style='font-weight: bolder;font-size:+1'>原因：</span>"+d.CONTACT_SCRIPT;
 				newRow += "</td>";
 
-				newRow += "<td style=''>"+ d.ADDRESS_DESC +"</td>";
+				newRow += "<td style=''>"+ addr(d.ADDRESS_DESC) +"</td>";
 				newRow += "<td><a class='clickable' href=\"javascript:exec_agent('"+ d.BRIGADE_ID +"','"+d.PROD_INST_ID+"','','"+ d.MKT_CAMPAIGN_ID+"','',2)\">执行</a></td></tr>";
 
 				$grid_list.append(newRow);

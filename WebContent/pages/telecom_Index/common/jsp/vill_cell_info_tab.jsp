@@ -64,6 +64,7 @@
               media="all"/>
         <link href='<e:url value="/pages/telecom_Index/common/css/room_zq_flag.css?version=1.2"/>' rel="stylesheet" type="text/css"
               media="all"/>
+        <script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
     </head>
     <body>
         <div id="collect_new_body">
@@ -297,14 +298,14 @@
               //var newRow = "<tr><td style='width: 40px'>" + (++seq_num) + "</td>";
               var newRow = "<tr>";
               newRow += "<td>"+(++seq_num)+"</td>";
-              newRow += "<td>"+ name_hide(d.SERV_NAME)+"</td>";
-              newRow += "<td><a href=\"javascript:cust_agent('"+ d.PROD_INST_ID+"','"+ d.BRIGADE_ID+"',0)\" class='clickable'>"+ d.ACC_NBR+"</a></td>";
+              newRow += "<td>"+ name(d.SERV_NAME)+"</td>";
+              newRow += "<td><a href=\"javascript:cust_agent('"+ d.PROD_INST_ID+"','"+ d.BRIGADE_ID+"',0)\" class='clickable'>"+ phoneHide(d.ACC_NBR)+"</a></td>";
               newRow += "<td>"+ d.FINISH_DATE+"</td>";
               newRow += "<td>"+ d.INET_MONTH+"</td>";
               newRow += "<td>"+ d.STOP_TYPE_NAME+"</td>";
               newRow += "<td>"+ d.EQP_NO+"</td>";
-              newRow += "<td>"+ d.ADDRESS+"</td>";
-              newRow += "<td>"+ d.USER_CONTACT_NBR+"</td>";
+              newRow += "<td>"+ addr(d.ADDRESS)+"</td>";
+              newRow += "<td>"+ phoneHide(d.USER_CONTACT_NBR)+"</td>";
               newRow += "</tr>"
               $build_list.append(newRow);
               fix();

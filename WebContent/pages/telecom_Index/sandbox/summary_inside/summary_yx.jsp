@@ -874,7 +874,7 @@
 			for (var i = 0, l = data.length; i < l; i++) {
 				var d = data[i];
 				var newRow = "<tr><td style='width: 40px'>" + (++seq_num) + "</td>";
-				newRow += "<td style='width: 50px'>" + d.CONTACT_PERSON + "</td><td style='width: 200px'>" + addr(d.STAND_NAME_2) +
+				newRow += "<td style='width: 50px'>" + d.CONTACT_PERSON + "</td><td style='width: 200px;text-align:left;'>" + addr(d.STAND_NAME_2) +
 				"</td><td style='width: 50px'>" + d.KD_BUSINESS +"</td><td style='width:100px'>" + d.CONTACT_NBR + "</td><td style='width:80px'>"+ d.KD_DQ_DATE + "</td>";
 				//newRow += "<td style='width: 50px'><a href='javascript:void(0);' onclick='execute(" + d.SEGM_ID_2 + ")'>执行</a></td></tr>"
 				newRow += "<td style='width: 50px'><a href='javascript:void(0);' onclick='execute(" + d.SEGM_ID_2 + ")'></a></td></tr>"

@@ -93,6 +93,7 @@
 	</style>
 	<link href='<e:url value="/pages/telecom_Index/common/css/button.css"/>' rel="stylesheet" type="text/css" media="all" />
 	<script src='<e:url value="/pages/telecom_Index/common/js/order_exec.js?version=New Date()"/>' charset="utf-8"></script>
+	<script src='<e:url value="/pages/telecom_Index/common/js/tuomin.js?version=New Date()"/>' charset="utf-8"></script>
 </head>
 <script>
 	var begin_scroll = "", seq_num = 0, list_page = 0;

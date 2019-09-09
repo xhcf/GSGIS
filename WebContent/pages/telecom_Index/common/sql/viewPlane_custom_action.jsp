@@ -496,7 +496,7 @@
   <e:description>20180910 把 TB_HDZ_INT_PMP_EXE_CHL_LIST 换成 TB_HDZ_M_PMP_PA_CHL_QUERY_LIST</e:description>
   <e:case value="getVillageAdvise">
     <e:q4l var="dataList">
-      SELECT distinct nvl(A.ACC_NBR,' ') ACC_NBR, A.mkt_content SCENE_NAME, A.mkt_reason CONTACT_SCRIPT
+      SELECT distinct nvl(A.ACC_NBR,' ') ACC_NBR, A.mkt_content SCENE_NAME, nvl(null,' ') CONTACT_SCRIPT
       FROM ${gis_user}.view_gis_order_a1_mon A
       WHERE A.prod_inst_id = '${param.prod_inst_id}'
         AND a.ADDRESS_ID = '${param.add6}'

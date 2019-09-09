@@ -302,7 +302,6 @@
 		console.log("is_yx:"+is_yx);
 		console.log("global_village_cell:"+parent.parent.global_current_index_is_village_cell);
 		if(is_yx!="undefined" && is_yx!=""){
-			debugger;
 			if(parent.parent.global_current_index_is_village_cell=="1"){
 				var url = '<e:url value="pages/telecom_Index/common/sql/tabData_village_cell.jsp" />';
 				$.post(url,{"eaction":"getMktReasonByProdInstId","prod_inst_id":prod_inst_id},function(data1){
@@ -485,7 +484,6 @@
 					initial();
 
 					//外呼号码
-					debugger;
 					var user_contract_num = "<e:url value='/pages/telecom_Index/common/sql/viewPlane_custom_action.jsp' />";
 					$.post(user_contract_num,{"eaction":"baseInfo",'prod_inst_id':'${param.prod_inst_id}'},function(data1){
 						var d1 = $.parseJSON(data1);
@@ -715,7 +713,6 @@
 
 			//11协议到期、10单转融 且选了同意办理 且accept_type不为0的工单 跳转crm甩单，跳转后再调用 “划小执行”接口
 			if((scene_id=='10' || scene_id=='11') && exec_stat==2 && accept_type!='0'){
-				debugger;
 				parent.call_execute(prod_inst_id);
 				setTimeout(function(){
 					//parent.closeWinInfoCollectionEdit();
@@ -730,7 +727,6 @@
 	var url_prefix = "http://135.149.64.144:9000/gsch-api";
 	var url6 = "/mkt/mktExecute";
 	function execute_small_interface(param){//20190311 营销逻辑修改 先跳转后 执行
-		debugger;
 		var params_secu = {
 			"appId":"GIS-PC",
 			"appKey":"",
@@ -753,7 +749,6 @@
 			params_secu.sceneId = param.scene_id;
 
 			$.post(url_prefix+url6,params_secu,function(res){
-				debugger;
 				if(res.errorCode=='0'){
 					parent.exec_clear_data();
 
